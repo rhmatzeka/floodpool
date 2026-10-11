@@ -40,3 +40,9 @@ arduino-cli board list      # cari port, biasanya /dev/ttyUSB0
 ./firmware/upload.sh /dev/ttyUSB0
 ```
 Serial monitor menampilkan satu baris JSON per bacaan (`id`, `tinggi`, `status`, `sepakat`, ...). Baris ini nanti ditandatangani dan dikirim ke server.
+
+## Rencana berikutnya
+1. Rakit node sensor di breadboard (demo ember).
+2. Kirim data lewat WiFi, ditandatangani di perangkat (secp256k1).
+3. Smart contract kas banjir: cair otomatis saat sensor berskor keandalan baik melewati ambang cukup lama.
+4. **Pasar data untuk agent AI:** agent AI (ojol, logistik, navigasi) bertanya "jalan X banjir?" dan membayar per kueri dengan stablecoin lewat x402. Hasilnya dibagi ke kas banjir dan ke warga yang ketempatan sensor.
