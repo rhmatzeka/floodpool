@@ -98,7 +98,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 
 <div class="wrap">
   <header class="head">
-    <span class="eyebrow">Dana Gotong Royong Banjir · Node sensor 01</span>
+    <span class="eyebrow">FloodPool · Node sensor 01</span>
     <h1>Panduan Rakit Sensor Banjir</h1>
     <p class="lead">Untuk ESP32 DevKit 38 pin USB-C, dua breadboard 830, dan komponen dari daftar belanja. Tanpa solder. Ikuti urutannya dan tes di setiap tahap, jadi kalau ada yang salah, ketahuan di langkah itu juga.</p>
     <div class="progress"><div class="bar"><span id="bar"></span></div><span id="count">0 dari 10 langkah</span></div>
@@ -208,7 +208,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       <div class="test">
         <b>Tes pertama</b>
         <p>Colok USB ke laptop, lalu di terminal jalankan:</p>
-        <pre>cd ~/Projects/gotong-royong-banjir
+        <pre>cd ~/Projects/floodpool
 arduino-cli board list
 ./firmware/upload.sh /dev/ttyUSB0</pre>
         <p>Ganti <code>/dev/ttyUSB0</code> dengan port dari <code>board list</code> (bisa juga <code>/dev/ttyACM0</code>). Kalau berhasil, layar menampilkan <strong>"Tinggi air --"</strong> dan <strong>SENSOR ERROR</strong>. Itu normal karena sensornya belum dipasang. Tekan <code>Ctrl+C</code> untuk keluar dari tampilan serial, lalu <strong>cabut USB</strong>.</p>
@@ -334,7 +334,7 @@ arduino-cli board list
         <tr><td>ESP32 panas atau laptop memutus USB</td><td>Cabut USB segera. Ada korsleting antara 5V/3V3 dan GND. Ulangi langkah 9.</td></tr>
       </tbody>
     </table></div>
-    <p class="cap">Program dan peta kabel lengkap ada di repo <span class="mono">rhmatzeka/gotong-royong-banjir</span>, folder <span class="mono">firmware</span>.</p>
+    <p class="cap">Program dan peta kabel lengkap ada di repo <span class="mono">rhmatzeka/floodpool</span>, folder <span class="mono">firmware</span>.</p>
   </section>
 </div>
 

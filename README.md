@@ -1,6 +1,6 @@
-# Dana Gotong Royong Banjir
+# FloodPool
 
-Kas banjir warga tanpa bendahara: sensor ketinggian air (ESP32) memicu pencairan dana dari smart contract saat banjir. Tahap sekarang: **node sensor untuk demo meja (ember air)**.
+Kas banjir warga tanpa bendahara (dana gotong royong banjir): sensor ketinggian air (ESP32) memicu pencairan dana dari smart contract saat banjir. Tahap sekarang: **node sensor untuk demo meja (ember air)**.
 
 ## Isi
 - `firmware/sensor-banjir/` – program ESP32 (`sensor-banjir.ino`) + logika yang bisa dites (`logika.h`) + rangkaian Wokwi (`diagram.json`, `libraries.txt`)
