@@ -18,6 +18,9 @@ Kas banjir warga tanpa bendahara: sensor ketinggian air (ESP32) memicu pencairan
    - geser saklar (= pelampung) untuk melihat cek silang `OK` / `BEDA`
 
 ## Rangkaian alat asli (ESP32 DevKit 38 pin)
+
+Panduan rakit bergambar langkah demi langkah: `docs/panduan-rakit.html` (versi online: https://claude.ai/artifact/XnGodzCZpbLCJfHkS8VNh2, privat).
+
 | Komponen | Pin komponen → pin ESP32 |
 |---|---|
 | HC-SR04 | VCC → `5V`, GND → `GND`, TRIG → `D25` |
