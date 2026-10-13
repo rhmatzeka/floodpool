@@ -141,7 +141,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     <p><strong>Tiga aturan yang tidak boleh dilanggar</strong></p>
     <ul>
       <li><strong>Cabut kabel USB setiap kali memindah kabel.</strong> Colok lagi hanya saat langkah tes.</li>
-      <li><strong>5V hanya untuk satu kabel:</strong> VCC sensor HC-SR04 (kabel oranye). Semua komponen lain pakai 3V3.</li>
+      <li><strong>5V hanya untuk satu kabel:</strong> VCC sensor HC-SR04 (kabel oranye). Layar dan buzzer pakai 3V3.</li>
       <li><strong>5V atau 3V3 tidak boleh tersambung ke GND.</strong> Kalau ESP32 terasa panas, cabut USB secepatnya.</li>
     </ul>
   </div>
@@ -172,7 +172,6 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         <tr><td><span class="wire"><i style="background:var(--w-ungu)"></i>Ungu</span></td><td>SCL layar OLED → P14</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-abu)"></i>Abu-abu</span></td><td>Pelampung → P27</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-putih)"></i>Putih</span></td><td>Buzzer → P33</td></tr>
-        <tr><td><span class="wire"><i style="background:var(--w-coklat)"></i>Coklat</span></td><td>LED → P32</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -223,12 +222,12 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         <tr><td><code>board list</code> tidak menampilkan port</td><td>Kabelmu mungkin kabel cas saja; coba kabel data lain. Coba port USB laptop yang lain.</td></tr>
         <tr><td>Upload macet di <code>Connecting.....</code></td><td>Tahan tombol <strong>BOOT</strong> di ESP32 sampai muncul <code>Writing</code>, lalu lepas.</td></tr>
         <tr><td><code>Permission denied</code> pada port</td><td>Logout lalu login lagi di laptop.</td></tr>
-        <tr><td>Layar gelap</td><td>Tukar kabel ungu dan biru (SCL/SDA). Cek ungu di <b class="hole" data-h="A-e21">A-e21</b>, biru di <b class="hole" data-h="A-e24">A-e24</b>, merah ke rel +, hitam ke rel −. Serial monitor akan menulis <code>OLED tidak terdeteksi</code>.</td></tr>
-        <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek oranye di <b class="hole" data-h="A-e28">A-e28</b> (5V), kuning di <b class="hole" data-h="A-e18">A-e18</b>, hijau Echo di <b class="hole" data-h="A-f34">A-f34</b>, dan dua resistor pembagi.</td></tr>
+        <tr><td>Layar gelap</td><td>Tukar kabel ungu dan biru (SCL/SDA). Cek ungu di <b class="hole" data-h="A-e21">A-e21</b>, biru di <b class="hole" data-h="A-e24">A-e24</b>, merah di baris 3V3, hitam ke rel −. Serial monitor akan menulis <code>OLED tidak terdeteksi</code>.</td></tr>
+        <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek oranye di <b class="hole" data-h="A-e28">A-e28</b> (5V), kuning di <b class="hole" data-h="A-e18">A-e18</b>, hijau Echo di <b class="hole" data-h="A-h19">A-h19</b>, dan dua resistor pembagi.</td></tr>
         <tr><td>Angka loncat-loncat</td><td>Sensor harus menghadap permukaan datar tanpa halangan. Dinding ember yang sempit bisa ikut memantulkan suara.</td></tr>
         <tr><td>Buzzer bunyi terus</td><td>Ganti <code>BUZZER_AKTIF_LOW</code> ke <code>false</code>.</td></tr>
         <tr><td>Pelampung terbalik</td><td>Ganti <code>PELAMPUNG_NAIK_SAAT_LOW</code> ke <code>false</code>.</td></tr>
-        <tr><td>ESP32 panas atau laptop memutus USB</td><td>Cabut USB segera. Ada korsleting antara 5V/3V3 dan GND. Ulangi langkah cek ulang.</td></tr>
+        <tr><td>ESP32 panas atau laptop memutus USB</td><td>Cabut USB segera. Ada korsleting antara 5V/3V3 dan GND, sering karena kaki resistor atau kawat jembatan bersentuhan. Ulangi langkah cek ulang.</td></tr>
       </tbody>
     </table></div>
     <p class="cap">Program dan peta kabel lengkap ada di repo <span class="mono">rhmatzeka/floodpool</span>, folder <span class="mono">firmware</span>.</p>
@@ -323,6 +322,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li><strong>Lepas strip rel</strong> (jalur +/− di pinggir) yang ada di <strong>kanan breadboard A</strong> dan di <strong>kiri breadboard B</strong>. Strip rel di breadboard-mu bisa ditarik lepas (lihat pengait kecil di ujungnya). Simpan saja, tidak dipakai.</li>" +
         "<li>Dekatkan A dan B sampai hampir menempel. Jaraknya nanti dipas-kan di langkah 2.</li>" +
         "<li><strong>Nomor baris:</strong> breadboard-mu punya dua deret angka. Pakai angka di <strong>sisi kanan</strong> tiap breadboard (1 di paling atas, makin ke bawah makin besar). Angka di sisi kiri dicetak terbalik (60 di atas), abaikan.</li>" +
+        "<li>Semua kabel di panduan ini <strong>male–female</strong>: ujung female (lubang) ke pin komponen, ujung male (jarum) ke breadboard. Sambungan antarlubang breadboard dibuat dari kaki resistor dan LED, kecuali satu (langkah 3).</li>" +
         "<li>Pisahkan komponen: ESP32, HC-SR04, OLED, buzzer, pelampung, LED, resistor 220 Ω, 1 kΩ, 2 kΩ, kabel jumper.</li>" +
         "</ol>" },
     { t: "Pasang ESP32", sub: "Melintang di atas dua breadboard", esp: true,
@@ -336,57 +336,59 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li>Kalau sudah pas, tekan pelan dan rata dengan dua ibu jari di pinggir papan ESP32 sampai pin masuk penuh.</li>" +
         "</ol>" +
         "<p class=\"note\">Dengan posisi ini, lubang kosong yang bisa dipakai cuma di <strong>breadboard A kolom e dan d</strong> (kiri ESP32). Semua lubang sebaris pin kanan tertutup papan ESP32, jadi pin kanan tidak dipakai sama sekali. Karena itu layar OLED dipindah ke pin kiri <code>P13</code> dan <code>P14</code>, dan programnya sudah saya ubah.</p>" },
-    { t: "Buat rel daya", sub: "4 kabel male–male",
-      wires: [{ c: "merah", a: "A-e10", b: "R+10" }, { c: "hitam", a: "A-e23", b: "R-23" },
-        { c: "merah", a: "R+26!", b: "R+36!", bend: -16 }, { c: "hitam", a: "R-28!", b: "R-34!", bend: 16 }],
-      html: "<p>Jalur panjang di kiri breadboard A disebut <strong>rel</strong>. Di breadboard-mu, jalur <strong>paling kiri bergaris biru = rel −</strong> (GND), jalur di sebelahnya <strong>bergaris merah = rel +</strong> (3,3 volt). Ikuti warna garisnya. Lubang rel tidak selalu pas sejajar dengan baris; pakai lubang rel yang paling dekat.</p>" +
-        "<p class=\"note warn\">Garis merah/biru di breadboard-mu <strong>putus di tengah</strong> (sekitar baris 30). Artinya rel bagian atas dan bawah tidak tersambung. Dua kabel terakhir di langkah ini menjembatani putusnya: merah dari rel + atas ke rel + bawah, hitam dari rel − atas ke rel − bawah.</p>" +
-        "<p class=\"note warn\">Jangan pernah menyambung 5V ke rel +.</p>" },
-    { t: "Sambungkan layar OLED", sub: "4 kabel male–female, ujung lubang (female) ke pin layar",
-      wires: [{ c: "hitam", a: "oled.GND", b: "R-17" }, { c: "merah", a: "oled.VCC", b: "R+18" }, { c: "ungu", a: "oled.SCL", b: "A-e21" }, { c: "biru", a: "oled.SDA", b: "A-e24" }],
+    { t: "Sambungkan GND ke rel −", sub: "1 sambungan, satu-satunya yang butuh trik",
+      wires: [{ c: "hitam", a: "A-e23", b: "R-23" }],
+      html: "<p>Jalur panjang paling kiri di breadboard A yang bergaris <strong>biru</strong> = <strong>rel −</strong> (GND). Banyak komponen nanti mengambil GND dari sini, jadi rel ini harus disambung ke pin <code>GND</code> ESP32. Jalur bergaris merah di sebelahnya (rel +) <strong>tidak dipakai</strong>.</p>" +
+        "<p class=\"note warn\">Sambungan ini dari lubang ke lubang, jadi kabel male–female saja tidak bisa. Pilih salah satu:</p>" +
+        "<ul>" +
+        "<li><strong>Kawat jembatan:</strong> potong kaki salah satu resistor yang <strong>tidak dipakai</strong> dari paketmu (pakai gunting kuku), bengkokkan jadi huruf U, lalu tancapkan dari {A-e23} ke rel −. Ini cara paling gampang.</li>" +
+        "<li><strong>Kabel male–female + pin:</strong> masukkan potongan kaki resistor atau pin header sisa ke ujung female sampai mentok. Kabel itu jadi male–male.</li>" +
+        "</ul>" +
+        "<p class=\"note\">Rel di breadboard-mu putus di sekitar baris 30. Semua sambungan rel − di panduan ini ada di atas baris itu, jadi tidak perlu kabel jembatan.{railwarn}</p>" },
+    { t: "Sambungkan layar OLED", sub: "4 kabel male–female: female ke pin layar, male ke breadboard",
+      wires: [{ c: "hitam", a: "oled.GND", b: "R-26" }, { c: "merah", a: "oled.VCC", b: "A-e10" }, { c: "ungu", a: "oled.SCL", b: "A-e21" }, { c: "biru", a: "oled.SDA", b: "A-e24" }],
       html: "<p class=\"note\">Baca tulisan di atas pin layar. Urutannya biasanya <code>GND VCC SCL SDA</code>, tapi ada yang <code>VCC GND SCL SDA</code>. <strong>Ikuti tulisannya, bukan posisinya.</strong></p>" +
-        "<p class=\"note\">Layar memakai <code>P14</code> (SCL) dan <code>P13</code> (SDA). Jangan tertukar dengan <code>P12</code> yang ada di antaranya.</p>" +
+        "<p class=\"note\">VCC langsung ke baris pin <code>3V3</code>, tanpa lewat rel. Layar memakai <code>P14</code> (SCL) dan <code>P13</code> (SDA). Jangan sampai masuk ke baris <code>P12</code> di antaranya.</p>" +
         "<div class=\"test\"><b>Tes pertama</b><p>Colok USB ke laptop, lalu di terminal jalankan:</p>" + UPLOAD +
         "<p>Ganti <code>/dev/ttyUSB0</code> dengan port dari <code>board list</code> (bisa juga <code>/dev/ttyACM0</code>). Berhasil kalau layar menampilkan <strong>\"Tinggi air --\"</strong> dan <strong>SENSOR ERROR</strong>. Itu normal karena sensor belum dipasang. Tekan <code>Ctrl+C</code>, lalu <strong>cabut USB</strong>.</p></div>" },
-    { t: "Pasang pembagi tegangan", sub: "2 resistor + 1 kabel hijau, pelindung ESP32",
+    { t: "Pasang pembagi tegangan", sub: "2 resistor, tanpa kabel, pelindung ESP32",
       parts: [
-        { type: "res", a: "A-h34", b: "A-h38", val: "1 kΩ", bands: ["coklat", "hitam", "merah", "emas"],
-          desc: "Resistor <strong>1 kΩ</strong> (gelang coklat-hitam-merah): kaki atas di {A-h34}, kaki bawah di {A-h38}." },
-        { type: "res", a: "A-j38", b: "R-38", val: "2 kΩ", bands: ["merah", "hitam", "merah", "emas"],
-          desc: "Resistor <strong>2 kΩ</strong> (gelang merah-hitam-merah): satu kaki di {A-j38}, kaki lain ke <b class=\"hole\">rel −</b>. Tekuk kakinya supaya sampai." }
+        { type: "res", a: "A-e19", b: "A-f19", val: "1 kΩ", bands: ["coklat", "hitam", "merah", "emas"],
+          desc: "Resistor <strong>1 kΩ</strong> (gelang coklat-hitam-merah) <strong>melintangi celah tengah</strong>: satu kaki di {A-e19} (sebaris pin P26), kaki lain di {A-f19}." },
+        { type: "res", a: "A-d19", b: "A-d23", val: "2 kΩ", bands: ["merah", "hitam", "merah", "emas"],
+          desc: "Resistor <strong>2 kΩ</strong> (gelang merah-hitam-merah) <strong>tegak lurus ke bawah</strong>: satu kaki di {A-d19} (sebaris pin P26), kaki lain di {A-d23} (sebaris pin GND)." }
       ],
-      wires: [{ c: "hijau", a: "A-f38", b: "A-e19", bend: -34 }],
       html: "<p>Pin Echo sensor nanti mengeluarkan 5 volt, sedangkan pin ESP32 cuma tahan 3,3 volt. Dua resistor ini menurunkannya. Resistor tidak punya kutub, jadi bolak-balik tidak masalah.</p>" +
-        "<p class=\"note\">Hasilnya: baris {r34} menerima 5 volt dari sensor, baris {r38} tinggal sekitar 3,3 volt, dan baris {r38} itulah yang diteruskan kabel hijau ke P26.</p>" },
-    { t: "Sambungkan sensor jarak HC-SR04", sub: "4 kabel male–female, ujung lubang (female) ke pin sensor",
-      wires: [{ c: "oranye", a: "hc.VCC", b: "A-e28" }, { c: "kuning", a: "hc.Trig", b: "A-e18" }, { c: "hijau", a: "hc.Echo", b: "A-f34" }, { c: "hitam", a: "hc.Gnd", b: "R-32" }],
-      html: "<p class=\"note warn\">Kabel oranye ke {A-e28} (sebaris pin 5V), <strong>bukan</strong> ke rel +. Kabel hijau Echo ke {A-f34}, <strong>bukan</strong> langsung ke P26.</p>" +
+        "<p class=\"note\">Kolom d persis di sebelah pin ESP32, jadi agak sempit. Tekuk kaki resistor dan masukkan pelan-pelan. Pastikan kaki 2 kΩ tidak menyentuh kaki resistor lain.</p>" },
+    { t: "Sambungkan sensor jarak HC-SR04", sub: "4 kabel male–female: female ke pin sensor, male ke breadboard",
+      wires: [{ c: "oranye", a: "hc.VCC", b: "A-e28" }, { c: "kuning", a: "hc.Trig", b: "A-e18" }, { c: "hijau", a: "hc.Echo", b: "A-h19" }, { c: "hitam", a: "hc.Gnd", b: "R-31" }],
+      html: "<p class=\"note warn\">Kabel oranye ke {A-e28} (sebaris pin 5V). Kabel hijau Echo ke {A-h19}, yaitu baris kiri tempat kaki resistor 1 kΩ, <strong>bukan</strong> langsung ke baris P26.</p>" +
         "<div class=\"test\"><b>Tes kedua</b><p>Colok USB, jalankan <code>./firmware/upload.sh /dev/ttyUSB0</code> lagi. Arahkan sensor ke langit-langit: tinggi air <strong>0 cm</strong>, status <strong>AMAN</strong>. Taruh telapak tangan sekitar 20 cm di depan sensor: angka naik jadi sekitar <strong>20 cm</strong>, status <strong>SIAGA</strong>, lalu <strong>BANJIR</strong> setelah 10 detik. Di serial muncul baris seperti:</p>" +
         "<pre>{\"id\":\"node-01\",\"jarak\":20.1,\"tinggi\":19.9,\"status\":\"SIAGA\",...}</pre></div>" },
-    { t: "Sambungkan pelampung", sub: "2 kabel, tidak ada kutub",
-      wires: [{ c: "abu", a: "float.kabel 1", b: "A-e20" }, { c: "hitam", a: "float.kabel 2", b: "R-42" }],
-      html: "<p>Ujung kabel pelampung biasanya serabut. Jepit dengan <strong>kabel jepit buaya</strong>, lalu sambung ke kabel jumper. Pastikan dua jepit buaya tidak saling bersentuhan.</p>" +
+    { t: "Sambungkan pelampung", sub: "2 kabel male–female, tidak ada kutub",
+      wires: [{ c: "abu", a: "float.kabel 1", b: "A-e20" }, { c: "hitam", a: "float.kabel 2", b: "R-33" }],
+      html: "<p>Kabel pelampung ujungnya serabut. <strong>Pelintir</strong> serabutnya sampai rapat, lalu <strong>masukkan ke ujung female</strong> kabel jumper sampai tidak mudah lepas. Ujung male-nya masuk breadboard. Kalau longgar, lipat ujung serabut jadi dua supaya lebih tebal.</p>" +
         "<div class=\"test\"><b>Tes</b><p>Angkat pelampung ke atas dengan jari. Di layar, <strong>Pelampung</strong> berubah dari <strong>TURUN</strong> ke <strong>NAIK</strong>. Kalau terbalik, buka <code>firmware/sensor-banjir/sensor-banjir.ino</code>, ganti <code>PELAMPUNG_NAIK_SAAT_LOW = true</code> menjadi <code>false</code>, lalu upload lagi.</p></div>" },
-    { t: "Sambungkan buzzer", sub: "Modul 3 pin, pakai 3V3",
-      wires: [{ c: "merah", a: "buz.VCC", b: "R+13" }, { c: "putih", a: "buz.I/O", b: "A-e17" }, { c: "hitam", a: "buz.GND", b: "R-15" }],
-      html: "<p class=\"note\">Tulisan pin buzzer bisa <code>VCC</code>/<code>I/O</code>/<code>GND</code> atau <code>+</code>/<code>S</code>/<code>−</code>. Ikuti tulisannya.</p>" +
+    { t: "Sambungkan buzzer", sub: "3 kabel male–female, pakai 3V3",
+      wires: [{ c: "merah", a: "buz.VCC", b: "A-d10" }, { c: "putih", a: "buz.I/O", b: "A-e17" }, { c: "hitam", a: "buz.GND", b: "R-14" }],
+      html: "<p class=\"note\">Tulisan pin buzzer bisa <code>VCC</code>/<code>I/O</code>/<code>GND</code> atau <code>+</code>/<code>S</code>/<code>−</code>. Ikuti tulisannya. VCC masuk {A-d10}, lubang kedua di baris <code>3V3</code> (yang pertama sudah dipakai layar). Lubangnya mepet ESP32, jadi tekan pelan.</p>" +
         "<div class=\"test\"><b>Tes</b><p>Buzzer harus <strong>diam</strong> saat AMAN dan berbunyi putus-putus saat BANJIR. Kalau malah bunyi terus saat AMAN, ganti <code>BUZZER_AKTIF_LOW = true</code> menjadi <code>false</code>, lalu upload lagi.</p></div>" },
-    { t: "Pasang LED + resistor 220 Ω", sub: "LED punya kutub, jangan terbalik",
+    { t: "Pasang LED + resistor 220 Ω", sub: "Tanpa kabel. LED punya kutub, jangan terbalik",
       parts: [
-        { type: "res", a: "A-i46", b: "A-i50", val: "220 Ω", bands: ["merah", "merah", "coklat", "emas"],
-          desc: "Resistor <strong>220 Ω</strong> (gelang merah-merah-coklat): {A-i46} ke {A-i50}." },
-        { type: "led", a: "A-g50", b: "A-g51",
-          desc: "LED: <strong>kaki panjang</strong> di {A-g50}, <strong>kaki pendek</strong> (sisi badan yang rata) di {A-g51}." }
+        { type: "res", a: "A-e16", b: "A-f16", val: "220 Ω", bands: ["merah", "merah", "coklat", "emas"],
+          desc: "Resistor <strong>220 Ω</strong> (gelang merah-merah-coklat) melintangi celah tengah: {A-e16} (sebaris pin P32) ke {A-f16}." },
+        { type: "led", a: "A-j16", b: "R-16",
+          desc: "LED: <strong>kaki panjang</strong> di {A-j16}, <strong>kaki pendek</strong> (sisi badan yang rata) langsung ke <strong>rel −</strong>. Kaki pendek melewati atas jalur merah tanpa ditancapkan; tidak apa-apa." }
       ],
-      wires: [{ c: "coklat", a: "A-e16", b: "A-f46", bend: 30 }, { c: "hitam", a: "A-j51", b: "R-51" }],
       html: "<div class=\"test\"><b>Tes</b><p>LED mati saat AMAN, berkedip saat SIAGA, dan menyala terus saat BANJIR. Kalau tidak pernah menyala, kemungkinan LED terbalik: cabut USB, putar LED-nya.</p></div>" },
     { t: "Cek ulang semua kabel", sub: "USB dalam keadaan tercabut", all: true,
       html: "<ul>" +
-        "<li>Rel + hanya tersambung ke {A-e10} (3V3), kabel jembatan merah, VCC layar, dan VCC buzzer.</li>" +
+        "<li>Jalur merah (rel +) di kiri breadboard A <strong>kosong</strong>, tidak ada apa pun yang ditancap di situ.</li>" +
         "<li>Baris {r28} (pin <code>5V</code>) hanya tersambung ke kabel oranye VCC HC-SR04.</li>" +
-        "<li>Kabel hijau Echo di {A-f34}. Resistor 1 kΩ menyambung baris {r34} ke {r38}, resistor 2 kΩ menyambung baris {r38} ke rel −, kabel hijau kedua dari {A-f38} ke {A-e19}.</li>" +
-        "<li>Tidak ada kaki resistor, kaki LED, atau jepit buaya yang saling bersentuhan.</li>" +
-        "<li>Tidak ada kabel di baris pin <code>SD0</code>–<code>SD3</code>, <code>CLK</code>, <code>CMD</code>.</li>" +
+        "<li>Baris pin <code>3V3</code> (baris {r10}) berisi VCC layar dan VCC buzzer.</li>" +
+        "<li>Kabel hijau Echo di {A-h19}. Resistor 1 kΩ dari {A-f19} ke {A-e19}, resistor 2 kΩ dari {A-d19} ke {A-d23}.</li>" +
+        "<li>Tidak ada kaki resistor, kaki LED, atau kawat jembatan yang saling bersentuhan.</li>" +
+        "<li>Tidak ada apa pun di baris pin <code>SD2</code>, <code>SD3</code>, <code>CMD</code>, dan <code>P12</code>.</li>" +
         "<li>Cocokkan sekali lagi dengan tabel <strong>Daftar semua kabel</strong> di bawah.</li>" +
         "</ul>" },
     { t: "Demo ember", sub: "Ini yang direkam untuk juri", all: true,
@@ -528,11 +530,11 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       });
       [a, b].forEach(function (p) { grp.appendChild(el("circle", { cx: p.x, cy: p.y, r: 2.5, fill: tok("muted") })); });
     } else {
-      var bx = a.x + 22, by = (a.y + b.y) / 2;
-      grp.appendChild(el("path", { d: "M" + a.x + " " + a.y + " L" + (bx - 4) + " " + (by - 3), stroke: tok("muted"), "stroke-width": 2, fill: "none" }));
-      grp.appendChild(el("path", { d: "M" + b.x + " " + b.y + " L" + (bx - 4) + " " + (by + 3), stroke: tok("muted"), "stroke-width": 2, fill: "none" }));
-      grp.appendChild(el("circle", { cx: bx + 4, cy: by, r: 9, fill: tok("w-merah"), stroke: tok("wire-edge") }));
-      grp.appendChild(el("text", { x: a.x - 6, y: a.y - 4, "text-anchor": "end", fill: tok("w-merah"), "font-family": MONO, "font-size": 10, "font-weight": 600 }, "+"));
+      var bx = (a.x + b.x) / 2, by = Math.min(a.y, b.y) - 16;
+      grp.appendChild(el("path", { d: "M" + a.x + " " + a.y + " L" + (bx + 3) + " " + (by + 6), stroke: tok("muted"), "stroke-width": 2, fill: "none" }));
+      grp.appendChild(el("path", { d: "M" + b.x + " " + b.y + " L" + (bx - 3) + " " + (by + 6), stroke: tok("muted"), "stroke-width": 2, fill: "none" }));
+      grp.appendChild(el("circle", { cx: bx, cy: by, r: 9, fill: tok("w-merah"), stroke: tok("wire-edge") }));
+      grp.appendChild(el("text", { x: a.x + 6, y: a.y - 4, "text-anchor": "start", fill: tok("w-merah"), "font-family": MONO, "font-size": 10, "font-weight": 600 }, "+"));
     }
     g.appendChild(grp);
   }
@@ -607,7 +609,8 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 
   function fmt(html) {
     return html.replace(/\{([AB]-[a-j]\d+)\}/g, function (_, c) { return "<b class=\"hole\">" + parse(c).tag + "</b>"; })
-      .replace(/\{r(\d+)\}/g, function (_, r) { return String(+r + OFF); });
+      .replace(/\{r(\d+)\}/g, function (_, r) { return String(+r + OFF); })
+      .replace("{railwarn}", 33 + OFF > 29 ? " <strong>Tapi karena ESP32-mu tidak di baris paling atas, sebagian sambungan rel jatuh di bawah baris 30: sambung rel − atas dan bawah dengan satu kawat jembatan lagi.</strong>" : "");
   }
   function refreshStatic() {
     document.querySelectorAll("[data-h]").forEach(function (e) { e.textContent = parse(e.getAttribute("data-h")).tag; });
@@ -714,7 +717,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   (function () {
     var s = document.getElementById("pinout");
     var used = {
-      "L3V3": ["w-merah", "rel + (3,3 V)"],
+      "L3V3": ["w-merah", "VCC layar + buzzer"],
       "LP32": ["w-coklat", "LED (lewat 220 Ω)"],
       "LP33": ["w-putih", "buzzer I/O"],
       "LP25": ["w-kuning", "HC-SR04 Trig"],
