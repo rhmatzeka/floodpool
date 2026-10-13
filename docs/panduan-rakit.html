@@ -36,6 +36,7 @@
   --w-putih: #f4f4f1;
   --w-coklat: #8a5a33;
   --w-emas: #c9a227;
+  --w-kawat: #a9b0b5;
   --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -308,7 +309,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     return "<b class=\"hole\">" + h.tag + "</b>" + (nearPin ? " <span class=\"cap\">sebaris pin " + pin + "</span>" : "");
   }
 
-  var WNAME = { hitam: "Hitam", merah: "Merah", oranye: "Oranye", kuning: "Kuning", hijau: "Hijau", biru: "Biru", ungu: "Ungu", abu: "Abu-abu", putih: "Putih", coklat: "Coklat" };
+  var WNAME = { hitam: "Hitam", merah: "Merah", oranye: "Oranye", kuning: "Kuning", hijau: "Hijau", biru: "Biru", ungu: "Ungu", abu: "Abu-abu", putih: "Putih", coklat: "Coklat", kawat: "Kawat jembatan (bukan kabel jumper)" };
   function chip(c) { return "<span class=\"wire\"><i style=\"background:var(--w-" + c + ")\"></i>" + WNAME[c] + "</span>"; }
 
   var UPLOAD = "<pre>cd ~/Projects/floodpool\narduino-cli board list\n./firmware/upload.sh /dev/ttyUSB0</pre>";
@@ -336,8 +337,8 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li>Kalau sudah pas, tekan pelan dan rata dengan dua ibu jari di pinggir papan ESP32 sampai pin masuk penuh.</li>" +
         "</ol>" +
         "<p class=\"note\">Dengan posisi ini, lubang kosong yang bisa dipakai cuma di <strong>breadboard A kolom e dan d</strong> (kiri ESP32). Semua lubang sebaris pin kanan tertutup papan ESP32, jadi pin kanan tidak dipakai sama sekali. Karena itu layar OLED dipindah ke pin kiri <code>P13</code> dan <code>P14</code>, dan programnya sudah saya ubah.</p>" },
-    { t: "Sambungkan GND ke rel −", sub: "1 sambungan, satu-satunya yang butuh trik",
-      wires: [{ c: "hitam", a: "A-e23", b: "R-23" }],
+    { t: "Sambungkan GND ke rel −", sub: "Pakai kawat dari kaki resistor, bukan kabel jumper",
+      wires: [{ c: "kawat", a: "A-e23", b: "R-23", bend: 8 }],
       html: "<p>Jalur panjang paling kiri di breadboard A yang bergaris <strong>biru</strong> = <strong>rel −</strong> (GND). Banyak komponen nanti mengambil GND dari sini, jadi rel ini harus disambung ke pin <code>GND</code> ESP32. Jalur bergaris merah di sebelahnya (rel +) <strong>tidak dipakai</strong>.</p>" +
         "<p class=\"note warn\">Sambungan ini dari lubang ke lubang, jadi kabel male–female saja tidak bisa. Pilih salah satu:</p>" +
         "<ul>" +
@@ -507,6 +508,16 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   function drawWire(g, w, opacity) {
     var a = parse(w.a), b = parse(w.b), d = wirePath(a, b, w.bend);
     var grp = el("g", { opacity: opacity });
+    if (w.c === "kawat") {
+      // Kawat polos dari potongan kaki resistor: tipis, warna logam, ujungnya langsung masuk lubang.
+      grp.appendChild(el("path", { d: d, fill: "none", stroke: tok("wire-edge"), "stroke-width": 3.5, "stroke-linecap": "round" }));
+      grp.appendChild(el("path", { d: d, fill: "none", stroke: tok("w-kawat"), "stroke-width": 2, "stroke-linecap": "round" }));
+      [a, b].forEach(function (p) { grp.appendChild(el("circle", { cx: p.x, cy: p.y, r: 2.5, fill: tok("w-kawat") })); });
+      var mx = (a.x + b.x) / 2;
+      grp.appendChild(el("text", { x: mx, y: Math.max(a.y, b.y) + 14, "text-anchor": "middle", fill: tok("ink"), "font-family": SANS, "font-size": 9, "font-style": "italic" }, "kawat dari kaki resistor"));
+      g.appendChild(grp);
+      return;
+    }
     grp.appendChild(el("path", { d: d, fill: "none", stroke: tok("wire-edge"), "stroke-width": 6, "stroke-linecap": "round" }));
     grp.appendChild(el("path", { d: d, fill: "none", stroke: tok("w-" + w.c), "stroke-width": 4, "stroke-linecap": "round" }));
     [a, b].forEach(function (p) {
