@@ -188,7 +188,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
           <span class="legend" id="stage-cap">Gambar dilihat dari atas, colokan USB ESP32 menghadap kamu.</span>
           <button class="btn small" id="zoom" type="button">Lihat seluruh papan</button>
         </div>
-        <svg id="board" viewBox="0 0 570 830" role="img" aria-label="Gambar papan rangkaian untuk langkah yang dipilih"></svg>
+        <svg id="board" viewBox="0 0 575 830" role="img" aria-label="Gambar papan rangkaian untuk langkah yang dipilih"></svg>
       </div>
       <div class="card" id="card" aria-live="polite"></div>
     </div>
@@ -252,8 +252,20 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   function ry(r) { return Y0 + (r - 1) * P; }
   // Breadboard diputar searah jarum jam: angka 1 di atas, kolom j di kiri sampai a di kanan.
   var COLS = "jihgfedcba";
-  var RAIL = { "-": 150, "+": 163 };
-  var W = 570, H = 830;
+  var RAIL = { "-": 128, "+": 146 };
+  var RAIL_B = { "-": 532, "+": 550 };
+  // Lubang rel berkelompok 5-5 dengan jeda 1 baris, dan putus di tengah (baris 30-31), seperti breadboard user.
+  function hasRail(r) {
+    if (r < 1 || r > ROWS) return false;
+    if (r <= 29) return r % 6 !== 0;
+    if (r >= 32) return (r - 32) % 6 !== 5;
+    return false;
+  }
+  function snapRail(r) {
+    for (var d = 0; d < 6; d++) { if (hasRail(r - d)) return r - d; if (hasRail(r + d)) return r + d; }
+    return r;
+  }
+  var W = 575, H = 830;
   function colX(board, c) {
     var i = COLS.indexOf(c);
     if (board === "A") return i < 5 ? 188 + i * P : 266 + (i - 5) * P;
@@ -273,14 +285,14 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   var COMPS;
   function buildComps() {
   COMPS = {
-    buz: { name: "buzzer", step: 8, box: [24, my(8.2), 114, my(13.4)],
-      pins: { "VCC": [114, my(9.3)], "I/O": [114, my(10.8)], "GND": [114, my(12.3)] } },
-    hc: { name: "sensor HC-SR04", step: 6, box: [14, my(23.4), 120, my(30.8)],
-      pins: { "VCC": [120, my(24.8)], "Trig": [120, my(26.3)], "Echo": [120, my(27.8)], "Gnd": [120, my(29.3)] } },
-    float: { name: "pelampung", step: 7, box: [26, my(33.4), 104, my(41.6)],
-      pins: { "kabel 1": [104, my(36.5)], "kabel 2": [104, my(38)] } },
-    oled: { name: "layar OLED", step: 4, box: [14, my(15.2), 120, my(21.4)],
-      pins: { "GND": [120, my(16.2)], "VCC": [120, my(17.4)], "SCL": [120, my(18.6)], "SDA": [120, my(19.8)] } }
+    buz: { name: "buzzer", step: 8, box: [16, my(8.2), 104, my(13.4)],
+      pins: { "VCC": [104, my(9.3)], "I/O": [104, my(10.8)], "GND": [104, my(12.3)] } },
+    hc: { name: "sensor HC-SR04", step: 6, box: [4, my(23.4), 108, my(30.8)],
+      pins: { "VCC": [108, my(24.8)], "Trig": [108, my(26.3)], "Echo": [108, my(27.8)], "Gnd": [108, my(29.3)] } },
+    float: { name: "pelampung", step: 7, box: [20, my(33.4), 98, my(41.6)],
+      pins: { "kabel 1": [98, my(36.5)], "kabel 2": [98, my(38)] } },
+    oled: { name: "layar OLED", step: 4, box: [4, my(15.2), 108, my(21.4)],
+      pins: { "GND": [108, my(16.2)], "VCC": [108, my(17.4)], "SCL": [108, my(18.6)], "SDA": [108, my(19.8)] } }
   };
   }
   buildComps();
@@ -290,7 +302,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     var m = /^([AB])-([a-j])(\d+)(!?)$/.exec(s), r;
     if (m) { r = +m[3] + (m[4] ? 0 : OFF); return { x: colX(m[1], m[2]), y: ry(r), board: m[1], col: m[2], row: r, tag: m[1] + "-" + m[2] + r }; }
     m = /^R([+-])(\d+)(!?)$/.exec(s);
-    if (m) { r = +m[2] + (m[3] ? 0 : OFF); return { x: RAIL[m[1]], y: ry(r), rail: m[1], row: r, tag: (m[1] === "+" ? "rel + " : "rel − ") + r }; }
+    if (m) { r = snapRail(+m[2] + (m[3] ? 0 : OFF)); return { x: RAIL[m[1]], y: ry(r), rail: m[1], row: r, tag: (m[1] === "+" ? "rel + " : "rel − ") + r }; }
     var d = s.indexOf(".");
     var c = COMPS[s.slice(0, d)], pin = s.slice(d + 1);
     return { x: c.pins[pin][0], y: c.pins[pin][1], comp: c, pin: pin };
@@ -346,6 +358,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li><strong>Kawat 1:</strong> bengkokkan jadi huruf U, tancapkan dari {A-e23} (sebaris pin GND) ke {A-f23}, melintasi celah tengah. Sekarang lubang baris {r23} di sisi kiri juga jadi GND.</li>" +
         "<li><strong>Kawat 2:</strong> bengkokkan jadi U, tancapkan dari {A-j23} ke <strong>jalur biru (rel −)</strong> di baris yang sama. Kawat ini lewat di atas jalur merah tanpa ditancap; tidak apa-apa.</li>" +
         "</ol>" +
+        "<p class=\"note\">Lubang di jalur biru berkelompok 5-5 dengan jeda kosong. Kalau di baris itu kebetulan jeda, pakai lubang biru terdekat; kawatnya boleh agak miring.</p>" +
         "<p class=\"note\">Tidak ada resistor sisa? Pakai kawat tembaga kecil dari kabel bekas yang dikupas, atau isi staples yang diluruskan.</p>" +
         "<p class=\"note\">Rel di breadboard-mu putus di sekitar baris 30. Semua sambungan rel − di panduan ini ada di atas baris itu, jadi tidak perlu kabel jembatan.{railwarn}</p>" },
     { t: "Sambungkan layar OLED", sub: "4 kabel male–female: female ke pin layar, male ke breadboard",
@@ -410,16 +423,20 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 
   function drawBoards(g) {
     var bot = ry(ROWS) + 14;
-    g.appendChild(el("rect", { x: 136, y: 24, width: 196, height: bot - 24, rx: 8, fill: tok("board"), stroke: tok("board-edge") }));
-    g.appendChild(el("rect", { x: 358, y: 24, width: 194, height: bot - 24, rx: 8, fill: tok("board"), stroke: tok("board-edge") }));
+    // Strip rel terpisah dari badan breadboard (bisa dilepas), dengan sela kecil.
+    [[RAIL["-"] - 12, RAIL["+"] + 12], [RAIL_B["-"] - 12, RAIL_B["+"] + 12]].forEach(function (x) {
+      g.appendChild(el("rect", { x: x[0], y: 24, width: x[1] - x[0], height: bot - 24, rx: 6, fill: tok("board"), stroke: tok("board-edge") }));
+    });
+    g.appendChild(el("rect", { x: 166, y: 24, width: 166, height: bot - 24, rx: 6, fill: tok("board"), stroke: tok("board-edge") }));
+    g.appendChild(el("rect", { x: 358, y: 24, width: 156, height: bot - 24, rx: 6, fill: tok("board"), stroke: tok("board-edge") }));
     g.appendChild(el("text", { x: 234, y: 16, "text-anchor": "middle", fill: tok("ink"), "font-family": SANS, "font-size": 13, "font-weight": 600 }, "Breadboard A"));
     g.appendChild(el("text", { x: 455, y: 16, "text-anchor": "middle", fill: tok("ink"), "font-family": SANS, "font-size": 13, "font-weight": 600 }, "Breadboard B"));
-    // Rel di sisi luar saja; rel yang berhadapan sudah dilepas. Garis putus di tengah seperti breadboard aslinya.
-    [[RAIL["-"] - 7, "w-biru"], [RAIL["+"] + 7, "w-merah"], [526 - 7, "w-biru"], [539 + 7, "w-merah"]].forEach(function (r) {
-      g.appendChild(el("line", { x1: r[0], y1: ry(1) - 6, x2: r[0], y2: ry(30) + 4, stroke: tok(r[1]), "stroke-width": 1.5, opacity: 0.8 }));
-      g.appendChild(el("line", { x1: r[0], y1: ry(31) - 4, x2: r[0], y2: ry(ROWS) + 6, stroke: tok(r[1]), "stroke-width": 1.5, opacity: 0.8 }));
+    // Garis rel: biru di luar (−), merah di dalam (+), putus di tengah.
+    [[RAIL["-"] - 7, "w-biru"], [RAIL["+"] + 7, "w-merah"], [RAIL_B["-"] - 7, "w-biru"], [RAIL_B["+"] + 7, "w-merah"]].forEach(function (r) {
+      g.appendChild(el("line", { x1: r[0], y1: ry(1) - 6, x2: r[0], y2: ry(29) + 6, stroke: tok(r[1]), "stroke-width": 1.5, opacity: 0.8 }));
+      g.appendChild(el("line", { x1: r[0], y1: ry(32) - 6, x2: r[0], y2: ry(ROWS) + 6, stroke: tok(r[1]), "stroke-width": 1.5, opacity: 0.8 }));
     });
-    [[RAIL["-"], "w-biru", "−"], [RAIL["+"], "w-merah", "+"], [526, "w-biru", "−"], [539, "w-merah", "+"]].forEach(function (r) {
+    [[RAIL["-"], "w-biru", "−"], [RAIL["+"], "w-merah", "+"], [RAIL_B["-"], "w-biru", "−"], [RAIL_B["+"], "w-merah", "+"]].forEach(function (r) {
       g.appendChild(el("text", { x: r[0], y: 36, "text-anchor": "middle", fill: tok(r[1]), "font-family": MONO, "font-size": 12, "font-weight": 600 }, r[2]));
     });
     // Celah tengah.
@@ -432,14 +449,14 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       g.appendChild(el("text", { x: colX("B", COLS[i]), y: 36, "text-anchor": "middle", fill: tok("bb-ink"), "font-family": MONO, "font-size": 10 }, COLS[i]));
     }
     // Lubang.
+    function hole(x, y) { g.appendChild(el("rect", { x: x - 2.5, y: y - 2.5, width: 5, height: 5, rx: 1, fill: tok("bb-hole") })); }
     for (var r = 1; r <= ROWS; r++) {
       var y = ry(r);
-      var xs = [RAIL["+"], RAIL["-"], 526, 539];
-      for (var c = 0; c < 10; c++) { xs.push(colX("A", COLS[c])); xs.push(colX("B", COLS[c])); }
-      xs.forEach(function (x) { g.appendChild(el("rect", { x: x - 2.5, y: y - 2.5, width: 5, height: 5, rx: 1, fill: tok("bb-hole") })); });
+      if (hasRail(r)) [RAIL["+"], RAIL["-"], RAIL_B["+"], RAIL_B["-"]].forEach(function (x) { hole(x, y); });
+      for (var c = 0; c < 10; c++) { hole(colX("A", COLS[c]), y); hole(colX("B", COLS[c]), y); }
       if (r === 1 || r % 5 === 0) {
-        g.appendChild(el("text", { x: 176, y: y + 3.5, "text-anchor": "middle", fill: tok("bb-ink"), "font-family": MONO, "font-size": 8 }, String(r)));
-        g.appendChild(el("text", { x: 513, y: y + 3.5, "text-anchor": "middle", fill: tok("bb-ink"), "font-family": MONO, "font-size": 8 }, String(r)));
+        g.appendChild(el("text", { x: 176, y: y + 3, "text-anchor": "middle", fill: tok("bb-ink"), "font-family": MONO, "font-size": 7 }, String(r)));
+        g.appendChild(el("text", { x: 508, y: y + 3, "text-anchor": "middle", fill: tok("bb-ink"), "font-family": MONO, "font-size": 7 }, String(r)));
       }
     }
   }
