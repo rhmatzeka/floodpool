@@ -337,14 +337,16 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li>Kalau sudah pas, tekan pelan dan rata dengan dua ibu jari di pinggir papan ESP32 sampai pin masuk penuh.</li>" +
         "</ol>" +
         "<p class=\"note\">Dengan posisi ini, lubang kosong yang bisa dipakai cuma di <strong>breadboard A kolom e dan d</strong> (kiri ESP32). Semua lubang sebaris pin kanan tertutup papan ESP32, jadi pin kanan tidak dipakai sama sekali. Karena itu layar OLED dipindah ke pin kiri <code>P13</code> dan <code>P14</code>, dan programnya sudah saya ubah.</p>" },
-    { t: "Sambungkan GND ke rel −", sub: "Pakai kawat dari kaki resistor, bukan kabel jumper",
-      wires: [{ c: "kawat", a: "A-e23", b: "R-23", bend: 8 }],
+    { t: "Sambungkan GND ke rel −", sub: "2 kawat pendek dari kaki resistor, bukan kabel jumper",
+      wires: [{ c: "kawat", a: "A-e23", b: "A-f23", bend: 6, label: "kawat 1" }, { c: "kawat", a: "A-j23", b: "R-23", bend: 6, label: "kawat 2" }],
       html: "<p>Jalur panjang paling kiri di breadboard A yang bergaris <strong>biru</strong> = <strong>rel −</strong> (GND). Banyak komponen nanti mengambil GND dari sini, jadi rel ini harus disambung ke pin <code>GND</code> ESP32. Jalur bergaris merah di sebelahnya (rel +) <strong>tidak dipakai</strong>.</p>" +
-        "<p class=\"note warn\">Sambungan ini dari lubang ke lubang, jadi kabel male–female saja tidak bisa. Pilih salah satu:</p>" +
-        "<ul>" +
-        "<li><strong>Kawat jembatan:</strong> potong kaki salah satu resistor yang <strong>tidak dipakai</strong> dari paketmu (pakai gunting kuku), bengkokkan jadi huruf U, lalu tancapkan dari {A-e23} ke rel −. Ini cara paling gampang.</li>" +
-        "<li><strong>Kabel male–female + pin:</strong> masukkan potongan kaki resistor atau pin header sisa ke ujung female sampai mentok. Kabel itu jadi male–male.</li>" +
-        "</ul>" +
+        "<p class=\"note warn\">Sambungan ini dari lubang ke lubang, jadi bukan pakai kabel jumper, tapi <strong>2 kawat pendek</strong> dari kaki resistor. Jaraknya dibagi dua supaya kaki resistor cukup panjang:</p>" +
+        "<ol>" +
+        "<li>Ambil <strong>satu resistor yang tidak dipakai</strong> dari paketmu (selain 220 Ω, 1 kΩ, 2 kΩ). Potong <strong>kedua kakinya</strong> dekat badan resistor pakai gunting kuku atau tang.</li>" +
+        "<li><strong>Kawat 1:</strong> bengkokkan jadi huruf U, tancapkan dari {A-e23} (sebaris pin GND) ke {A-f23}, melintasi celah tengah. Sekarang lubang baris {r23} di sisi kiri juga jadi GND.</li>" +
+        "<li><strong>Kawat 2:</strong> bengkokkan jadi U, tancapkan dari {A-j23} ke <strong>jalur biru (rel −)</strong> di baris yang sama. Kawat ini lewat di atas jalur merah tanpa ditancap; tidak apa-apa.</li>" +
+        "</ol>" +
+        "<p class=\"note\">Tidak ada resistor sisa? Pakai kawat tembaga kecil dari kabel bekas yang dikupas, atau isi staples yang diluruskan.</p>" +
         "<p class=\"note\">Rel di breadboard-mu putus di sekitar baris 30. Semua sambungan rel − di panduan ini ada di atas baris itu, jadi tidak perlu kabel jembatan.{railwarn}</p>" },
     { t: "Sambungkan layar OLED", sub: "4 kabel male–female: female ke pin layar, male ke breadboard",
       wires: [{ c: "hitam", a: "oled.GND", b: "R-26" }, { c: "merah", a: "oled.VCC", b: "A-e10" }, { c: "ungu", a: "oled.SCL", b: "A-e21" }, { c: "biru", a: "oled.SDA", b: "A-e24" }],
@@ -514,7 +516,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       grp.appendChild(el("path", { d: d, fill: "none", stroke: tok("w-kawat"), "stroke-width": 2, "stroke-linecap": "round" }));
       [a, b].forEach(function (p) { grp.appendChild(el("circle", { cx: p.x, cy: p.y, r: 2.5, fill: tok("w-kawat") })); });
       var mx = (a.x + b.x) / 2;
-      grp.appendChild(el("text", { x: mx, y: Math.max(a.y, b.y) + 14, "text-anchor": "middle", fill: tok("ink"), "font-family": SANS, "font-size": 9, "font-style": "italic" }, "kawat dari kaki resistor"));
+      if (w.label) grp.appendChild(el("text", { x: mx, y: Math.max(a.y, b.y) + 14, "text-anchor": "middle", fill: tok("ink"), "font-family": SANS, "font-size": 9, "font-style": "italic" }, w.label));
       g.appendChild(grp);
       return;
     }
@@ -549,11 +551,12 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     }
     g.appendChild(grp);
   }
-  function drawTag(g, x, y, text, color) {
+  function drawTag(g, x, y, text, color, pos) {
     var w = text.length * 6.2 + 10;
     g.appendChild(el("circle", { class: "ring", cx: x, cy: y, r: 9, fill: "none", stroke: tok("accent"), "stroke-width": 2.5 }));
     g.appendChild(el("circle", { cx: x, cy: y, r: 6.5, fill: "none", stroke: tok("accent"), "stroke-width": 2 }));
-    var tx = x + 9, ty = y - 20;
+    // pos: "ul" = kiri atas, "dr" = kanan bawah, bawaan kanan atas.
+    var tx = pos === "ul" ? x - 9 - w : x + 9, ty = pos === "dr" ? y + 4 : y - 20;
     g.appendChild(el("rect", { x: tx, y: ty, width: w, height: 16, rx: 4, fill: tok("surface"), stroke: color ? tok("w-" + color) : tok("accent"), "stroke-width": 2 }));
     g.appendChild(el("text", { x: tx + 5, y: ty + 12, fill: tok("ink"), "font-family": MONO, "font-size": 10, "font-weight": 600 }, text));
   }
@@ -608,7 +611,12 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     var tags = el("g", {});
     g.appendChild(tags);
     (s.wires || []).forEach(function (w) {
-      [w.a, w.b].forEach(function (e) { var p = parse(e); if (!p.comp) drawTag(tags, p.x, p.y, p.tag, w.c); });
+      var pa = parse(w.a), pb = parse(w.b), flat = Math.abs(pa.y - pb.y) < 4;
+      [pa, pb].forEach(function (p) {
+        if (p.comp) return;
+        var other = p === pa ? pb : pa, pos = flat ? (p.x < other.x ? "ul" : "dr") : null;
+        drawTag(tags, p.x, p.y, p.tag, w.c, pos);
+      });
     });
     (s.parts || []).forEach(function (pt) { [pt.a, pt.b].forEach(function (e) { var p = parse(e); drawTag(tags, p.x, p.y, p.tag, null); }); });
     (s.marks || []).forEach(function (m) { var p = parse(m[0]); drawTag(tags, p.x, p.y, m[1] + " → " + p.tag, null); });
