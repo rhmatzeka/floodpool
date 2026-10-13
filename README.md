@@ -39,7 +39,7 @@ Identifiers in the code are in Indonesian: *tinggi* = height, *jarak* = distance
 | Active buzzer module (3 pins) | VCC → `3V3`, GND → `GND`, I/O → `D33` |
 | Red LED | long leg → 220 Ω resistor → `D32`; short leg → `GND` |
 
-Pin labels may read `D25`, `IO25`, or `G25`. Do not use the `SD0`–`SD3`, `CLK`, or `CMD` pins. The ECHO voltage divider is required: the HC-SR04 outputs 5 V, and ESP32 pins only tolerate 3.3 V.
+Pin labels may read `D25`, `IO25`, `G25`, or `P25`. Do not use the `SD0`–`SD3`, `CLK`, or `CMD` pins. The ECHO voltage divider is required: the HC-SR04 outputs 5 V, and ESP32 pins only tolerate 3.3 V.
 
 Demo settings are at the top of `sensor-banjir.ino`: `TINGGI_SENSOR_CM` (sensor height above the bucket floor), `AMBANG_CM` (threshold), `DURASI_MS` (how long the water must stay above it). If the float or the buzzer works the wrong way round, flip `PELAMPUNG_NAIK_SAAT_LOW` / `BUZZER_AKTIF_LOW`.
 
