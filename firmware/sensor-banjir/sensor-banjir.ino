@@ -18,12 +18,16 @@ const unsigned long DURASI_MS = 10000;  // air harus bertahan di atas ambang sel
 const bool PELAMPUNG_NAIK_SAAT_LOW = true;  // balik kalau pelampungmu terbaca terbalik
 const bool BUZZER_AKTIF_LOW = true;         // kebanyakan modul buzzer 3 pin bunyi saat pin LOW
 
-// ---- Pin (label di papan: D25 / IO25 / G25, dst.) ----
+// ---- Pin (label di papan: P25 / D25 / IO25 / G25, dst.) ----
 const int PIN_TRIG = 25;
 const int PIN_ECHO = 26;  // lewat pembagi tegangan 1k/2k di alat asli
 const int PIN_PELAMPUNG = 27;
 const int PIN_LED = 32;
 const int PIN_BUZZER = 33;
+// OLED di sisi kiri: pin kanan ESP32 tertutup papan saat dipasang di 2 breadboard.
+// Jangan pakai P12 (pull-up layar bikin ESP32 gagal boot).
+const int PIN_SDA = 13;
+const int PIN_SCL = 14;
 
 Adafruit_SSD1306 layar(128, 64, &Wire, -1);
 bool adaLayar = false;
@@ -85,8 +89,9 @@ void setup() {
   pinMode(PIN_LED, OUTPUT);
   pinMode(PIN_BUZZER, OUTPUT);
   buzzer(false);
+  Wire.begin(PIN_SDA, PIN_SCL);
   adaLayar = layar.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  if (!adaLayar) Serial.println("OLED tidak terdeteksi (cek SDA=21, SCL=22, alamat 0x3C)");
+  if (!adaLayar) Serial.println("OLED tidak terdeteksi (cek SDA=13, SCL=14, alamat 0x3C)");
 }
 
 void loop() {

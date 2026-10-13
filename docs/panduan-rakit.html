@@ -151,7 +151,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     <p>Setiap lubang di panduan ini ditulis seperti <b class="hole">A-c4</b>: breadboard <strong>A</strong>, kolom <strong>c</strong>, baris <strong>4</strong>. Huruf kolom dan nomor baris tercetak di breadboard-mu.</p>
     <div class="figure"><svg id="bb" viewBox="0 0 560 250" role="img" aria-label="Diagram sambungan lubang breadboard"></svg></div>
     <ul>
-      <li><strong>Lima lubang sebaris</strong> (a–e, atau f–j, dengan nomor baris yang sama) tersambung di dalam. Jadi kabel di <b class="hole">A-e18</b> tersambung ke kaki ESP32 yang menancap di <b class="hole">A-a18</b>. Itu yang dimaksud "sebaris pin".</li>
+      <li><strong>Lima lubang sebaris</strong> (a–e, atau f–j, dengan nomor baris yang sama) tersambung di dalam. Jadi kabel di <b class="hole">A-e18</b> tersambung ke kaki ESP32 yang menancap di <b class="hole">A-c18</b>. Itu yang dimaksud "sebaris pin".</li>
       <li><strong>Celah tengah memutus.</strong> Lubang a–e tidak tersambung ke f–j.</li>
       <li><strong>Rel</strong> adalah jalur panjang di pinggir, bergaris merah (<strong>rel +</strong>) dan biru (<strong>rel −</strong>). Lubang di satu jalur tersambung memanjang, <strong>tapi di breadboard-mu jalurnya putus di tengah</strong> (sekitar baris 30). Karena itu panduan ini tetap menyebut barisnya, misalnya <b class="hole">rel − 23</b>.</li>
     </ul>
@@ -168,8 +168,8 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         <tr><td><span class="wire"><i style="background:var(--w-oranye)"></i>Oranye</span></td><td>5V, khusus VCC HC-SR04</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-kuning)"></i>Kuning</span></td><td>Trig HC-SR04 → P25</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-hijau)"></i>Hijau</span></td><td>Echo HC-SR04 → pembagi tegangan → P26</td></tr>
-        <tr><td><span class="wire"><i style="background:var(--w-biru)"></i>Biru</span></td><td>SDA layar OLED → P21</td></tr>
-        <tr><td><span class="wire"><i style="background:var(--w-ungu)"></i>Ungu</span></td><td>SCL layar OLED → P22</td></tr>
+        <tr><td><span class="wire"><i style="background:var(--w-biru)"></i>Biru</span></td><td>SDA layar OLED → P13</td></tr>
+        <tr><td><span class="wire"><i style="background:var(--w-ungu)"></i>Ungu</span></td><td>SCL layar OLED → P14</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-abu)"></i>Abu-abu</span></td><td>Pelampung → P27</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-putih)"></i>Putih</span></td><td>Buzzer → P33</td></tr>
         <tr><td><span class="wire"><i style="background:var(--w-coklat)"></i>Coklat</span></td><td>LED → P32</td></tr>
@@ -188,7 +188,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
           <span class="legend" id="stage-cap">Gambar dilihat dari atas, colokan USB ESP32 menghadap kamu.</span>
           <button class="btn small" id="zoom" type="button">Lihat seluruh papan</button>
         </div>
-        <svg id="board" viewBox="0 0 690 830" role="img" aria-label="Gambar papan rangkaian untuk langkah yang dipilih"></svg>
+        <svg id="board" viewBox="0 0 570 830" role="img" aria-label="Gambar papan rangkaian untuk langkah yang dipilih"></svg>
       </div>
       <div class="card" id="card" aria-live="polite"></div>
     </div>
@@ -223,7 +223,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         <tr><td><code>board list</code> tidak menampilkan port</td><td>Kabelmu mungkin kabel cas saja; coba kabel data lain. Coba port USB laptop yang lain.</td></tr>
         <tr><td>Upload macet di <code>Connecting.....</code></td><td>Tahan tombol <strong>BOOT</strong> di ESP32 sampai muncul <code>Writing</code>, lalu lepas.</td></tr>
         <tr><td><code>Permission denied</code> pada port</td><td>Logout lalu login lagi di laptop.</td></tr>
-        <tr><td>Layar gelap</td><td>Tukar kabel ungu dan biru (SCL/SDA). Cek merah di <b class="hole">A-c10</b> dan hitam di <b class="hole">B-b10</b>. Serial monitor akan menulis <code>OLED tidak terdeteksi</code>.</td></tr>
+        <tr><td>Layar gelap</td><td>Tukar kabel ungu dan biru (SCL/SDA). Cek ungu di <b class="hole">A-e21</b>, biru di <b class="hole">A-e24</b>, merah ke rel +, hitam ke rel −. Serial monitor akan menulis <code>OLED tidak terdeteksi</code>.</td></tr>
         <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek oranye di <b class="hole">A-e28</b> (5V), kuning di <b class="hole">A-e18</b>, hijau Echo di <b class="hole">A-f34</b>, dan dua resistor pembagi.</td></tr>
         <tr><td>Angka loncat-loncat</td><td>Sensor harus menghadap permukaan datar tanpa halangan. Dinding ember yang sempit bisa ikut memantulkan suara.</td></tr>
         <tr><td>Buzzer bunyi terus</td><td>Ganti <code>BUZZER_AKTIF_LOW</code> ke <code>false</code>.</td></tr>
@@ -253,27 +253,27 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   // Breadboard diputar searah jarum jam: angka 1 di atas, kolom j di kiri sampai a di kanan.
   var COLS = "jihgfedcba";
   var RAIL = { "-": 150, "+": 163 };
-  var W = 690, H = 830;
+  var W = 570, H = 830;
   function colX(board, c) {
     var i = COLS.indexOf(c);
     if (board === "A") return i < 5 ? 188 + i * P : 266 + (i - 5) * P;
     return i < 5 ? 370 + i * P : 448 + (i - 5) * P;
   }
-  // Pin ESP32 38 pin, baris 10-28. Kiri di kolom A-a, kanan di kolom B-e.
+  // Pin ESP32 38 pin, baris 10-28. Kiri di kolom A-c, kanan di kolom B-f (pas di breadboard user).
   var LEFT = ["3V3","EN","SVP","SVN","P34","P35","P32","P33","P25","P26","P27","P14","P12","GND","P13","SD2","SD3","CMD","5V"];
   var RIGHT = ["GND","P23","P22","TX","RX","P21","GND","P19","P18","P5","P17","P16","P4","P0","P2","P15","SD1","SD0","CLK"];
   var ESP_TOP = 10;
 
   // ---------- Komponen di luar papan ----------
   var COMPS = {
-    buz: { name: "buzzer", step: 8, box: [24, ry(9.4), 114, ry(14.6)],
-      pins: { "VCC": [114, ry(10.5)], "I/O": [114, ry(12)], "GND": [114, ry(13.5)] } },
-    hc: { name: "sensor HC-SR04", step: 6, box: [14, ry(22.6), 120, ry(30)],
-      pins: { "VCC": [120, ry(24)], "Trig": [120, ry(25.5)], "Echo": [120, ry(27)], "Gnd": [120, ry(28.5)] } },
+    buz: { name: "buzzer", step: 8, box: [24, ry(8.2), 114, ry(13.4)],
+      pins: { "VCC": [114, ry(9.3)], "I/O": [114, ry(10.8)], "GND": [114, ry(12.3)] } },
+    hc: { name: "sensor HC-SR04", step: 6, box: [14, ry(23.4), 120, ry(30.8)],
+      pins: { "VCC": [120, ry(24.8)], "Trig": [120, ry(26.3)], "Echo": [120, ry(27.8)], "Gnd": [120, ry(29.3)] } },
     float: { name: "pelampung", step: 7, box: [26, ry(33.4), 104, ry(41.6)],
       pins: { "kabel 1": [104, ry(36.5)], "kabel 2": [104, ry(38)] } },
-    oled: { name: "layar OLED", step: 4, box: [566, ry(7.4), 684, ry(16.6)],
-      pins: { "GND": [566, ry(8.8)], "VCC": [566, ry(10.2)], "SCL": [566, ry(11.6)], "SDA": [566, ry(13)] } }
+    oled: { name: "layar OLED", step: 4, box: [14, ry(15.2), 120, ry(21.4)],
+      pins: { "GND": [120, ry(16.2)], "VCC": [120, ry(17.4)], "SCL": [120, ry(18.6)], "SDA": [120, ry(19.8)] } }
   };
 
   function parse(s) {
@@ -295,7 +295,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     if (h.comp) return "pin <code>" + h.pin + "</code> " + h.comp.name;
     if (h.rail) return "<b class=\"hole\">" + h.tag + "</b> <span class=\"cap\">jalur garis " + (h.rail === "+" ? "merah" : "biru") + "</span>";
     var pin = pinOfRow(h.board, h.row);
-    var nearPin = pin && "abcde".indexOf(h.col) >= 0;
+    var nearPin = pin && h.board === "A" && "abcde".indexOf(h.col) >= 0;
     return "<b class=\"hole\">" + s + "</b>" + (nearPin ? " <span class=\"cap\">sebaris pin " + pin + "</span>" : "");
   }
 
@@ -315,16 +315,15 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<li>Pisahkan komponen: ESP32, HC-SR04, OLED, buzzer, pelampung, LED, resistor 220 Ω, 1 kΩ, 2 kΩ, kabel jumper.</li>" +
         "</ol>" },
     { t: "Pasang ESP32", sub: "Melintang di atas dua breadboard", esp: true,
-      marks: [["A-a10", "3V3"], ["B-e10", "GND"], ["A-a28", "5V"]],
+      marks: [["A-c10", "3V3"], ["B-f10", "GND"], ["A-c28", "5V"]],
       html: "<p class=\"note warn\">Tulisan pin ESP32-mu ada di <strong>sisi bawah</strong> papan (sisi yang ada logo NodeMCU). Setelah dipasang, tulisannya tidak kelihatan. Jadi pegang dengan <strong>sisi logo di bawah</strong> dan <strong>colokan USB menghadap kamu</strong>. Dengan posisi itu, deret pin kiri berisi <code>3V3</code> (paling jauh dari USB) sampai <code>5V</code> (paling dekat USB).</p>" +
         "<ol>" +
-        "<li>Taruh dulu tanpa ditekan: deret pin kiri di <strong>kolom a breadboard A</strong> (kolom paling kanan di A), pin <code>3V3</code> di <b class=\"hole\">A-a10</b>.</li>" +
-        "<li>Geser breadboard B ke kiri/kanan sampai deret pin kanan pas masuk <strong>kolom e breadboard B</strong>. Pin <code>GND</code> kanan atas di <b class=\"hole\">B-e10</b>.</li>" +
-        "<li>Cek: pin <code>5V</code> (kiri paling dekat USB) jatuh di <b class=\"hole\">A-a28</b>.</li>" +
+        "<li>Deret pin kiri masuk <strong>kolom c breadboard A</strong>: pin <code>3V3</code> di <b class=\"hole\">A-c10</b>.</li>" +
+        "<li>Deret pin kanan masuk <strong>kolom f breadboard B</strong>: pin <code>GND</code> kanan atas di <b class=\"hole\">B-f10</b>.</li>" +
+        "<li>Cek: pin <code>5V</code> (kiri paling dekat USB) jatuh di <b class=\"hole\">A-c28</b>.</li>" +
         "<li>Kalau sudah pas, tekan pelan dan rata dengan dua ibu jari di pinggir papan ESP32 sampai pin masuk penuh.</li>" +
         "</ol>" +
-        "<p class=\"note\">Kalau pin kanan tidak bisa pas di kolom e tapi pas di kolom d, tidak apa-apa. Yang penting <strong>bukan</strong> di kolom f–j (di sana lubang kosongnya tertutup ESP32).</p>" +
-        "<p class=\"note\">Lubang yang bisa dipakai di baris pin: breadboard A kolom <code>c</code> <code>d</code> <code>e</code>, breadboard B kolom <code>a</code> <code>b</code> <code>c</code>.</p>" },
+        "<p class=\"note\">Dengan posisi ini, lubang kosong yang bisa dipakai cuma di <strong>breadboard A kolom e dan d</strong> (kiri ESP32). Semua lubang sebaris pin kanan tertutup papan ESP32, jadi pin kanan tidak dipakai sama sekali. Karena itu layar OLED dipindah ke pin kiri <code>P13</code> dan <code>P14</code>, dan programnya sudah saya ubah.</p>" },
     { t: "Buat rel daya", sub: "4 kabel male–male",
       wires: [{ c: "merah", a: "A-e10", b: "R+10" }, { c: "hitam", a: "A-e23", b: "R-23" },
         { c: "merah", a: "R+26", b: "R+36", bend: -16 }, { c: "hitam", a: "R-28", b: "R-34", bend: 16 }],
@@ -332,9 +331,9 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
         "<p class=\"note warn\">Garis merah/biru di breadboard-mu <strong>putus di tengah</strong> (sekitar baris 30). Artinya rel bagian atas dan bawah tidak tersambung. Dua kabel terakhir di langkah ini menjembatani putusnya: merah dari rel + atas ke rel + bawah, hitam dari rel − atas ke rel − bawah.</p>" +
         "<p class=\"note warn\">Jangan pernah menyambung 5V ke rel +.</p>" },
     { t: "Sambungkan layar OLED", sub: "4 kabel male–female, ujung lubang (female) ke pin layar",
-      wires: [{ c: "hitam", a: "oled.GND", b: "B-b10" }, { c: "merah", a: "oled.VCC", b: "A-c10", bend: 40 }, { c: "ungu", a: "oled.SCL", b: "B-b12" }, { c: "biru", a: "oled.SDA", b: "B-b15" }],
+      wires: [{ c: "hitam", a: "oled.GND", b: "R-17" }, { c: "merah", a: "oled.VCC", b: "R+18" }, { c: "ungu", a: "oled.SCL", b: "A-e21" }, { c: "biru", a: "oled.SDA", b: "A-e24" }],
       html: "<p class=\"note\">Baca tulisan di atas pin layar. Urutannya biasanya <code>GND VCC SCL SDA</code>, tapi ada yang <code>VCC GND SCL SDA</code>. <strong>Ikuti tulisannya, bukan posisinya.</strong></p>" +
-        "<p class=\"note\">Kabel merah melintang di atas ESP32 ke <b class=\"hole\">A-c10</b>, karena pin 3V3 ada di sisi kiri.</p>" +
+        "<p class=\"note\">Layar memakai <code>P14</code> (SCL) dan <code>P13</code> (SDA). Jangan tertukar dengan <code>P12</code> yang ada di antaranya.</p>" +
         "<div class=\"test\"><b>Tes pertama</b><p>Colok USB ke laptop, lalu di terminal jalankan:</p>" + UPLOAD +
         "<p>Ganti <code>/dev/ttyUSB0</code> dengan port dari <code>board list</code> (bisa juga <code>/dev/ttyACM0</code>). Berhasil kalau layar menampilkan <strong>\"Tinggi air --\"</strong> dan <strong>SENSOR ERROR</strong>. Itu normal karena sensor belum dipasang. Tekan <code>Ctrl+C</code>, lalu <strong>cabut USB</strong>.</p></div>" },
     { t: "Pasang pembagi tegangan", sub: "2 resistor + 1 kabel hijau, pelindung ESP32",
@@ -371,7 +370,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       html: "<div class=\"test\"><b>Tes</b><p>LED mati saat AMAN, berkedip saat SIAGA, dan menyala terus saat BANJIR. Kalau tidak pernah menyala, kemungkinan LED terbalik: cabut USB, putar LED-nya.</p></div>" },
     { t: "Cek ulang semua kabel", sub: "USB dalam keadaan tercabut", all: true,
       html: "<ul>" +
-        "<li>Rel + hanya tersambung ke <b class=\"hole\">A-e10</b> (3V3), kabel jembatan merah, dan VCC buzzer.</li>" +
+        "<li>Rel + hanya tersambung ke <b class=\"hole\">A-e10</b> (3V3), kabel jembatan merah, VCC layar, dan VCC buzzer.</li>" +
         "<li>Baris 28 (pin <code>5V</code>) hanya tersambung ke kabel oranye VCC HC-SR04.</li>" +
         "<li>Kabel hijau Echo di <b class=\"hole\">A-f34</b>. Resistor 1 kΩ menyambung baris 34 ke 38, resistor 2 kΩ menyambung baris 38 ke rel −, kabel hijau kedua dari <b class=\"hole\">A-f38</b> ke <b class=\"hole\">A-e19</b>.</li>" +
         "<li>Tidak ada kaki resistor, kaki LED, atau jepit buaya yang saling bersentuhan.</li>" +
@@ -429,20 +428,21 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   }
 
   function drawEsp(g) {
-    var x1 = 310, x2 = 456, y1 = ry(6.6), y2 = ry(31.6);
+    var xl = colX("A", "c"), xr = colX("B", "f"), mid = (xl + xr) / 2;
+    var x1 = xl - 8, x2 = xr + 8, y1 = ry(6.6), y2 = ry(31.6);
     g.appendChild(el("rect", { x: x1, y: y1, width: x2 - x1, height: y2 - y1, rx: 5, fill: tok("pcb"), stroke: tok("line") }));
-    g.appendChild(el("path", { d: "M338 " + (y1 + 10) + " h12 v14 h12 v-14 h12 v14 h12 v-14 h12 v14 h12 v-14 h12", fill: "none", stroke: tok("w-emas"), "stroke-width": 2, opacity: 0.8 }));
-    g.appendChild(el("text", { x: 383, y: ry(19.4), "text-anchor": "middle", fill: tok("pcb-ink"), "font-family": SANS, "font-size": 14, "font-weight": 600 }, "ESP32"));
-    g.appendChild(el("rect", { x: 365, y: y2 - 2, width: 36, height: 16, rx: 5, fill: tok("muted") }));
-    g.appendChild(el("text", { x: 383, y: y2 + 26, "text-anchor": "middle", fill: tok("muted"), "font-family": MONO, "font-size": 10 }, "USB → ke arah kamu"));
-    [["EN", 336], ["BOOT", 430]].forEach(function (b) {
+    g.appendChild(el("path", { d: "M" + (mid - 42) + " " + (y1 + 10) + " h12 v14 h12 v-14 h12 v14 h12 v-14 h12 v14 h12 v-14 h12", fill: "none", stroke: tok("w-emas"), "stroke-width": 2, opacity: 0.8 }));
+    g.appendChild(el("text", { x: mid, y: ry(19.4), "text-anchor": "middle", fill: tok("pcb-ink"), "font-family": SANS, "font-size": 14, "font-weight": 600 }, "ESP32"));
+    g.appendChild(el("rect", { x: mid - 18, y: y2 - 2, width: 36, height: 16, rx: 5, fill: tok("muted") }));
+    g.appendChild(el("text", { x: mid, y: y2 + 26, "text-anchor": "middle", fill: tok("muted"), "font-family": MONO, "font-size": 10 }, "USB → ke arah kamu"));
+    [["EN", x1 + 22], ["BOOT", x2 - 22]].forEach(function (b) {
       g.appendChild(el("rect", { x: b[1] - 8, y: y2 - 22, width: 16, height: 12, rx: 2, fill: tok("hole") }));
       g.appendChild(el("text", { x: b[1], y: y2 - 26, "text-anchor": "middle", fill: tok("pcb-ink"), "font-family": MONO, "font-size": 8 }, b[0]));
     });
     var bad = { SD0: 1, SD1: 1, SD2: 1, SD3: 1, CLK: 1, CMD: 1 };
     for (var i = 0; i < LEFT.length; i++) {
       var y = ry(ESP_TOP + i);
-      [[colX("A", "a"), LEFT[i], "start", 8], [colX("B", "e"), RIGHT[i], "end", -8]].forEach(function (p) {
+      [[xl, LEFT[i], "start", 8], [xr, RIGHT[i], "end", -8]].forEach(function (p) {
         g.appendChild(el("circle", { cx: p[0], cy: y, r: 3.6, fill: tok("w-emas") }));
         g.appendChild(el("text", { x: p[0] + p[3], y: y + 3.5, "text-anchor": p[2], fill: bad[p[1]] ? tok("warn") : tok("pcb-ink"), "font-family": MONO, "font-size": 9 }, p[1]));
       });
@@ -472,12 +472,12 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       grp.appendChild(el("text", { x: cx, y: b[3] + 12, "text-anchor": "middle", fill: tok("muted"), "font-family": SANS, "font-size": 10 }, "pelampung"));
     } else if (id === "oled") {
       grp.appendChild(el("rect", { x: b[0], y: b[1], width: b[2] - b[0], height: b[3] - b[1], rx: 4, fill: tok("pcb"), stroke: tok("line") }));
-      grp.appendChild(el("rect", { x: b[0] + 38, y: b[1] + 14, width: b[2] - b[0] - 48, height: b[3] - b[1] - 28, rx: 2, fill: "#0d1b2a", stroke: tok("muted") }));
-      grp.appendChild(el("text", { x: (b[0] + 38 + b[2] - 10) / 2, y: (b[1] + b[3]) / 2 + 5, "text-anchor": "middle", fill: "#7fd4ff", "font-family": MONO, "font-size": 12 }, "AMAN"));
+      grp.appendChild(el("rect", { x: b[0] + 6, y: b[1] + 8, width: b[2] - b[0] - 40, height: b[3] - b[1] - 16, rx: 2, fill: "#0d1b2a", stroke: tok("muted") }));
+      grp.appendChild(el("text", { x: (b[0] + b[2] - 34) / 2, y: (b[1] + b[3]) / 2 + 4, "text-anchor": "middle", fill: "#7fd4ff", "font-family": MONO, "font-size": 11 }, "AMAN"));
       grp.appendChild(el("text", { x: (b[0] + b[2]) / 2, y: b[3] + 12, "text-anchor": "middle", fill: tok("muted"), "font-family": SANS, "font-size": 10 }, "layar OLED"));
     }
     for (var p in c.pins) {
-      var xy = c.pins[p], left = id === "oled";
+      var xy = c.pins[p], left = false;
       grp.appendChild(el("circle", { cx: xy[0], cy: xy[1], r: 3, fill: tok("w-emas") }));
       if (id !== "float") grp.appendChild(el("text", { x: xy[0] + (left ? 6 : -6), y: xy[1] + 3, "text-anchor": left ? "start" : "end", fill: id === "hc" ? "#fff" : tok("pcb-ink"), "font-family": MONO, "font-size": 8 }, p));
     }
@@ -688,9 +688,8 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       "LP27": ["w-abu", "pelampung"],
       "LGND": ["w-hitam", "rel − (GND)"],
       "L5V": ["w-oranye", "HC-SR04 VCC saja"],
-      "RGND": ["w-hitam", "OLED GND"],
-      "RP22": ["w-ungu", "OLED SCL"],
-      "RP21": ["w-biru", "OLED SDA"]
+      "LP14": ["w-ungu", "OLED SCL"],
+      "LP13": ["w-biru", "OLED SDA"]
     };
     var forbidden = { SD0: 1, SD1: 1, SD2: 1, SD3: 1, CLK: 1, CMD: 1 };
     var bx = 230, bw = 180, top = 70, step = 24;

@@ -35,7 +35,7 @@ Identifiers in the code are in Indonesian: *tinggi* = height, *jarak* = distance
 | HC-SR04 | VCC → `5V`, GND → `GND`, TRIG → `D25` |
 | | ECHO → 1 kΩ resistor → **midpoint** → 2 kΩ resistor → `GND`; midpoint → `D26` |
 | Float switch | one wire → `D27`, the other → `GND` |
-| OLED SSD1306 (4 pins) | VCC → `3V3`, GND → `GND`, SDA → `D21`, SCL → `D22` |
+| OLED SSD1306 (4 pins) | VCC → `3V3`, GND → `GND`, SDA → `D13`, SCL → `D14` (left-side pins: the right-side pins are covered when the board spans two breadboards) |
 | Active buzzer module (3 pins) | VCC → `3V3`, GND → `GND`, I/O → `D33` |
 | Red LED | long leg → 220 Ω resistor → `D32`; short leg → `GND` |
 
