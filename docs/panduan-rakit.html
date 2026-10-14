@@ -382,10 +382,17 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       html: "<p class=\"note warn\">Kabel oranye ke {A-e28} (sebaris pin 5V). Kabel hijau Echo ke {A-h19}, yaitu baris kiri tempat kaki resistor 1 kΩ, <strong>bukan</strong> langsung ke baris P26.</p>" +
         "<div class=\"test\"><b>Tes kedua</b><p>Colok USB, jalankan <code>./firmware/upload.sh /dev/ttyUSB0</code> lagi. Arahkan sensor ke langit-langit: tinggi air <strong>0 cm</strong>, status <strong>AMAN</strong>. Taruh telapak tangan sekitar 20 cm di depan sensor: angka naik jadi sekitar <strong>20 cm</strong>, status <strong>SIAGA</strong>, lalu <strong>BANJIR</strong> setelah 10 detik. Di serial muncul baris seperti:</p>" +
         "<pre>{\"id\":\"node-01\",\"jarak\":20.1,\"tinggi\":19.9,\"status\":\"SIAGA\",...}</pre></div>" },
-    { t: "Sambungkan pelampung", sub: "2 kabel male–female, tidak ada kutub",
+    { t: "Sambungkan pelampung", sub: "Pelampung toren 3 kabel: hitam, biru, coklat. Yang dipakai cuma 2",
       wires: [{ c: "abu", a: "float.kabel 1", b: "A-e20" }, { c: "hitam", a: "float.kabel 2", b: "R-33" }],
-      html: "<p>Kabel pelampung ujungnya serabut. <strong>Pelintir</strong> serabutnya sampai rapat, lalu <strong>masukkan ke ujung female</strong> kabel jumper sampai tidak mudah lepas. Ujung male-nya masuk breadboard. Kalau longgar, lipat ujung serabut jadi dua supaya lebih tebal.</p>" +
-        "<div class=\"test\"><b>Tes</b><p>Angkat pelampung ke atas dengan jari. Di layar, <strong>Pelampung</strong> berubah dari <strong>TURUN</strong> ke <strong>NAIK</strong>. Kalau terbalik, buka <code>firmware/sensor-banjir/sensor-banjir.ino</code>, ganti <code>PELAMPUNG_NAIK_SAAT_LOW = true</code> menjadi <code>false</code>, lalu upload lagi.</p></div>" },
+      html: "<p>Pelampung toren berisi saklar dengan 3 kabel: satu <strong>COM</strong>, satu yang tersambung ke COM saat pelampung <strong>naik</strong>, satu lagi saat <strong>turun</strong>. Kita cuma perlu COM + salah satunya. Warna COM beda-beda per merek, jadi dicoba saja (aman, tegangannya cuma 3,3 volt).</p>" +
+        "<ol>" +
+        "<li><strong>Sambung ke kabel jumper:</strong> kawat tembaga pelampung terlalu tebal untuk ujung female. Pelintir rapat, lalu <strong>gunting sebagian serabutnya</strong> sampai cukup tipis untuk masuk ke ujung female kabel jumper. Rekatkan dengan isolasi supaya tidak lepas. Kalau punya jepit buaya, jepit saja tembaganya ke kaki resistor sisa yang ditancap di lubang tujuan.</li>" +
+        "<li><strong>Coba pasangan pertama:</strong> <strong>hitam</strong> ke rel −, <strong>coklat</strong> ke {A-e20} (sebaris P27). <strong>Biru</strong> dibungkus isolasi, jangan sampai menyentuh apa pun.</li>" +
+        "<li>Colok USB, jalankan upload, lalu <strong>miringkan pelampung</strong>: ujung kabel di bawah (seperti mengapung naik) lalu ujung kabel di atas (seperti tenggelam). Kalau tulisan <strong>Pelampung</strong> di layar berganti NAIK/TURUN, pasangan ini benar.</li>" +
+        "<li>Kalau tidak berubah sama sekali, cabut USB, tukar <strong>coklat dengan biru</strong>, coba lagi. Kalau masih diam, coba <strong>coklat ke rel −</strong> dan <strong>biru ke {A-e20}</strong> (hitam dibungkus isolasi).</li>" +
+        "</ol>" +
+        "<p class=\"note\">Di gambar, kabel pelampung diwakili kabel jumper abu-abu (ke {A-e20}) dan hitam (ke rel −).</p>" +
+        "<div class=\"test\"><b>Tes</b><p>Pelampung naik → layar <strong>NAIK</strong>, pelampung turun → <strong>TURUN</strong>. Kalau terbalik, buka <code>firmware/sensor-banjir/sensor-banjir.ino</code>, ganti <code>PELAMPUNG_NAIK_SAAT_LOW = true</code> menjadi <code>false</code>, lalu upload lagi.</p></div>" },
     { t: "Sambungkan buzzer", sub: "3 kabel male–female, pakai 3V3",
       wires: [{ c: "merah", a: "buz.VCC", b: "A-d10" }, { c: "putih", a: "buz.I/O", b: "A-e17" }, { c: "hitam", a: "buz.GND", b: "R-14" }],
       html: "<p class=\"note\">Tulisan pin buzzer bisa <code>VCC</code>/<code>I/O</code>/<code>GND</code> atau <code>+</code>/<code>S</code>/<code>−</code>. Ikuti tulisannya. VCC masuk {A-d10}, lubang kedua di baris <code>3V3</code> (yang pertama sudah dipakai layar). Lubangnya mepet ESP32, jadi tekan pelan.</p>" +
@@ -412,7 +419,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       html: "<ul>" +
         "<li>Pasang sensor di batang kayu atau penggaris yang melintang di atas ember, <strong>menghadap ke bawah</strong>. Ukur jarak sensor ke dasar ember.</li>" +
         "<li>Tulis jarak itu di <code>TINGGI_SENSOR_CM</code> (bawaan 40 cm). Kalau embernya pendek, kecilkan juga <code>AMBANG_CM</code> (bawaan 15 cm).</li>" +
-        "<li>Rekatkan pelampung di dinding dalam ember, setinggi <code>AMBANG_CM</code> dari dasar.</li>" +
+        "<li>Pelampung toren bekerja dengan <strong>miring</strong>: gantung pelampung di dalam ember lewat kabelnya, jepit kabel di bibir ember, dan atur letak pemberat kuning supaya pelampung terangkat (miring ke atas) saat air mencapai sekitar <code>AMBANG_CM</code>. Embernya perlu cukup lebar supaya pelampung bisa bergerak.</li>" +
         "<li><strong>Laptop, ESP32, dan breadboard jauhkan dari ember.</strong> Pakai kabel jumper panjang ke sensor.</li>" +
         "<li>Upload, lalu tuang air pelan-pelan. Tinggi air naik di layar, lalu SIAGA, pelampung NAIK dengan cek silang OK, dan BANJIR setelah 10 detik dengan buzzer berbunyi.</li>" +
         "</ul>" }
