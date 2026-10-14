@@ -1,0 +1,637 @@
+<meta charset="utf-8">
+<title>Panduan PCB Lubang FloodPool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: lanjutan buku petunjuk kit rakit (panduan-rakit.html). Inti halaman = langkah menyolder dengan gambar PCB dilihat dari atas dan dari bawah. */
+:root {
+  --bg: #eef3f0;
+  --surface: #ffffff;
+  --ink: #16201b;
+  --muted: #56665e;
+  --line: #d3ddd8;
+  --accent: #0b7353;
+  --accent-soft: #dcefe6;
+  --warn: #b03f17;
+  --warn-soft: #fbe7dc;
+  --pcb: #1d2a24;
+  --pcb-ink: #e8f0ec;
+  --perf: #2e6b47;
+  --perf-edge: #22533a;
+  --perf-ink: #cfe3d6;
+  --pad: #c9a227;
+  --pad-hole: #13261b;
+  --tin: #d5dadd;
+  --tin-edge: #7d868c;
+  --hdr: #1f2321;
+  --hdr-hole: #4c534f;
+  --res: #d8c49a;
+  --led: #52c96b;
+  --term: #2f77c9;
+  --esp: rgba(20, 24, 28, 0.55);
+  --wire-edge: rgba(0, 0, 0, 0.35);
+  --w-hitam: #23272a;
+  --w-merah: #d6372b;
+  --w-oranye: #ef7d1a;
+  --w-kuning: #e8c21d;
+  --w-hijau: #2f9e4f;
+  --w-biru: #2f6fd6;
+  --w-ungu: #8a4bd1;
+  --w-abu: #8c9590;
+  --w-putih: #f4f4f1;
+  --w-coklat: #8a5a33;
+  --b-coklat: #7a4a26;
+  --b-merah: #c8312a;
+  --b-hitam: #1b1b1b;
+  --b-emas: #c9a227;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1512; --surface: #16201b; --ink: #e3ebe7; --muted: #9bada4; --line: #2a3832;
+    --accent: #45c493; --accent-soft: #173327; --warn: #ff8f63; --warn-soft: #3a2017;
+    --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029;
+    --wire-edge: rgba(255, 255, 255, 0.45); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1512; --surface: #16201b; --ink: #e3ebe7; --muted: #9bada4; --line: #2a3832;
+  --accent: #45c493; --accent-soft: #173327; --warn: #ff8f63; --warn-soft: #3a2017;
+  --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029;
+  --wire-edge: rgba(255, 255, 255, 0.45); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; display: grid; gap: 28px; }
+.wrap + .wrap { padding-block-start: 0; }
+.wide { max-width: 1180px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 24px; font-weight: 800; }
+h3 { font-size: 19px; font-weight: 600; }
+p { margin: 0; max-width: 65ch; }
+.lead { color: var(--muted); font-size: 17px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+code, .mono { font-family: var(--font-mono); font-size: 0.92em; }
+code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+b.hole { font-family: var(--font-mono); font-weight: 600; background: var(--pcb); color: var(--pcb-ink); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.head { display: grid; gap: 12px; }
+.section { display: grid; gap: 14px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
+.danger { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+.danger strong { color: var(--warn); }
+ul, ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 65ch; }
+.scroll { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.wire { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-weight: 600; }
+.wire i { width: 22px; height: 8px; border-radius: 4px; border: 1px solid var(--line); display: inline-block; }
+.test { background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; display: grid; gap: 8px; }
+.test > b { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+.note { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); font-size: 15px; }
+.note.warn { border-color: var(--warn); color: var(--ink); }
+.figure { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow-x: auto; }
+.figure svg { display: block; min-width: 520px; width: 100%; height: auto; }
+.cap { color: var(--muted); font-size: 14px; }
+.cols { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+/* Langkah menyolder */
+.builder { display: grid; gap: 16px; align-items: start; }
+@media (min-width: 900px) {
+  .builder { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .stage { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+}
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 8px; min-width: 0; }
+.stage svg { display: block; width: 100%; height: auto; max-height: 84vh; }
+.stage-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.legend { font-size: 13px; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; font-weight: 600; border: 0; background: var(--surface); color: var(--muted); padding: 6px 12px; cursor: pointer; min-height: 34px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.btn { font: inherit; font-weight: 600; font-size: 15px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 14px; cursor: pointer; min-height: 40px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.card-head { display: flex; gap: 12px; align-items: flex-start; }
+.num { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; font-size: 17px; }
+.card-head > div { min-width: 0; display: grid; gap: 2px; }
+.card-head .sub { color: var(--muted); font-size: 14px; }
+.patokan { list-style: none; padding: 0; display: grid; gap: 6px; }
+.patokan li { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; display: grid; gap: 2px; font-size: 15px; }
+.patokan small { color: var(--muted); font-size: 13px; }
+.dots { display: flex; flex-wrap: wrap; gap: 6px; }
+.dot { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-family: var(--font-mono); font-size: 13px; cursor: pointer; padding: 0; }
+.dot.past { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }
+.dot.cur { background: var(--accent); color: var(--surface); border-color: var(--accent); font-weight: 600; }
+.nav { display: flex; gap: 10px; justify-content: space-between; border-top: 1px dashed var(--line); padding-top: 14px; }
+.ring { animation: ping 1.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ping { 0% { opacity: 0.9; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.9); } }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .ring { animation: none; opacity: 0.6; } }
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <span class="eyebrow">FloodPool · Node sensor 01 · versi PCB</span>
+    <h1>Panduan PCB Lubang FloodPool</h1>
+    <p class="lead">Memindahkan rangkaian dari breadboard ke PCB lubang 7×9 cm supaya tahan dibawa-bawa. Ditulis untuk yang belum pernah menyolder, dengan alat seadanya. ESP32 dan semua modul tetap bisa dicabut; yang disolder hanya soket, resistor, LED, terminal, dan kawat jalur.</p>
+  </header>
+
+  <div class="danger">
+    <p><strong>Aturan keselamatan</strong></p>
+    <ul>
+      <li><strong>Ujung solder panasnya lebih dari 300 °C.</strong> Selalu taruh di dudukannya, jangan di meja. Cabut colokan solder kalau ditinggal.</li>
+      <li><strong>ESP32 tidak boleh terpasang di PCB saat menyolder</strong>, kecuali di langkah 2 (soketnya). Kabel USB selalu dicabut selama menyolder.</li>
+      <li><strong>Buka jendela.</strong> Asap timah dan plastik jangan dihirup. Cuci tangan setelah memegang timah.</li>
+    </ul>
+  </div>
+
+  <section class="section">
+    <h2>Bahan dan alat seadanya</h2>
+    <div class="cols">
+      <div class="panel">
+        <h3>Yang sudah dibeli</h3>
+        <ul>
+          <li>PCB lubang 7×9 cm double side, 2 lembar (1 latihan)</li>
+          <li>Header female 1×20, 4 batang</li>
+          <li>Terminal sekrup 2 pin (biru)</li>
+          <li>Timah solder 0,8 mm</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Pinjam atau pakai yang ada</h3>
+        <ul>
+          <li>Solder (pinjam, atau beli 40 W)</li>
+          <li><strong>Kain basah</strong> untuk membersihkan ujung solder</li>
+          <li><strong>Dudukan solder:</strong> kaleng kosong yang ditidurkan, atau kawat gantungan baju yang dililit jadi spiral</li>
+          <li>Tang dan gunting kecil yang kuat</li>
+          <li>Spidol, selotip kertas, senter HP</li>
+          <li>Resistor 1 kΩ, 2 kΩ, 220 Ω dan LED dari breadboard</li>
+          <li>2 kabel jumper male-female untuk dijadikan kawat jalur</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Cara menyolder satu titik</h2>
+    <div class="figure"><svg id="joints" viewBox="0 0 640 190" role="img" aria-label="Contoh hasil solder yang bagus dan yang salah"></svg></div>
+    <ol>
+      <li>Panaskan solder 3 menit. Kalau suhunya bisa diatur, pilih sekitar 330 °C.</li>
+      <li>Usap ujungnya di kain basah, lalu lelehkan sedikit timah di ujung itu sampai mengkilap. Ini disebut <em>tinning</em>; ulangi setiap kali ujungnya kusam.</li>
+      <li>Tempelkan ujung solder ke <strong>bantalan tembaga dan kaki komponen sekaligus</strong>. Hitung "satu, dua".</li>
+      <li>Sentuhkan timah ke <strong>sisi seberang kaki</strong>, bukan ke ujung solder. Timah meleleh dan mengalir sendiri. Cukup sampai bantalan tertutup.</li>
+      <li>Angkat timah dulu, lalu angkat solder. Jangan goyangkan kakinya selama 3 detik sampai timah membeku.</li>
+    </ol>
+    <p class="note">Satu titik cukup 2 sampai 4 detik. Lebih lama dari 5 detik membuat bantalan tembaga bisa terkelupas.</p>
+    <p class="note warn"><strong>Kalau dua titik tersambung (jembatan):</strong> usap ujung solder sampai bersih di kain basah, lalu tempelkan ke jembatan. Timah yang berlebih menempel ke ujung solder. Ulangi sampai celahnya terlihat lagi.</p>
+  </section>
+
+  <section class="section">
+    <h2>Latihan dulu di PCB cadangan</h2>
+    <p>Sebelum menyentuh papan sungguhan, pakai PCB kedua dan header female ke-4:</p>
+    <ol>
+      <li>Potong 10 pin header (lihat cara memotong di langkah 6), tancapkan, selotip, balik, lalu solder kesepuluh pinnya.</li>
+      <li>Bandingkan dengan gambar di atas. Ulangi titik yang berbentuk bola atau kusam.</li>
+      <li>Buat 3 kawat jalur seperti di langkah 7: sepotong kawat ditaruh di atas 3 bantalan berjajar, disolder di kedua ujungnya.</li>
+    </ol>
+    <p>Lanjut ke papan sungguhan kalau 8 dari 10 titik sudah berbentuk gunung kecil mengkilap.</p>
+  </section>
+
+  <section class="section">
+    <h2>Cara membaca kode lubang</h2>
+    <p>Pegang PCB dengan sisi panjang tegak dan beri tanda <strong>ATAS</strong> pakai spidol di pojok kiri atas sisi yang akan dipakai untuk menancapkan komponen. Lubang ditulis seperti <b class="hole">K5 B18</b>: <strong>kolom 5</strong> dihitung dari kiri, <strong>baris 18</strong> dihitung dari atas, selalu dilihat dari sisi ATAS.</p>
+    <p>Menghitung puluhan lubang gampang salah, jadi setiap lubang juga diberi <strong>patokan</strong> dari soket ESP32, misalnya "sebaris pin P32, 7 lubang di kiri soket". Patokan ini lebih bisa dipercaya setelah langkah 2.</p>
+    <p class="note warn"><strong>Waktu membalik PCB untuk menyolder, balik ke samping seperti membalik halaman buku.</strong> Tepi bawah (tempat colokan USB) tetap di bawah, tapi kiri dan kanan jadi tertukar. Gambar "dari bawah" di setiap langkah sudah dibalik dengan cara yang sama.</p>
+  </section>
+</div>
+
+<div class="wrap wide">
+  <section class="section" id="langkah">
+    <h2>Langkah menyolder</h2>
+    <p>Bagian <strong>terang</strong> = yang dikerjakan di langkah ini. Pudar = sudah selesai. Lingkaran berdenyut = lubang tujuan. Garis perak = kawat atau kaki yang ditekuk di sisi bawah.</p>
+    <div class="builder">
+      <div class="stage">
+        <div class="stage-bar">
+          <span class="legend" id="stage-cap">Dilihat dari atas, colokan USB di tepi bawah.</span>
+          <div class="seg" role="group" aria-label="Sisi papan">
+            <button type="button" id="v-atas" aria-pressed="true">Dari atas</button>
+            <button type="button" id="v-bawah" aria-pressed="false">Dari bawah</button>
+          </div>
+        </div>
+        <svg id="board" viewBox="0 0 494 640" role="img" aria-label="Gambar PCB untuk langkah yang dipilih"></svg>
+      </div>
+      <div class="card" id="card" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Sambungan kabel ke modul</h2>
+    <p>Pakai kabel jumper male-female yang sudah ada: <strong>ujung jarum (male) ke soket di PCB</strong>, ujung lubang (female) ke pin modul. Warnanya sama dengan panduan breadboard.</p>
+    <div class="scroll"><table id="jumpers"></table></div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="section" id="kotak">
+    <h2>Memasukkan ke kotak makan bening</h2>
+    <div class="figure"><svg id="box" viewBox="0 0 640 300" role="img" aria-label="Susunan alat di dalam kotak di atas ember"></svg></div>
+    <ol>
+      <li><strong>Lubang sensor jarak.</strong> Tempelkan sensor HC-SR04 ke dasar kotak (dari dalam), lalu jiplak dua lingkaran "mata"-nya pakai spidol. Kedua mata harus menembus dasar dan menghadap ke bawah.</li>
+      <li><strong>Membuat lubang:</strong> jepit paku besar pakai tang, panaskan ujungnya di kompor sampai 20 detik, lalu tusukkan di tengah lingkaran. Perlebar sedikit-sedikit dengan paku panas atau cutter sampai mata sensor pas masuk. Kerjakan di dekat jendela.</li>
+      <li><strong>Dua lubang kecil di satu dinding samping</strong>, dekat dasar: satu untuk kabel USB, satu untuk kabel pelampung. Ukurannya pas kabel saja.</li>
+      <li><strong>PCB</strong> ditempel ke dasar kotak pakai double tape, di samping sensor, dengan colokan USB menghadap lubang USB.</li>
+      <li><strong>Layar OLED</strong> ditempel di bagian dalam tutup bening pakai double tape, tulisannya menghadap keluar. LED di PCB kelihatan dari atas lewat tutup.</li>
+      <li><strong>Buzzer</strong> ditempel di dinding dalam kotak.</li>
+      <li><strong>Penahan tarikan:</strong> ikat kabel USB dan kabel pelampung pakai kabel ties tepat di sebelah dalam lubangnya. Kalau kabel ditarik dari luar, yang menahan ikatan itu, bukan sambungan di PCB.</li>
+      <li><strong>Tinggi sensor.</strong> Taruh kotak melintang di atas ember. Ukur jarak dari mata sensor ke dasar ember, lalu kabari angkanya: nilai <code>TINGGI_SENSOR_CM</code> di program (sekarang 40 cm) perlu disamakan.</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <h2>Kalau ada masalah</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>Gejala</th><th>Coba ini</th></tr></thead>
+      <tbody>
+        <tr><td>Lampu merah ESP32 mati atau redup saat USB dicolok</td><td>Cabut USB segera. Ada jembatan timah antara jalur 3V3/5V dan GND. Cek dengan senter di langkah 10, terutama baris B12, B25, dan B30.</td></tr>
+        <tr><td>Serial menulis <code>Brownout detector was triggered</code></td><td>Sama seperti di atas: ada korsleting atau sambungan yang hampir menyentuh.</td></tr>
+        <tr><td>Layar gelap, <code>"layar":false</code></td><td>Cek soket dan kabel merah, hitam, ungu, biru. Upload sketsa <code>indikator</code>: <code>lepas</code> berarti kawat jalur B23/B26 belum tersolder, <code>ke-GND</code> berarti VCC layar tidak dapat listrik.</td></tr>
+        <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek kawat jalur B20 (Trig), B30 (5V), resistor 1 kΩ dan soket Echo di B21.</td></tr>
+        <tr><td>Pelampung selalu 0 atau selalu 1</td><td>Kencangkan sekrup terminal. Pastikan kawat jalur B22 tersolder di kedua ujungnya.</td></tr>
+        <tr><td>Satu titik solder bergoyang atau kusam</td><td>Panaskan lagi 3 detik sambil menambah sedikit timah.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Sumber gambar: data susunan di halaman ini (<span class="mono">docs/panduan-pcb.html</span>, repo <span class="mono">rhmatzeka/floodpool</span>), dicek otomatis oleh <span class="mono">docs/cek-pcb.mjs</span> supaya tidak ada sambungan yang tertukar.</p>
+  </section>
+</div>
+
+<script type="application/json" id="pcb-data">
+{
+  "cols": 24, "rows": 30, "espCol": 12, "espRow1": 12,
+  "pins": ["3V3","EN","VP","VN","P34","P35","P32","P33","P25","P26","P27","P14","P12","GND","P13","SD2","SD3","CMD","5V"],
+  "parts": [
+    {"id":"hdrL","step":2,"type":"hdr","label":"Soket ESP32 kiri","holes":[[12,12,"3V3"],[12,13,"-EN"],[12,14,"-VP"],[12,15,"-VN"],[12,16,"-P34"],[12,17,"-P35"],[12,18,"P32"],[12,19,"P33"],[12,20,"P25"],[12,21,"P26"],[12,22,"P27"],[12,23,"P14"],[12,24,"-P12"],[12,25,"GND"],[12,26,"P13"],[12,27,"-SD2"],[12,28,"-SD3"],[12,29,"-CMD"],[12,30,"5V"]]},
+    {"id":"hdrR","step":2,"type":"hdr","label":"Soket ESP32 kanan","free":true,"holes":[[22,12,"-R1"],[22,13,"-R2"],[22,14,"-R3"],[22,15,"-R4"],[22,16,"-R5"],[22,17,"-R6"],[22,18,"-R7"],[22,19,"-R8"],[22,20,"-R9"],[22,21,"-R10"],[22,22,"-R11"],[22,23,"-R12"],[22,24,"-R13"],[22,25,"-R14"],[22,26,"-R15"],[22,27,"-R16"],[22,28,"-R17"],[22,29,"-R18"],[22,30,"-R19"]]},
+    {"id":"r2k","step":3,"type":"res","label":"Resistor 2 kΩ","bands":["b-merah","b-hitam","b-hitam","b-coklat","b-coklat"],"holes":[[14,21,"P26"],[14,25,"GND"]]},
+    {"id":"echo","step":4,"type":"hdr","label":"Soket Echo","tag":"Echo","color":"w-hijau","holes":[[6,21,"ECHO"]]},
+    {"id":"r1k","step":4,"type":"res","label":"Resistor 1 kΩ","bands":["b-coklat","b-hitam","b-hitam","b-coklat","b-coklat"],"holes":[[11,21,"P26"],[7,21,"ECHO"]]},
+    {"id":"r220","step":5,"type":"res","label":"Resistor 220 Ω","bands":["b-merah","b-merah","b-hitam","b-hitam","b-coklat"],"holes":[[11,18,"P32"],[7,18,"LEDA"]]},
+    {"id":"led","step":5,"type":"led","label":"LED","holes":[[5,18,"LEDA"],[5,17,"GND"]]},
+    {"id":"s3v3","step":6,"type":"hdr","label":"Soket 3V3 (2 pin)","tag":"3V3","color":"w-merah","holes":[[9,12,"3V3"],[10,12,"3V3"]]},
+    {"id":"sbt","step":6,"type":"hdr","label":"Soket Buzzer + Trig (2 pin tegak)","tag":"Buzzer / Trig","color":"w-putih","holes":[[10,19,"P33"],[10,20,"P25"]]},
+    {"id":"sscl","step":6,"type":"hdr","label":"Soket SCL","tag":"SCL","color":"w-ungu","holes":[[10,23,"P14"]]},
+    {"id":"sgnd","step":6,"type":"hdr","label":"Soket GND (3 pin)","tag":"GND","color":"w-hitam","tagRow":24,"holes":[[8,25,"GND"],[9,25,"GND"],[10,25,"GND"]]},
+    {"id":"ssda","step":6,"type":"hdr","label":"Soket SDA","tag":"SDA","color":"w-biru","holes":[[10,26,"P13"]]},
+    {"id":"s5v","step":6,"type":"hdr","label":"Soket 5V","tag":"5V","color":"w-oranye","holes":[[10,30,"5V"]]},
+    {"id":"term","step":8,"type":"term","label":"Terminal sekrup pelampung","holes":[[3,22,"P27"],[3,24,"GND"]]}
+  ],
+  "runs": [
+    {"id":"k2kA","step":3,"kind":"kaki","from":[14,21],"to":[12,21]},
+    {"id":"k2kB","step":3,"kind":"kaki","from":[14,25],"to":[12,25]},
+    {"id":"k1kA","step":4,"kind":"kaki","from":[11,21],"to":[12,21]},
+    {"id":"k1kB","step":4,"kind":"kaki","from":[7,21],"to":[6,21]},
+    {"id":"k220A","step":5,"kind":"kaki","from":[11,18],"to":[12,18]},
+    {"id":"k220B","step":5,"kind":"kaki","from":[7,18],"to":[5,18]},
+    {"id":"w12","step":7,"kind":"kawat","from":[9,12],"to":[12,12]},
+    {"id":"w19","step":7,"kind":"kawat","from":[10,19],"to":[12,19]},
+    {"id":"w20","step":7,"kind":"kawat","from":[10,20],"to":[12,20]},
+    {"id":"w23","step":7,"kind":"kawat","from":[10,23],"to":[12,23]},
+    {"id":"w26","step":7,"kind":"kawat","from":[10,26],"to":[12,26]},
+    {"id":"w30","step":7,"kind":"kawat","from":[10,30],"to":[12,30]},
+    {"id":"w22","step":8,"kind":"kawat","from":[3,22],"to":[12,22]},
+    {"id":"w24","step":8,"kind":"kawat","from":[3,24],"to":[1,24]},
+    {"id":"g17","step":9,"kind":"kawat","from":[5,17],"to":[1,17]},
+    {"id":"g1","step":9,"kind":"kawat","from":[1,17],"to":[1,25]},
+    {"id":"g25","step":9,"kind":"kawat","from":[1,25],"to":[12,25]}
+  ]
+}
+</script>
+
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById("pcb-data").textContent);
+  var NS = "http://www.w3.org/2000/svg";
+  var P = 18, X0 = 40, Y0 = 50;
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function tok(n) { return "var(--" + n + ")"; }
+  var view = "atas";
+  function X(c) { return view === "atas" ? X0 + (c - 1) * P : X0 + (D.cols - c) * P; }
+  function Y(r) { return Y0 + (r - 1) * P; }
+  function code(c, r) { return "K" + c + " B" + r; }
+
+  function patokan(c, r) {
+    var i = r - D.espRow1;
+    if (i < 0 || i >= D.pins.length) return "";
+    var pin = D.pins[i];
+    var base = "sebaris pin " + pin + " (pin ke-" + (i + 1) + " dari antena)";
+    if (c === D.espCol) return "lubang pin " + pin + " di soket kiri ESP32";
+    var n = Math.abs(c - D.espCol);
+    if (c < D.espCol) return base + ", " + n + " lubang di kiri soket";
+    return base + ", " + n + " lubang di kanan soket (di bawah badan ESP32)";
+  }
+
+  var STEPS = [
+    { t: "Tandai posisi soket ESP32", sub: "Belum menyolder. Pastikan posisinya dulu.", view: "atas", show: ["hdrL", "hdrR"], esp: true,
+      body: "<ol><li>Potong dua header female jadi <strong>19 pin</strong> masing-masing (cara memotong ada di langkah 6).</li><li>Tancapkan kedua soket ke kaki ESP32 sampai rapat.</li><li>Di sisi ATAS PCB, hitung <b class=\"hole\">K12 B12</b>: 12 lubang dari kiri, 12 lubang dari atas. Beri titik spidol.</li><li>Taruh ESP32 bersama soketnya: <strong>pin 3V3</strong> (pojok kiri, dekat antena) masuk ke titik tadi. Soket kiri mengisi K12 dari B12 sampai B30, baris paling bawah. Soket kanan masuk di mana pun ia jatuh, biasanya sekitar K21–K22.</li><li>Selotip ESP32 ke PCB supaya tidak bergeser.</li></ol>",
+      test: "Antena ESP32 menghadap ke atas, colokan USB berada di tepi bawah PCB, dan di kiri soket kiri masih ada 11 kolom kosong." },
+    { t: "Solder soket ESP32", sub: "Satu-satunya langkah dengan ESP32 terpasang.", view: "bawah", show: ["hdrL", "hdrR"], esp: true,
+      body: "<ol><li>Balik PCB ke samping seperti halaman buku, dengan ESP32 tetap terselotip.</li><li>Soket kiri: solder pin paling atas dan paling bawah dulu. Cek ESP32 masih tegak, lalu solder 17 pin sisanya. Beri jeda 10 detik tiap 5 pin supaya tidak terlalu panas.</li><li>Soket kanan: cukup <strong>4 pin</strong> (paling atas, paling bawah, dan 2 di tengah). Pin kanan tidak dipakai, hanya penahan.</li><li>Setelah dingin, <strong>cabut ESP32</strong> dan simpan. Soket tetap di PCB.</li></ol>",
+      test: "Semua 19 titik soket kiri berbentuk gunung kecil mengkilap dan tidak ada yang menempel ke titik sebelahnya. Posisi soket sekarang jadi patokan untuk semua langkah berikutnya." },
+    { t: "Resistor 2 kΩ di bawah ESP32", sub: "Bagian bawah pembagi tegangan Echo.", view: "atas", show: ["r2k"], runs: ["k2kA", "k2kB"],
+      body: "<ol><li>Tekuk kedua kaki resistor 2 kΩ ke bawah, berjarak 4 lubang.</li><li>Masukkan di <b class=\"hole\">K14 B21</b> dan <b class=\"hole\">K14 B25</b>: 2 lubang di kanan soket kiri, sebaris pin P26 dan sebaris pin GND. Badan resistor menempel papan.</li><li>Balik PCB. Tekuk kaki atas rata ke papan ke arah titik solder pin P26, dan kaki bawah ke arah titik solder pin GND. Lihat gambar \"dari bawah\".</li><li>Solder kaki ke lubangnya sendiri, lalu panaskan titik pin soket sambil menempelkan ujung kaki sampai menyatu. Potong sisa kaki dan <strong>simpan potongannya</strong> untuk kawat.</li></ol>",
+      test: "Kaki resistor hanya menyentuh titik pin P26 dan pin GND. Tiga pin di antaranya (P27, P14, P12) tidak tersentuh." },
+    { t: "Resistor 1 kΩ dan soket Echo", sub: "Bagian atas pembagi tegangan, supaya 5 V dari sensor turun jadi aman untuk ESP32.", view: "atas", show: ["echo", "r1k"], runs: ["k1kA", "k1kB"],
+      body: "<ol><li>Potong 1 pin header female. Tancapkan di <b class=\"hole\">K6 B21</b>, selotip, lalu solder dari bawah.</li><li>Resistor 1 kΩ di <b class=\"hole\">K11 B21</b> dan <b class=\"hole\">K7 B21</b>: sebaris pin P26, kaki kanan tepat di sebelah soket ESP32.</li><li>Di bawah: kaki kanan ditekuk ke titik pin P26 (yang sudah ada kaki 2 kΩ), kaki kiri ditekuk ke titik soket Echo. Solder, potong sisa kaki.</li></ol>",
+      test: "Dari bawah, baris B21 berisi dua sambungan yang <strong>terpisah</strong>: K6–K7 (Echo) dan K11–K14 (P26). Bantalan K8, K9, K10 di antaranya kosong." },
+    { t: "Resistor 220 Ω dan LED", sub: "Lampu status, kelihatan dari tutup kotak.", view: "atas", show: ["r220", "led"], runs: ["k220A", "k220B"],
+      body: "<ol><li>Resistor 220 Ω di <b class=\"hole\">K11 B18</b> dan <b class=\"hole\">K7 B18</b>: sebaris pin P32.</li><li>LED berdiri di kolom K5: <strong>kaki panjang di <b class=\"hole\">K5 B18</b></strong>, kaki pendek di <b class=\"hole\">K5 B17</b> (sisi rata di pinggir badan LED ada di kaki pendek).</li><li>Di bawah: kaki kanan resistor ke titik pin P32. Kaki kiri resistor ditekuk ke K5 B18 sampai menyentuh kaki panjang LED, lalu disolder bersama.</li><li>Kaki pendek LED disolder saja dulu. Sambungan ke GND dibuat di langkah 9.</li></ol>",
+      test: "Kaki panjang LED tersambung ke resistor, kaki pendek tidak menyentuh apa pun selain lubangnya sendiri." },
+    { t: "Soket untuk kabel modul", sub: "Tempat kabel layar, sensor jarak, dan buzzer ditancapkan.", view: "atas", show: ["s3v3", "sbt", "sscl", "sgnd", "ssda", "s5v"],
+      body: "<p><strong>Cara memotong header female:</strong> header tidak bisa dipatahkan di antara pin. Potong <em>tepat di pin sesudah</em> jumlah yang diperlukan dengan tang potong atau gunting kuat. Satu pin terbuang di setiap potongan, lalu rapikan bekas potongan dengan gunting.</p><ol><li>Siapkan potongan: 2 pin (2 buah), 3 pin (1 buah), 1 pin (3 buah).</li><li>2 pin mendatar di <b class=\"hole\">K9 B12</b>–<b class=\"hole\">K10 B12</b>, sebaris pin 3V3.</li><li>2 pin tegak di <b class=\"hole\">K10 B19</b>–<b class=\"hole\">K10 B20</b>, sebaris pin P33 dan P25.</li><li>1 pin di <b class=\"hole\">K10 B23</b> (SCL), <b class=\"hole\">K10 B26</b> (SDA), <b class=\"hole\">K10 B30</b> (5V).</li><li>3 pin mendatar di <b class=\"hole\">K8 B25</b>–<b class=\"hole\">K10 B25</b>, sebaris pin GND.</li><li>Semua soket ini di kolom K10, artinya <strong>2 lubang di kiri soket ESP32</strong>. Selotip semuanya, balik, solder satu per satu.</li></ol>",
+      test: "Semua soket tegak, sejajar, dan setiap titik solder terpisah dari titik di sebelahnya." },
+    { t: "Kawat pendek ke soket ESP32", sub: "Enam kawat 3 lubang, semuanya mendatar di sisi bawah.", view: "bawah", runs: ["w12", "w19", "w20", "w23", "w26", "w30"],
+      body: "<p><strong>Membuat kawat dari kabel jumper:</strong> potong kabel jumper, kupas isolasinya sepanjang 3 cm pakai gunting (gigit pelan, putar, tarik). Pilin serabut tembaganya, lalu lapisi timah sampai jadi satu batang kaku. Bisa juga pakai potongan kaki resistor yang disimpan.</p><ol><li>Di sisi bawah, taruh kawat sepanjang 3 bantalan dari soket modul ke titik pin ESP32, di baris: <strong>B12, B19, B20, B23, B26, B30</strong>.</li><li>Solder ujung kiri ke titik soket modul dan ujung kanan ke titik pin ESP32. Bantalan tengah (K11) ikut disolder supaya kawat tidak bergerak.</li><li>Potong sisa kawat yang menjulur.</li></ol>",
+      test: "Enam kawat lurus mendatar, masing-masing hanya di barisnya sendiri. Tidak ada kawat yang menyentuh baris di atas atau di bawahnya." },
+    { t: "Terminal pelampung", sub: "Kabel pelampung cukup disekrup, tidak perlu disolder.", view: "atas", show: ["term"], runs: ["w22", "w24"],
+      body: "<ol><li>Terminal sekrup biru dipasang dengan lubang kabelnya menghadap <strong>tepi kiri PCB</strong>. Kakinya masuk di <b class=\"hole\">K3 B22</b> dan <b class=\"hole\">K3 B24</b>.</li><li>Solder kedua kakinya. Kaki terminal lebih tebal, jadi tahan solder 4 detik.</li><li>Kawat panjang di baris <strong>B22</strong>: dari kaki terminal atas (K3) sampai titik pin P27 (K12). Solder di kedua ujung dan di 2 titik di tengah.</li><li>Kawat pendek di baris <strong>B24</strong>: dari kaki terminal bawah (K3) ke K1, tepi kiri.</li></ol>",
+      test: "Kawat B22 lurus dan tidak menyentuh bantalan B21 atau B23 di atas dan bawahnya." },
+    { t: "Kawat GND berbentuk huruf U", sub: "Menyatukan semua GND: LED, terminal, soket GND, resistor 2 kΩ, dan pin GND.", view: "bawah", runs: ["g17", "g1", "g25"],
+      body: "<ol><li>Siapkan satu kawat sepanjang kira-kira 7 cm (kabel jumper yang dikupas dan dilapisi timah).</li><li>Mulai dari kaki pendek LED di <b class=\"hole\">K5 B17</b>, mendatar ke kolom paling kiri <b class=\"hole\">K1 B17</b>.</li><li>Tekuk turun sepanjang kolom K1 sampai <b class=\"hole\">K1 B25</b>, melewati ujung kawat B24 dari langkah 8.</li><li>Tekuk lagi mendatar sepanjang baris B25 sampai titik pin GND di K12, melewati ketiga soket GND.</li><li>Solder di setiap titik yang dilalui: K5 B17, K1 B17, K1 B24, K1 B25, ketiga soket GND, dan pin GND.</li></ol>",
+      test: "Kawat U tidak menyentuh kawat B22 (P27), kawat B18 (LED), atau soket Echo di B21. Antara kawat U dan ujung kiri kawat B22 harus ada satu bantalan kosong (K2 B22)." },
+    { t: "Cek ulang tanpa listrik", sub: "Sepuluh menit di sini menyelamatkan ESP32.", view: "bawah", all: true,
+      body: "<ol><li>Nyalakan senter HP, sorot sisi bawah dari samping. Cocokkan dengan gambar \"dari bawah\" ini, baris demi baris.</li><li>Cari <strong>jembatan timah</strong> terutama di: B12 (3V3), B25 (GND), dan B30 (5V). Ketiganya tidak boleh menempel ke baris sebelahnya.</li><li>Goyang pelan setiap soket dan resistor. Tidak boleh ada yang goyang.</li><li>Sikat sisa flux dan potongan kaki yang tercecer. Potongan kaki di bawah papan bisa membuat korsleting.</li></ol>",
+      test: "Setiap baris di gambar sama persis dengan papanmu, dan tidak ada kawat atau timah di lubang yang di gambar kosong." },
+    { t: "Pasang ESP32 dan tes listrik", sub: "Tes pertama dengan USB, belum ada modul.", view: "atas", all: true, esp: true,
+      body: "<ol><li>Tancapkan ESP32 ke soketnya: antena ke atas, pin 3V3 di B12.</li><li>Colok USB ke laptop sambil melihat <strong>lampu merah ESP32</strong>. Kalau mati, redup, atau ESP32 terasa panas: cabut USB dalam 3 detik dan ulangi langkah 10.</li><li>Kalau lampu menyala normal, kabari di chat. Saya upload sketsa <code>cekpin</code>: <strong>P26 harus <code>ke GND</code></strong> (lewat resistor 2 kΩ), dan P27 <code>lepas</code>.</li><li>Sambungkan dua sekrup terminal dengan sepotong kawat. P27 harus berubah jadi <code>ke GND</code>.</li></ol>",
+      test: "Lampu merah menyala normal, tidak ada <code>Brownout</code> di serial, P26 <code>ke GND</code>, P27 berubah saat terminal dihubungkan." },
+    { t: "Sambung modul dan tes program", sub: "Langkah terakhir sebelum masuk kotak.", view: "atas", all: true, esp: true,
+      body: "<ol><li>Cabut USB. Sambungkan modul sesuai tabel <strong>Sambungan kabel ke modul</strong> di bawah. Ujung jarum ke soket PCB, ujung lubang ke pin modul.</li><li>Pelampung: kabel <strong>coklat</strong> ke sekrup atas (B22), kabel <strong>hitam</strong> ke sekrup bawah (B24). Kencangkan sekrup lalu tarik pelan, kabel tidak boleh lepas. Kabel biru dibungkus isolasi.</li><li>Colok USB. Kabari di chat, saya upload ulang program utama dan cek datanya.</li><li>Goyang PCB dan kabelnya selama 1 menit. Layar harus tetap menyala.</li></ol>",
+      test: "Serial menunjukkan <code>\"layar\":true</code> terus selama digoyang 1 menit, jarak sekitar 50 cm saat tidak ada halangan, dan pelampung berubah 0/1 saat dibalik." }
+  ];
+
+  var JUMPERS = [
+    ["Layar OLED", "VCC", "w-merah", "Merah", [10, 12]],
+    ["Layar OLED", "GND", "w-hitam", "Hitam", [10, 25]],
+    ["Layar OLED", "SCL", "w-ungu", "Ungu", [10, 23]],
+    ["Layar OLED", "SDA", "w-biru", "Biru", [10, 26]],
+    ["Sensor jarak HC-SR04", "VCC", "w-oranye", "Oranye", [10, 30]],
+    ["Sensor jarak HC-SR04", "Trig", "w-kuning", "Kuning", [10, 20]],
+    ["Sensor jarak HC-SR04", "Echo", "w-hijau", "Hijau", [6, 21]],
+    ["Sensor jarak HC-SR04", "Gnd", "w-hitam", "Hitam", [9, 25]],
+    ["Buzzer", "VCC", "w-merah", "Merah", [9, 12]],
+    ["Buzzer", "I/O (sinyal)", "w-putih", "Putih", [10, 19]],
+    ["Buzzer", "GND", "w-hitam", "Hitam", [8, 25]]
+  ];
+
+  var partById = {}, runById = {};
+  D.parts.forEach(function (p) { partById[p.id] = p; });
+  D.runs.forEach(function (r) { runById[r.id] = r; });
+
+  var svg = document.getElementById("board");
+  var card = document.getElementById("card");
+  var cur = 0;
+
+  function stepOfItem(item) { return item.step; }
+  function state(item) {
+    var s = STEPS[cur];
+    var n = cur + 1;
+    if (s.all) return "past";
+    var mine = (s.show || []).indexOf(item.id) >= 0 || (s.runs || []).indexOf(item.id) >= 0;
+    if (mine) return "cur";
+    return stepOfItem(item) < n ? "past" : "hidden";
+  }
+
+  function drawBoard() {
+    var s = STEPS[cur];
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var W = X0 * 2 + (D.cols - 1) * P;
+    svg.appendChild(el("rect", { x: X0 - 16, y: Y0 - 16, width: W - 2 * X0 + 32, height: (D.rows - 1) * P + 32, rx: 6, fill: tok("perf"), stroke: tok("perf-edge"), "stroke-width": 3 }));
+    // nomor kolom dan baris
+    for (var c = 1; c <= D.cols; c++) {
+      if (c === 1 || c % 5 === 0 || c === D.espCol) svg.appendChild(el("text", { x: X(c), y: Y0 - 24, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("muted") }, "K" + c));
+    }
+    for (var r = 1; r <= D.rows; r++) {
+      if (r === 1 || r % 5 === 0 || r === D.espRow1) svg.appendChild(el("text", { x: X0 - 22, y: Y(r) + 3.5, "text-anchor": "end", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("muted") }, "B" + r));
+    }
+    svg.appendChild(el("text", { x: W / 2, y: Y(D.rows) + 40, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "▼ tepi USB ▼   ·   dilihat dari " + view.toUpperCase()));
+    // bantalan
+    for (c = 1; c <= D.cols; c++) for (r = 1; r <= D.rows; r++) {
+      svg.appendChild(el("circle", { cx: X(c), cy: Y(r), r: 5.2, fill: tok("pad") }));
+      svg.appendChild(el("circle", { cx: X(c), cy: Y(r), r: 2.2, fill: tok("pad-hole") }));
+    }
+    var gRuns = el("g", {}), gParts = el("g", {}), gTop = el("g", {});
+    svg.appendChild(gRuns); svg.appendChild(gParts); svg.appendChild(gTop);
+    var targets = [];
+
+    D.runs.forEach(function (rn) {
+      var st = state(rn);
+      if (st === "hidden") return;
+      var a = rn.from, b = rn.to;
+      var op = st === "cur" ? 1 : 0.55;
+      if (view === "bawah") {
+        gRuns.appendChild(el("line", { x1: X(a[0]), y1: Y(a[1]), x2: X(b[0]), y2: Y(b[1]), stroke: tok("tin-edge"), "stroke-width": 7, "stroke-linecap": "round", opacity: op }));
+        gRuns.appendChild(el("line", { x1: X(a[0]), y1: Y(a[1]), x2: X(b[0]), y2: Y(b[1]), stroke: tok("tin"), "stroke-width": 4.5, "stroke-linecap": "round", opacity: op }));
+      } else {
+        gRuns.appendChild(el("line", { x1: X(a[0]), y1: Y(a[1]), x2: X(b[0]), y2: Y(b[1]), stroke: tok("tin"), "stroke-width": 2.5, "stroke-dasharray": "3 4", "stroke-linecap": "round", opacity: op * 0.8 }));
+      }
+      if (st === "cur") { targets.push(a); targets.push(b); }
+    });
+
+    D.parts.forEach(function (p) {
+      var st = state(p);
+      if (st === "hidden") return;
+      var op = st === "cur" ? 1 : 0.5;
+      var g = el("g", { opacity: view === "bawah" ? op * 0.45 : op });
+      gParts.appendChild(g);
+      var hs = p.holes;
+      if (p.type === "hdr") {
+        var cs = hs.map(function (h) { return X(h[0]); }), rs = hs.map(function (h) { return Y(h[1]); });
+        var x1 = Math.min.apply(null, cs) - 8, x2 = Math.max.apply(null, cs) + 8, y1 = Math.min.apply(null, rs) - 8, y2 = Math.max.apply(null, rs) + 8;
+        g.appendChild(el("rect", { x: x1, y: y1, width: x2 - x1, height: y2 - y1, rx: 2, fill: tok("hdr") }));
+        hs.forEach(function (h) { g.appendChild(el("rect", { x: X(h[0]) - 3, y: Y(h[1]) - 3, width: 6, height: 6, fill: tok("hdr-hole") })); });
+        if (p.tag && view === "atas") {
+          var tr = p.tagRow || hs[0][1];
+          var tx = Math.min.apply(null, cs) - 12;
+          if (p.id === "echo") tx = X(hs[0][0]) - 12;
+          var w = p.tag.length * 6.4 + 10;
+          gTop.appendChild(el("rect", { x: tx - w, y: Y(tr) - 8, width: w, height: 16, rx: 8, fill: tok("surface"), stroke: tok(p.color), "stroke-width": 2, opacity: op }));
+          gTop.appendChild(el("text", { x: tx - w / 2, y: Y(tr) + 4, "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 10.5, "font-weight": 600, fill: tok("ink"), opacity: op }, p.tag));
+        }
+        if (p.free && view === "atas") {
+          g.appendChild(el("text", { x: (x1 + x2) / 2, y: y1 - 6, "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 10, fill: tok("perf-ink") }, "mengikuti ESP32"));
+        }
+      } else if (p.type === "res") {
+        var a = hs[0], b = hs[1];
+        var xa = X(a[0]), ya = Y(a[1]), xb = X(b[0]), yb = Y(b[1]);
+        g.appendChild(el("line", { x1: xa, y1: ya, x2: xb, y2: yb, stroke: tok("tin-edge"), "stroke-width": 2 }));
+        var mx = (xa + xb) / 2, my = (ya + yb) / 2, horiz = ya === yb;
+        var bw = horiz ? 34 : 13, bh = horiz ? 13 : 34;
+        g.appendChild(el("rect", { x: mx - bw / 2, y: my - bh / 2, width: bw, height: bh, rx: 6, fill: tok("res"), stroke: tok("wire-edge"), "stroke-width": 1 }));
+        p.bands.forEach(function (bd, i) {
+          var o = -11 + i * 5.5;
+          if (horiz) g.appendChild(el("rect", { x: mx + (view === "atas" ? o : -o) - 1.6, y: my - 6.5, width: 3.2, height: 13, fill: tok(bd) }));
+          else g.appendChild(el("rect", { x: mx - 6.5, y: my + o - 1.6, width: 13, height: 3.2, fill: tok(bd) }));
+        });
+      } else if (p.type === "led") {
+        var la = hs[0], lk = hs[1];
+        var cx = X(la[0]), cy = (Y(la[1]) + Y(lk[1])) / 2;
+        g.appendChild(el("circle", { cx: cx, cy: cy, r: 13, fill: tok("led"), stroke: tok("wire-edge"), "stroke-width": 1.5 }));
+        g.appendChild(el("line", { x1: cx - 11, y1: Y(lk[1]) - 4, x2: cx + 11, y2: Y(lk[1]) - 4, stroke: tok("hdr"), "stroke-width": 2.5 }));
+        if (view === "atas") {
+          g.appendChild(el("text", { x: cx - 18, y: Y(la[1]) + 4, "text-anchor": "end", "font-family": "IBM Plex Mono, monospace", "font-size": 10, "font-weight": 600, fill: tok("perf-ink") }, "panjang"));
+          g.appendChild(el("text", { x: cx - 18, y: Y(lk[1]) + 2, "text-anchor": "end", "font-family": "IBM Plex Mono, monospace", "font-size": 10, "font-weight": 600, fill: tok("perf-ink") }, "pendek"));
+        }
+      } else if (p.type === "term") {
+        var ys = hs.map(function (h) { return Y(h[1]); });
+        var xt = X(hs[0][0]);
+        var left = view === "atas" ? xt - 24 : xt - 10;
+        g.appendChild(el("rect", { x: left, y: Math.min.apply(null, ys) - 16, width: 34, height: (Math.max.apply(null, ys) - Math.min.apply(null, ys)) + 32, rx: 3, fill: tok("term"), stroke: tok("wire-edge"), "stroke-width": 1 }));
+        hs.forEach(function (h) {
+          g.appendChild(el("circle", { cx: xt, cy: Y(h[1]), r: 6.5, fill: tok("tin"), stroke: tok("tin-edge"), "stroke-width": 1.5 }));
+          g.appendChild(el("line", { x1: xt - 4, y1: Y(h[1]), x2: xt + 4, y2: Y(h[1]), stroke: tok("tin-edge"), "stroke-width": 2 }));
+        });
+        if (view === "atas") g.appendChild(el("text", { x: xt - 30, y: (ys[0] + ys[1]) / 2 + 4, "text-anchor": "end", "font-family": "IBM Plex Sans, sans-serif", "font-size": 10.5, "font-weight": 600, fill: tok("perf-ink") }, "◀ kabel"));
+      }
+      if (view === "bawah") {
+        var tint = p.free ? [hs[0], hs[6], hs[12], hs[18]] : hs;
+        tint.forEach(function (h) {
+          gTop.appendChild(el("circle", { cx: X(h[0]), cy: Y(h[1]), r: 5.6, fill: tok("tin"), stroke: tok("tin-edge"), "stroke-width": 1.2, opacity: st === "cur" ? 1 : 0.7 }));
+        });
+      }
+      if (st === "cur") hs.forEach(function (h) { if (!p.free) targets.push(h); });
+    });
+
+    if (s.esp) {
+      var ex1 = X(D.espCol) + (view === "atas" ? -12 : 12), ex2 = X(22) + (view === "atas" ? 12 : -12);
+      var exl = Math.min(ex1, ex2), exr = Math.max(ex1, ex2);
+      var eg = el("g", { opacity: view === "atas" ? 0.92 : 0.35 });
+      eg.appendChild(el("rect", { x: exl, y: Y(D.espRow1) - 46, width: exr - exl, height: (D.pins.length - 1) * P + 60, rx: 5, fill: tok("esp"), stroke: tok("pcb-ink"), "stroke-width": 1.5 }));
+      eg.appendChild(el("rect", { x: exl + 14, y: Y(D.espRow1) - 40, width: exr - exl - 28, height: 26, rx: 2, fill: "none", stroke: tok("pcb-ink"), "stroke-dasharray": "4 3" }));
+      eg.appendChild(el("text", { x: (exl + exr) / 2, y: Y(D.espRow1) - 23, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("pcb-ink") }, "antena"));
+      eg.appendChild(el("text", { x: (exl + exr) / 2, y: Y(20), "text-anchor": "middle", "font-family": "Archivo, sans-serif", "font-size": 15, "font-weight": 800, fill: tok("pcb-ink") }, "ESP32"));
+      eg.appendChild(el("rect", { x: (exl + exr) / 2 - 16, y: Y(D.rows) + 4, width: 32, height: 16, rx: 3, fill: tok("tin"), stroke: tok("tin-edge") }));
+      if (view === "atas") eg.appendChild(el("text", { x: X(D.espCol) + 9, y: Y(D.espRow1) + 4, "font-family": "IBM Plex Mono, monospace", "font-size": 10, "font-weight": 600, fill: tok("pcb-ink") }, "3V3"));
+      gTop.appendChild(eg);
+    }
+
+    targets.forEach(function (h) {
+      gTop.appendChild(el("circle", { class: "ring", cx: X(h[0]), cy: Y(h[1]), r: 8, fill: "none", stroke: tok("accent"), "stroke-width": 2.5 }));
+    });
+    return targets;
+  }
+
+  function uniq(list) {
+    var seen = {}, out = [];
+    list.forEach(function (h) { var k = h[0] + "," + h[1]; if (!seen[k]) { seen[k] = 1; out.push(h); } });
+    return out;
+  }
+
+  function render() {
+    var s = STEPS[cur];
+    document.getElementById("v-atas").setAttribute("aria-pressed", view === "atas");
+    document.getElementById("v-bawah").setAttribute("aria-pressed", view === "bawah");
+    document.getElementById("stage-cap").textContent = view === "atas"
+      ? "Dilihat dari ATAS (sisi komponen), colokan USB di tepi bawah."
+      : "Dilihat dari BAWAH (sisi solder). Kiri-kanan terbalik dibanding sisi atas.";
+    var targets = uniq(drawBoard());
+    var dots = "";
+    for (var i = 0; i < STEPS.length; i++) dots += "<button type=\"button\" class=\"dot " + (i < cur ? "past" : i === cur ? "cur" : "") + "\" data-i=\"" + i + "\" aria-label=\"Langkah " + (i + 1) + "\">" + (i + 1) + "</button>";
+    var pat = "";
+    if (!s.all && targets.length && targets.length <= 14) {
+      pat = "<div class=\"section\"><b>Patokan lubang langkah ini</b><ul class=\"patokan\">" + targets.map(function (h) {
+        return "<li><span><b class=\"hole\">" + code(h[0], h[1]) + "</b></span><small>" + patokan(h[0], h[1]) + "</small></li>";
+      }).join("") + "</ul></div>";
+    }
+    card.innerHTML =
+      "<div class=\"card-head\"><span class=\"num\">" + (cur + 1) + "</span><div><h3>" + s.t + "</h3><span class=\"sub\">" + s.sub + "</span></div></div>" +
+      s.body + pat +
+      "<div class=\"test\"><b>Cek sebelum lanjut</b><p>" + s.test + "</p></div>" +
+      "<div class=\"dots\">" + dots + "</div>" +
+      "<div class=\"nav\"><button class=\"btn\" id=\"prev\" type=\"button\"" + (cur === 0 ? " disabled" : "") + ">← Sebelumnya</button>" +
+      "<button class=\"btn primary\" id=\"next\" type=\"button\"" + (cur === STEPS.length - 1 ? " disabled" : "") + ">Berikutnya →</button></div>";
+    document.getElementById("prev").onclick = function () { go(cur - 1); };
+    document.getElementById("next").onclick = function () { go(cur + 1); };
+    Array.prototype.forEach.call(card.querySelectorAll(".dot"), function (b) { b.onclick = function () { go(+b.getAttribute("data-i")); }; });
+  }
+  function go(i) {
+    cur = Math.max(0, Math.min(STEPS.length - 1, i));
+    view = STEPS[cur].view;
+    try { localStorage.setItem("pcb-langkah", cur); } catch (e) {}
+    render();
+  }
+  document.getElementById("v-atas").onclick = function () { view = "atas"; render(); };
+  document.getElementById("v-bawah").onclick = function () { view = "bawah"; render(); };
+  var saved = 0;
+  try { saved = +localStorage.getItem("pcb-langkah") || 0; } catch (e) {}
+  go(saved);
+
+  // Tabel kabel modul
+  var tb = "<thead><tr><th>Modul</th><th>Pin modul</th><th>Kabel</th><th>Soket di PCB</th></tr></thead><tbody>";
+  JUMPERS.forEach(function (j) {
+    tb += "<tr><td>" + j[0] + "</td><td><code>" + j[1] + "</code></td><td><span class=\"wire\"><i style=\"background:var(--" + j[2] + ")\"></i>" + j[3] + "</span></td><td><b class=\"hole\">" + code(j[4][0], j[4][1]) + "</b></td></tr>";
+  });
+  tb += "<tr><td>Pelampung</td><td>coklat / hitam</td><td>kabel pelampung sendiri</td><td>terminal sekrup atas <b class=\"hole\">K3 B22</b> / bawah <b class=\"hole\">K3 B24</b></td></tr></tbody>";
+  document.getElementById("jumpers").innerHTML = tb;
+
+  // Gambar contoh solder
+  (function () {
+    var s2 = document.getElementById("joints");
+    var items = [["Bagus", "gunung kecil, mengkilap", "good"], ["Kurang timah", "bantalan belum tertutup", "less"], ["Bola", "timah tidak menempel", "ball"], ["Jembatan", "dua titik menyatu", "bridge"]];
+    items.forEach(function (it, i) {
+      var cx = 80 + i * 160, base = 112;
+      var ok = it[2] === "good";
+      s2.appendChild(el("rect", { x: cx - 64, y: base, width: 128, height: 14, fill: tok("perf") }));
+      var xs = it[2] === "bridge" ? [cx - 22, cx + 22] : [cx];
+      xs.forEach(function (x) {
+        s2.appendChild(el("rect", { x: x - 13, y: base - 3, width: 26, height: 4, fill: tok("pad") }));
+        s2.appendChild(el("rect", { x: x - 1.5, y: base - 56, width: 3, height: 74, fill: tok("tin-edge") }));
+      });
+      if (it[2] === "good") s2.appendChild(el("path", { d: "M" + (cx - 13) + " " + base + " Q" + cx + " " + (base - 2) + " " + (cx - 2) + " " + (base - 26) + " L" + (cx + 2) + " " + (base - 26) + " Q" + cx + " " + (base - 2) + " " + (cx + 13) + " " + base + " Z", fill: tok("tin"), stroke: tok("tin-edge") }));
+      if (it[2] === "less") s2.appendChild(el("path", { d: "M" + (cx - 6) + " " + base + " Q" + cx + " " + (base - 4) + " " + (cx - 2) + " " + (base - 12) + " L" + (cx + 2) + " " + (base - 12) + " Q" + cx + " " + (base - 4) + " " + (cx + 6) + " " + base + " Z", fill: tok("tin"), stroke: tok("tin-edge") }));
+      if (it[2] === "ball") s2.appendChild(el("circle", { cx: cx, cy: base - 20, r: 13, fill: tok("tin"), stroke: tok("tin-edge") }));
+      if (it[2] === "bridge") s2.appendChild(el("path", { d: "M" + (cx - 36) + " " + base + " Q" + (cx - 22) + " " + (base - 34) + " " + cx + " " + (base - 14) + " Q" + (cx + 22) + " " + (base - 34) + " " + (cx + 36) + " " + base + " Z", fill: tok("tin"), stroke: tok("tin-edge") }));
+      s2.appendChild(el("text", { x: cx, y: base + 38, "text-anchor": "middle", "font-family": "Archivo, sans-serif", "font-size": 15, "font-weight": 800, fill: ok ? tok("accent") : tok("warn") }, (ok ? "✓ " : "✗ ") + it[0]));
+      s2.appendChild(el("text", { x: cx, y: base + 58, "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12.5, fill: tok("muted") }, it[1]));
+    });
+  })();
+
+  // Gambar kotak di atas ember
+  (function () {
+    var b = document.getElementById("box");
+    function t(x, y, s, anchor) { b.appendChild(el("text", { x: x, y: y, "text-anchor": anchor || "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12.5, fill: tok("ink") }, s)); }
+    b.appendChild(el("path", { d: "M150 120 L170 290 L470 290 L490 120", fill: "none", stroke: tok("muted"), "stroke-width": 3 }));
+    b.appendChild(el("rect", { x: 172, y: 230, width: 296, height: 58, fill: tok("accent-soft") }));
+    t(320, 266, "air");
+    b.appendChild(el("rect", { x: 130, y: 60, width: 380, height: 60, rx: 6, fill: tok("surface"), stroke: tok("ink"), "stroke-width": 2 }));
+    b.appendChild(el("rect", { x: 126, y: 52, width: 388, height: 9, rx: 3, fill: tok("accent-soft"), stroke: tok("ink"), "stroke-width": 1.5 }));
+    b.appendChild(el("rect", { x: 300, y: 61, width: 70, height: 12, fill: tok("hdr") }));
+    t(335, 44, "layar di tutup bening");
+    b.appendChild(el("rect", { x: 150, y: 100, width: 120, height: 10, fill: tok("perf") }));
+    b.appendChild(el("rect", { x: 175, y: 80, width: 70, height: 20, rx: 2, fill: tok("hdr") }));
+    t(210, 76 - 6, "PCB + ESP32");
+    b.appendChild(el("circle", { cx: 405, cy: 123, r: 9, fill: tok("tin"), stroke: tok("tin-edge") }));
+    b.appendChild(el("circle", { cx: 440, cy: 123, r: 9, fill: tok("tin"), stroke: tok("tin-edge") }));
+    b.appendChild(el("rect", { x: 392, y: 104, width: 62, height: 10, fill: tok("term") }));
+    t(526, 128, "mata sensor", "start");
+    t(526, 144, "menghadap air", "start");
+    b.appendChild(el("line", { x1: 452, y1: 124, x2: 520, y2: 130, stroke: tok("muted") }));
+    b.appendChild(el("line", { x1: 422, y1: 135, x2: 422, y2: 228, stroke: tok("accent"), "stroke-width": 2, "stroke-dasharray": "5 4" }));
+    t(430, 190, "TINGGI_SENSOR_CM", "start");
+    b.appendChild(el("path", { d: "M130 105 C 80 110, 90 200, 205 215", fill: "none", stroke: tok("w-coklat"), "stroke-width": 3 }));
+    b.appendChild(el("rect", { x: 200, y: 205, width: 40, height: 18, rx: 9, fill: tok("w-kuning"), stroke: tok("ink") }));
+    t(60, 170, "pelampung", "middle");
+    b.appendChild(el("path", { d: "M130 85 C 90 80, 60 70, 20 70", fill: "none", stroke: tok("ink"), "stroke-width": 3 }));
+    t(40, 60, "USB");
+  })();
+})();
+</script>
