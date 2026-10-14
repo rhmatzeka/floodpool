@@ -61,6 +61,10 @@ void buzzer(bool nyala) {
 }
 
 void tampilkan(float tinggi, Status s, bool pelampungNaik, bool cocok) {
+  // Cek layar tiap kali: kalau kabelnya sempat longgar lalu nyambung lagi, layar dinyalakan ulang.
+  Wire.beginTransmission(0x3C);
+  if (Wire.endTransmission() != 0) { adaLayar = false; return; }
+  if (!adaLayar) adaLayar = layar.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   if (!adaLayar) return;
   layar.clearDisplay();
   layar.setTextColor(SSD1306_WHITE);
