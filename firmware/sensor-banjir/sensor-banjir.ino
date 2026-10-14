@@ -114,7 +114,7 @@ void loop() {
   tampilkan(tinggi, s, pelampungNaik, cocok);
 
   // Satu baris JSON per bacaan; nanti baris inilah yang ditandatangani dan dikirim ke server.
-  Serial.printf("{\"id\":\"%s\",\"ms\":%lu,\"jarak\":%.1f,\"tinggi\":%.1f,\"pelampung\":%d,\"status\":\"%s\",\"sepakat\":%s}\n",
-                ID_NODE, sekarang, jarak, tinggi, pelampungNaik, namaStatus(s), cocok ? "true" : "false");
+  Serial.printf("{\"id\":\"%s\",\"ms\":%lu,\"jarak\":%.1f,\"tinggi\":%.1f,\"pelampung\":%d,\"status\":\"%s\",\"sepakat\":%s,\"layar\":%s}\n",
+                ID_NODE, sekarang, jarak, tinggi, pelampungNaik, namaStatus(s), cocok ? "true" : "false", adaLayar ? "true" : "false");
   delay(200);
 }
