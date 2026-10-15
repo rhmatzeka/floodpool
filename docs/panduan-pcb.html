@@ -30,6 +30,10 @@
   --led: #52c96b;
   --term: #2f77c9;
   --esp: rgba(20, 24, 28, 0.55);
+  --hc: #2b67ad;
+  --wood: #b98a55;
+  --tape: #f2efe4;
+  --box: #f7faf8;
   --wire-edge: rgba(0, 0, 0, 0.35);
   --w-hitam: #23272a;
   --w-merah: #d6372b;
@@ -53,14 +57,14 @@
   :root:not([data-theme="light"]) {
     --bg: #0e1512; --surface: #16201b; --ink: #e3ebe7; --muted: #9bada4; --line: #2a3832;
     --accent: #45c493; --accent-soft: #173327; --warn: #ff8f63; --warn-soft: #3a2017;
-    --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029;
+    --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029; --box: #1c2823; --tape: #d9d5c8;
     --wire-edge: rgba(255, 255, 255, 0.45); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0e1512; --surface: #16201b; --ink: #e3ebe7; --muted: #9bada4; --line: #2a3832;
   --accent: #45c493; --accent-soft: #173327; --warn: #ff8f63; --warn-soft: #3a2017;
-  --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029;
+  --pcb: #0a110e; --pcb-ink: #dfe9e4; --perf: #24573a; --perf-edge: #1a4029; --box: #1c2823; --tape: #d9d5c8;
   --wire-edge: rgba(255, 255, 255, 0.45); color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -97,6 +101,10 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 .figure { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow-x: auto; }
 .figure svg { display: block; min-width: 520px; width: 100%; height: auto; }
 .cap { color: var(--muted); font-size: 14px; }
+.kstage { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
+.kfig { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 6px; min-width: 0; }
+.kfig figcaption { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.kfig svg { display: block; width: 100%; height: auto; }
 .cols { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 
 /* Langkah menyolder */
@@ -237,22 +245,20 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   </section>
 </div>
 
-<div class="wrap">
+<div class="wrap wide">
   <section class="section" id="kotak">
-    <h2>Memasukkan ke kotak makan bening</h2>
-    <div class="figure"><svg id="box" viewBox="0 0 640 300" role="img" aria-label="Susunan alat di dalam kotak di atas ember"></svg></div>
-    <ol>
-      <li><strong>Lubang sensor jarak.</strong> Tempelkan sensor HC-SR04 ke dasar kotak (dari dalam), lalu jiplak dua lingkaran "mata"-nya pakai spidol. Kedua mata harus menembus dasar dan menghadap ke bawah.</li>
-      <li><strong>Membuat lubang:</strong> jepit paku besar pakai tang, panaskan ujungnya di kompor sampai 20 detik, lalu tusukkan di tengah lingkaran. Perlebar sedikit-sedikit dengan paku panas atau cutter sampai mata sensor pas masuk. Kerjakan di dekat jendela.</li>
-      <li><strong>Dua lubang kecil di satu dinding samping</strong>, dekat dasar: satu untuk kabel USB, satu untuk kabel pelampung. Ukurannya pas kabel saja.</li>
-      <li><strong>PCB</strong> ditempel ke dasar kotak pakai double tape, di samping sensor, dengan colokan USB menghadap lubang USB.</li>
-      <li><strong>Layar OLED</strong> ditempel di bagian dalam tutup bening pakai double tape, tulisannya menghadap keluar. LED di PCB kelihatan dari atas lewat tutup.</li>
-      <li><strong>Buzzer</strong> ditempel di dinding dalam kotak.</li>
-      <li><strong>Penahan tarikan:</strong> ikat kabel USB dan kabel pelampung pakai kabel ties tepat di sebelah dalam lubangnya. Kalau kabel ditarik dari luar, yang menahan ikatan itu, bukan sambungan di PCB.</li>
-      <li><strong>Tinggi sensor.</strong> Taruh kotak melintang di atas ember. Ukur jarak dari mata sensor ke dasar ember, lalu kabari angkanya: nilai <code>TINGGI_SENSOR_CM</code> di program (sekarang 40 cm) perlu disamakan.</li>
-    </ol>
+    <h2>Merakit di kotak</h2>
+    <p>Untuk kotak berukuran dalam <strong>8 × 15 cm, tinggi 8 cm</strong>. Gambar dibuat sesuai ukuran asli. Pilih langkah di bawah gambar; bagian <strong>terang</strong> = yang dipasang di langkah itu.</p>
+    <div class="kstage">
+      <figure class="kfig"><figcaption>Dari atas, tutup dibuka</figcaption><svg id="k-atas" viewBox="0 0 430 440" role="img" aria-label="Kotak dilihat dari atas"></svg></figure>
+      <figure class="kfig"><figcaption>Dari samping, kotak dibelah</figcaption><svg id="k-samping" viewBox="0 0 440 420" role="img" aria-label="Kotak dilihat dari samping"></svg></figure>
+      <figure class="kfig"><figcaption>Tutup, dilihat dari dalam</figcaption><svg id="k-tutup" viewBox="0 0 340 290" role="img" aria-label="Tutup kotak dilihat dari dalam"></svg></figure>
+    </div>
+    <div class="card" id="kcard" aria-live="polite"></div>
   </section>
+</div>
 
+<div class="wrap">
   <section class="section">
     <h2>Kalau ada masalah</h2>
     <div class="scroll"><table>
@@ -605,33 +611,271 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     });
   })();
 
-  // Gambar kotak di atas ember
+  // Merakit di kotak 8 x 15 x 8 cm. Semua ukuran dalam cm, digambar sesuai skala.
   (function () {
-    var b = document.getElementById("box");
-    function t(x, y, s, anchor) { b.appendChild(el("text", { x: x, y: y, "text-anchor": anchor || "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12.5, fill: tok("ink") }, s)); }
-    b.appendChild(el("path", { d: "M150 120 L170 290 L470 290 L490 120", fill: "none", stroke: tok("muted"), "stroke-width": 3 }));
-    b.appendChild(el("rect", { x: 172, y: 230, width: 296, height: 58, fill: tok("accent-soft") }));
-    t(320, 266, "air");
-    b.appendChild(el("rect", { x: 130, y: 60, width: 380, height: 60, rx: 6, fill: tok("surface"), stroke: tok("ink"), "stroke-width": 2 }));
-    b.appendChild(el("rect", { x: 126, y: 52, width: 388, height: 9, rx: 3, fill: tok("accent-soft"), stroke: tok("ink"), "stroke-width": 1.5 }));
-    b.appendChild(el("rect", { x: 300, y: 61, width: 70, height: 12, fill: tok("hdr") }));
-    t(335, 44, "layar di tutup bening");
-    b.appendChild(el("rect", { x: 150, y: 100, width: 120, height: 10, fill: tok("perf") }));
-    b.appendChild(el("rect", { x: 175, y: 80, width: 70, height: 20, rx: 2, fill: tok("hdr") }));
-    t(210, 76 - 6, "PCB + ESP32");
-    b.appendChild(el("circle", { cx: 405, cy: 123, r: 9, fill: tok("tin"), stroke: tok("tin-edge") }));
-    b.appendChild(el("circle", { cx: 440, cy: 123, r: 9, fill: tok("tin"), stroke: tok("tin-edge") }));
-    b.appendChild(el("rect", { x: 392, y: 104, width: 62, height: 10, fill: tok("term") }));
-    t(526, 128, "mata sensor", "start");
-    t(526, 144, "menghadap air", "start");
-    b.appendChild(el("line", { x1: 452, y1: 124, x2: 520, y2: 130, stroke: tok("muted") }));
-    b.appendChild(el("line", { x1: 422, y1: 135, x2: 422, y2: 228, stroke: tok("accent"), "stroke-width": 2, "stroke-dasharray": "5 4" }));
-    t(430, 190, "TINGGI_SENSOR_CM", "start");
-    b.appendChild(el("path", { d: "M130 105 C 80 110, 90 200, 205 215", fill: "none", stroke: tok("w-coklat"), "stroke-width": 3 }));
-    b.appendChild(el("rect", { x: 200, y: 205, width: 40, height: 18, rx: 9, fill: tok("w-kuning"), stroke: tok("ink") }));
-    t(60, 170, "pelampung", "middle");
-    b.appendChild(el("path", { d: "M130 85 C 90 80, 60 70, 20 70", fill: "none", stroke: tok("ink"), "stroke-width": 3 }));
-    t(40, 60, "USB");
+    var KSTEPS = [
+      { t: "Lubangi kotak", cap: "Tiga lubang: <strong>USB</strong> dan <strong>kabel pelampung</strong> di dinding ujung, <strong>2 lubang mata sensor</strong> di dasar. Jiplak dulu pakai spidol, lalu tusuk pakai paku panas yang dijepit tang. Lubang mata sensor diperlebar sampai pas." },
+      { t: "Tempel sensor jarak", cap: "Mata sensor dimasukkan ke lubangnya dari dalam kotak sampai menonjol keluar di bawah. Satu potong <strong>double tape busa</strong> di sela kedua mata, lalu tekan. Kaki pinnya menghadap ke arah PCB." },
+      { t: "Pasang PCB", cap: "Di luar kotak dulu: masukkan kabel pelampung lewat lubangnya, lalu sekrup ke terminal. Tempel <strong>4 potong double tape</strong> di pojok bawah PCB, taruh PCB dengan colokan USB menghadap dinding ujung, lalu tekan. Masukkan kabel USB dan <strong>ikat kedua kabel dengan kabel ties</strong> di sebelah dalam lubang." },
+      { t: "Buzzer dan kabel sensor", cap: "Buzzer ditempel di dinding kanan pakai double tape. Colok 4 kabel sensor jarak dan 3 kabel buzzer ke soket PCB (warna sesuai tabel di atas)." },
+      { t: "Layar di tutup", cap: "Layar ditaruh di dalam tutup, <strong>kaca menghadap keluar</strong>, di ujung yang jauh dari lubang USB. Tempel pakai <strong>2 lajur selotip bening</strong> melintang di punggungnya. Colok 4 kabel layar. Kalau tutup tidak bening, potong jendela seukuran kaca layar." },
+      { t: "Taruh di atas ember", cap: "Dua bilah (penggaris atau kayu) melintang di atas ember, kotak di atasnya. Kedua bilah ada di bawah bagian PCB; <strong>mata sensor di luar bilah</strong> dan menghadap air. Ukur jarak dari mata sensor ke dasar ember lalu kabari, untuk <code>TINGGI_SENSOR_CM</code>." }
+    ];
+    var kcur = 1;
+    try { kcur = +localStorage.getItem("kotak-langkah") || 1; } catch (e) {}
+
+    function vis(step) { return step > kcur ? 0 : step === kcur ? 1 : 0.45; }
+    function make(svg, S, OX, OY, flipH) {
+      // cm -> px. flipH: sumbu tegak naik (tampak samping, h dari dasar).
+      return {
+        x: function (cm) { return OX + cm * S; },
+        y: function (cm) { return flipH ? OY + (flipH - cm) * S : OY + cm * S; },
+        S: S
+      };
+    }
+    function rect(g, m, x1, y1, x2, y2, attrs) {
+      var ya = m.y(y1), yb = m.y(y2);
+      var a = { x: m.x(Math.min(x1, x2)), y: Math.min(ya, yb), width: Math.abs(x2 - x1) * m.S, height: Math.abs(yb - ya) };
+      for (var k in attrs) a[k] = attrs[k];
+      g.appendChild(el("rect", a));
+    }
+    function circ(g, m, cx, cy, r, attrs) {
+      var a = { cx: m.x(cx), cy: m.y(cy), r: r * m.S };
+      for (var k in attrs) a[k] = attrs[k];
+      g.appendChild(el("circle", a));
+    }
+    function path(g, m, pts, attrs) {
+      var d = "M" + m.x(pts[0][0]) + " " + m.y(pts[0][1]);
+      for (var i = 1; i < pts.length; i++) d += " L" + m.x(pts[i][0]) + " " + m.y(pts[i][1]);
+      var a = { d: d, fill: "none" };
+      for (var k in attrs) a[k] = attrs[k];
+      g.appendChild(el("path", a));
+    }
+    function curve(g, m, p0, c1, c2, p1, attrs) {
+      var d = "M" + m.x(p0[0]) + " " + m.y(p0[1]) + " C" + m.x(c1[0]) + " " + m.y(c1[1]) + " " + m.x(c2[0]) + " " + m.y(c2[1]) + " " + m.x(p1[0]) + " " + m.y(p1[1]);
+      var a = { d: d, fill: "none" };
+      for (var k in attrs) a[k] = attrs[k];
+      g.appendChild(el("path", a));
+    }
+    function label(g, m, at, tx, ty, text, anchor) {
+      g.appendChild(el("line", { x1: m.x(at[0]), y1: m.y(at[1]), x2: m.x(tx), y2: m.y(ty), stroke: tok("ink"), "stroke-width": 1 }));
+      g.appendChild(el("circle", { cx: m.x(at[0]), cy: m.y(at[1]), r: 2.5, fill: tok("ink") }));
+      var lines = text.split("\n");
+      lines.forEach(function (ln, i) {
+        g.appendChild(el("text", { x: m.x(tx) + (anchor === "end" ? -4 : 4), y: m.y(ty) + 4 + i * 14 - (lines.length - 1) * 7, "text-anchor": anchor || "start", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12, "font-weight": 600, fill: tok("ink") }, ln));
+      });
+    }
+    function layer(svg, step) {
+      var o = vis(step);
+      var g = el("g", { opacity: o });
+      if (o) svg.appendChild(g);
+      return { g: g, on: o > 0, cur: step === kcur };
+    }
+    function hi(L) { return L.cur ? { stroke: tok("accent"), "stroke-width": 2.5 } : {}; }
+    function merge(a, b) { var o = {}; for (var k in a) o[k] = a[k]; for (k in b) o[k] = b[k]; return o; }
+    function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+    var WIRES = ["w-oranye", "w-kuning", "w-hijau", "w-hitam"];
+
+    function drawAtas() {
+      var svg = document.getElementById("k-atas"); clear(svg);
+      var m = make(svg, 22, 30, 56);
+      var g0 = el("g", {}); svg.appendChild(g0);
+      // kotak
+      rect(g0, m, -0.25, -0.25, 8.25, 15.25, { fill: tok("muted"), rx: 4 });
+      rect(g0, m, 0, 0, 8, 15, { fill: tok("box") });
+      g0.appendChild(el("text", { x: m.x(4), y: m.y(-1.9), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "▲ dinding ujung ▲"));
+      g0.appendChild(el("text", { x: m.x(4), y: m.y(16.1), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "8 cm"));
+      g0.appendChild(el("text", { x: m.x(-0.6), y: m.y(7.5), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted"), transform: "rotate(-90 " + m.x(-0.6) + " " + m.y(7.5) + ")" }, "15 cm"));
+
+      // 6: bilah di bawah kotak
+      var L6 = layer(svg, 6);
+      if (L6.on) {
+        [[2.8, 3.6], [9.2, 10.0]].forEach(function (b) { rect(L6.g, m, -1.2, b[0], 9.2, b[1], merge({ fill: "none", stroke: tok("wood"), "stroke-width": 2.5, "stroke-dasharray": "6 4" }, {})); });
+        if (L6.cur) label(L6.g, m, [8.9, 9.6], 9.4, 10.8, "2 bilah di bawah\nkotak (penggaris\natau kayu)");
+      }
+      // 1: lubang
+      var L1 = layer(svg, 1);
+      if (L1.on) {
+        rect(L1.g, m, 2.6, -0.3, 3.6, 0.05, merge({ fill: tok("bg") }, hi(L1)));
+        rect(L1.g, m, 7.25, -0.3, 7.85, 0.05, merge({ fill: tok("bg") }, hi(L1)));
+        [2.7, 5.3].forEach(function (x) { circ(L1.g, m, x, 13.2, 0.8, merge({ fill: tok("bg"), "stroke-dasharray": "4 3" }, L1.cur ? hi(L1) : { stroke: tok("muted") })); });
+        if (L1.cur) {
+          label(L1.g, m, [3.1, -0.1], 9.4, 0.4, "lubang USB\n(± 1 cm)");
+          label(L1.g, m, [7.55, -0.1], 9.4, 2.2, "lubang kabel\npelampung");
+          label(L1.g, m, [6.0, 13.2], 9.4, 13.2, "2 lubang mata\nsensor di dasar\n(± 1,6 cm)");
+        }
+      }
+      // 2: sensor
+      var L2 = layer(svg, 2);
+      if (L2.on) {
+        rect(L2.g, m, 1.75, 12.2, 6.25, 14.2, merge({ fill: tok("hc"), rx: 3 }, hi(L2)));
+        [2.7, 5.3].forEach(function (x) { circ(L2.g, m, x, 13.2, 0.8, { fill: tok("tin"), stroke: tok("tin-edge"), "stroke-width": 1.5 }); circ(L2.g, m, x, 13.2, 0.45, { fill: tok("tin-edge") }); });
+        [3.4, 3.8, 4.2, 4.6].forEach(function (x) { rect(L2.g, m, x - 0.08, 12.25, x + 0.08, 12.6, { fill: tok("pad") }); });
+        rect(L2.g, m, 3.6, 12.75, 4.4, 13.85, { fill: tok("tape"), stroke: tok("ink"), "stroke-dasharray": "3 2" });
+        if (L2.cur) {
+          label(L2.g, m, [4.0, 13.3], 9.4, 15.0, "double tape busa\ndi sela 2 mata");
+          label(L2.g, m, [4.0, 12.4], 9.4, 11.6, "4 pin sensor\nmenghadap PCB");
+        }
+      }
+      // 3: PCB
+      var L3 = layer(svg, 3);
+      if (L3.on) {
+        [[0.5, 2.0], [6.7, 2.0], [0.5, 10.2], [6.7, 10.2]].forEach(function (t) { rect(L3.g, m, t[0], t[1], t[0] + 0.8, t[1] + 0.8, { fill: tok("tape"), stroke: tok("ink"), "stroke-dasharray": "3 2" }); });
+        rect(L3.g, m, 0.5, 2.0, 7.5, 11.0, merge({ fill: tok("perf"), "fill-opacity": 0.92, rx: 3 }, hi(L3)));
+        rect(L3.g, m, 1.71, 2.4, 4.56, 8.1, { fill: tok("hdr"), rx: 2 });
+        L3.g.appendChild(el("text", { x: m.x(3.14), y: m.y(5.6), "text-anchor": "middle", "font-family": "Archivo, sans-serif", "font-size": 13, "font-weight": 800, fill: tok("pcb-ink") }, "ESP32"));
+        rect(L3.g, m, 2.8, 2.05, 3.45, 2.7, { fill: tok("tin"), stroke: tok("tin-edge") });
+        rect(L3.g, m, 4.55, 2.8, 4.75, 7.4, { fill: tok("hdr") });
+        rect(L3.g, m, 6.1, 4.1, 7.05, 5.1, { fill: tok("term"), rx: 2 });
+        circ(L3.g, m, 5.9, 6.0, 0.25, { fill: tok("led"), stroke: tok("wire-edge") });
+        // kabel USB dan pelampung, dengan kabel ties
+        curve(L3.g, m, [3.1, 2.05], [3.1, 1.2], [2.6, 1.2], [3.1, -2.0], { stroke: tok("ink"), "stroke-width": 5, "stroke-linecap": "round" });
+        path(L3.g, m, [[7.05, 4.6], [7.75, 4.4], [7.75, 1.0], [7.55, 0], [7.55, -2.0]], { stroke: tok("w-coklat"), "stroke-width": 4, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        rect(L3.g, m, 2.4, 0.75, 3.5, 1.0, { fill: tok("tape"), stroke: tok("ink") });
+        rect(L3.g, m, 7.35, 0.85, 8.0, 1.1, { fill: tok("tape"), stroke: tok("ink") });
+        if (L3.cur) {
+          label(L3.g, m, [2.5, 0.9], 9.4, 4.0, "kabel ties di\nkabel USB");
+          label(L3.g, m, [7.9, 1.0], 9.4, 5.6, "kabel ties di\nkabel pelampung");
+          label(L3.g, m, [6.6, 4.6], 9.4, 7.2, "terminal sekrup");
+          label(L3.g, m, [7.1, 10.6], 9.4, 9.0, "double tape\ndi 4 pojok\nbawah PCB");
+        }
+      }
+      // 4: buzzer + kabel sensor
+      var L4 = layer(svg, 4);
+      if (L4.on) {
+        rect(L4.g, m, 7.35, 11.6, 8.0, 14.6, merge({ fill: tok("hdr"), rx: 2 }, hi(L4)));
+        WIRES.forEach(function (w, i) { curve(L4.g, m, [4.65, 6.0 + i * 0.4], [5.6, 8.5], [4.2, 11.0], [3.4 + i * 0.4, 12.3], { stroke: tok(w), "stroke-width": 2.5 }); });
+        ["w-merah", "w-putih", "w-hitam"].forEach(function (w, i) { curve(L4.g, m, [4.65, 3.4 + i * 0.5], [6.6, 7.5], [6.8, 11.5], [7.35, 12.4 + i * 0.6], { stroke: tok(w), "stroke-width": 2.5 }); });
+        if (L4.cur) {
+          label(L4.g, m, [7.7, 13.6], 9.4, 13.6, "buzzer di\ndinding kanan");
+          label(L4.g, m, [4.9, 9.5], 9.4, 9.6, "kabel sensor\n+ buzzer");
+        }
+      }
+      // 5: layar (menempel di tutup, di atas sensor)
+      var L5 = layer(svg, 5);
+      if (L5.on) {
+        rect(L5.g, m, 2.65, 11.75, 5.35, 14.45, merge({ fill: "none", stroke: tok("ink"), "stroke-width": 2, "stroke-dasharray": "6 4" }, {}));
+        ["w-merah", "w-ungu", "w-biru", "w-hitam"].forEach(function (w, i) { curve(L5.g, m, [4.65, 3.0 + i * 1.2], [2.2, 6], [1.2, 10.5], [2.9 + i * 0.6, 11.9], { stroke: tok(w), "stroke-width": 2.5, "stroke-dasharray": "5 3" }); });
+        if (L5.cur) label(L5.g, m, [5.35, 12.0], 9.4, 12.2, "layar (menempel\ndi tutup, di atas)");
+      }
+    }
+
+    function drawSamping() {
+      var svg = document.getElementById("k-samping"); clear(svg);
+      var m = make(svg, 19, 70, 30, 8.4);
+      var g0 = el("g", {}); svg.appendChild(g0);
+      // dinding, dasar, tutup
+      rect(g0, m, -0.25, -0.2, 15.25, 8.0, { fill: tok("muted") });
+      rect(g0, m, 0, 0, 15, 8.0, { fill: tok("box") });
+      rect(g0, m, -0.35, 8.0, 15.35, 8.3, { fill: tok("muted"), rx: 2 });
+      g0.appendChild(el("text", { x: m.x(7.5), y: m.y(8.75), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "tutup"));
+      g0.appendChild(el("text", { x: m.x(-0.6), y: m.y(4), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted"), transform: "rotate(-90 " + m.x(-0.6) + " " + m.y(4) + ")" }, "dinding ujung"));
+      g0.appendChild(el("text", { x: m.x(15.6), y: m.y(4), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted"), transform: "rotate(90 " + m.x(15.6) + " " + m.y(4) + ")" }, "8 cm"));
+
+      var L6 = layer(svg, 6);
+      if (L6.on) {
+        // ember dan bilah
+        path(L6.g, m, [[-2.6, -0.8], [-1.8, -10.4], [16.8, -10.4], [17.6, -0.8]], { stroke: tok("muted"), "stroke-width": 3 });
+        rect(L6.g, m, -1.75, -10.35, 16.75, -7.8, { fill: tok("accent-soft") });
+        L6.g.appendChild(el("text", { x: m.x(7.5), y: m.y(-9.2), "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12, fill: tok("ink") }, "air di ember"));
+        [3.2, 9.6].forEach(function (x) { rect(L6.g, m, x - 0.4, -0.8, x + 0.4, -0.2, { fill: tok("wood"), stroke: tok("ink"), "stroke-width": 1 }); });
+        path(L6.g, m, [[13.2, -1.1], [13.2, -7.8]], { stroke: tok("accent"), "stroke-width": 2, "stroke-dasharray": "5 4" });
+        if (L6.cur) {
+          label(L6.g, m, [9.6, -0.5], 5.0, -3.2, "bilah di atas\nbibir ember", "end");
+          label(L6.g, m, [13.2, -4.5], 11.6, -5.4, "jarak ini =\nTINGGI_SENSOR_CM", "end");
+        }
+      }
+      var L1 = layer(svg, 1);
+      if (L1.on) {
+        rect(L1.g, m, -0.3, 1.0, 0.05, 1.8, merge({ fill: tok("bg") }, hi(L1)));
+        rect(L1.g, m, -0.3, 0.45, 0.05, 0.85, merge({ fill: tok("bg") }, hi(L1)));
+        rect(L1.g, m, 12.4, -0.25, 14.0, 0.05, merge({ fill: tok("bg") }, hi(L1)));
+        if (L1.cur) {
+          label(L1.g, m, [0, 1.4], 3.0, 3.6, "lubang USB");
+          label(L1.g, m, [0, 0.65], 3.0, 2.4, "lubang kabel pelampung");
+          label(L1.g, m, [13.2, -0.1], 10.0, 2.4, "lubang mata", "end");
+        }
+      }
+      var L2 = layer(svg, 2);
+      if (L2.on) {
+        rect(L2.g, m, 12.2, 0.05, 14.2, 0.3, merge({ fill: tok("hc") }, hi(L2)));
+        rect(L2.g, m, 12.4, -1.0, 14.0, 0.05, { fill: tok("tin"), stroke: tok("tin-edge") });
+        rect(L2.g, m, 12.3, 0.3, 12.5, 0.9, { fill: tok("pad") });
+        if (L2.cur) label(L2.g, m, [13.2, -0.6], 10.0, 1.6, "mata sensor menonjol\nkeluar ± 1 cm", "end");
+      }
+      var L3 = layer(svg, 3);
+      if (L3.on) {
+        [2.4, 10.4].forEach(function (x) { rect(L3.g, m, x - 0.4, 0.05, x + 0.4, 0.2, { fill: tok("tape"), stroke: tok("ink"), "stroke-width": 0.8 }); });
+        rect(L3.g, m, 2.0, 0.2, 11.0, 0.36, merge({ fill: tok("perf") }, hi(L3)));
+        rect(L3.g, m, 2.4, 0.36, 8.1, 1.2, { fill: tok("hdr") });
+        rect(L3.g, m, 2.4, 1.2, 8.1, 1.36, { fill: tok("hdr") });
+        rect(L3.g, m, 2.05, 1.18, 2.7, 1.6, { fill: tok("tin"), stroke: tok("tin-edge") });
+        rect(L3.g, m, 4.1, 0.36, 5.1, 1.3, { fill: tok("term") });
+        L3.g.appendChild(el("text", { x: m.x(5.25), y: m.y(1.6), "text-anchor": "middle", "font-family": "Archivo, sans-serif", "font-size": 11, "font-weight": 800, fill: tok("ink") }, "ESP32"));
+        curve(L3.g, m, [2.05, 1.4], [1.2, 1.4], [1.0, 1.4], [-2.4, 1.4], { stroke: tok("ink"), "stroke-width": 5, "stroke-linecap": "round" });
+        curve(L3.g, m, [4.1, 0.8], [2.0, 0.65], [1.0, 0.65], [-2.4, 0.65], { stroke: tok("w-coklat"), "stroke-width": 4, "stroke-linecap": "round" });
+        rect(L3.g, m, 0.75, 1.15, 1.0, 1.65, { fill: tok("tape"), stroke: tok("ink") });
+        rect(L3.g, m, 0.75, 0.45, 1.0, 0.85, { fill: tok("tape"), stroke: tok("ink") });
+        if (L3.cur) {
+          label(L3.g, m, [10.4, 0.15], 11.0, 3.4, "double tape", "end");
+          label(L3.g, m, [0.9, 1.6], 5.0, 4.8, "kabel ties di dalam,\nkabel tidak bisa tertarik");
+        }
+      }
+      var L4 = layer(svg, 4);
+      if (L4.on) {
+        rect(L4.g, m, 11.6, 3.0, 14.6, 4.3, merge({ fill: tok("hdr"), "fill-opacity": 0.5, stroke: tok("ink"), "stroke-dasharray": "4 3" }, {}));
+        curve(L4.g, m, [8.6, 1.3], [10.0, 2.6], [11.6, 2.2], [12.4, 0.9], { stroke: tok("w-kuning"), "stroke-width": 2.5 });
+        curve(L4.g, m, [8.6, 1.3], [10.0, 3.8], [10.8, 3.8], [11.6, 3.6], { stroke: tok("w-putih"), "stroke-width": 2.5 });
+        if (L4.cur) label(L4.g, m, [13.1, 4.3], 13.4, 6.2, "buzzer di dinding", "end");
+      }
+      var L5 = layer(svg, 5);
+      if (L5.on) {
+        rect(L5.g, m, 12.0, 7.55, 14.7, 7.95, merge({ fill: tok("hdr") }, hi(L5)));
+        curve(L5.g, m, [8.6, 1.3], [8.6, 6.5], [11.0, 7.6], [12.1, 7.6], { stroke: tok("w-ungu"), "stroke-width": 2.5 });
+        if (L5.cur) label(L5.g, m, [13.3, 7.5], 11.0, 5.6, "layar menempel\ndi tutup", "end");
+      }
+    }
+
+    function drawTutup() {
+      var svg = document.getElementById("k-tutup"); clear(svg);
+      var m = make(svg, 14, 40, 40);
+      var g0 = el("g", {}); svg.appendChild(g0);
+      rect(g0, m, -0.3, -0.3, 8.3, 15.3, { fill: tok("muted"), rx: 5 });
+      rect(g0, m, 0, 0, 8, 15, { fill: tok("box") });
+      g0.appendChild(el("text", { x: m.x(4), y: m.y(-1.0), "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "▲ ujung lubang USB ▲"));
+      var L5 = layer(svg, 5);
+      if (!L5.on) {
+        g0.appendChild(el("text", { x: m.x(4), y: m.y(7.5), "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 12, fill: tok("muted") }, "dipasang di langkah 5"));
+        return;
+      }
+      rect(L5.g, m, 2.65, 11.75, 5.35, 14.45, merge({ fill: tok("hc"), rx: 2 }, hi(L5)));
+      rect(L5.g, m, 2.85, 12.6, 5.15, 14.25, { fill: tok("hdr") });
+      [3.35, 3.85, 4.35, 4.85].forEach(function (x) { circ(L5.g, m, x, 12.05, 0.12, { fill: tok("pad") }); });
+      rect(L5.g, m, 1.6, 12.8, 6.4, 13.25, { fill: tok("tape"), "fill-opacity": 0.85, stroke: tok("ink"), "stroke-width": 0.8 });
+      rect(L5.g, m, 1.6, 13.65, 6.4, 14.1, { fill: tok("tape"), "fill-opacity": 0.85, stroke: tok("ink"), "stroke-width": 0.8 });
+      label(L5.g, m, [4.1, 12.05], 9.0, 9.6, "pin di atas,\njangan kena selotip");
+      label(L5.g, m, [6.2, 13.0], 9.0, 12.4, "2 lajur selotip\nbening");
+      label(L5.g, m, [5.2, 14.3], 9.0, 15.0, "kaca menghadap\nkeluar tutup");
+    }
+
+    function kRender() {
+      drawAtas(); drawSamping(); drawTutup();
+      var s = KSTEPS[kcur - 1];
+      var dots = "";
+      for (var i = 1; i <= KSTEPS.length; i++) dots += "<button type=\"button\" class=\"dot " + (i < kcur ? "past" : i === kcur ? "cur" : "") + "\" data-k=\"" + i + "\" aria-label=\"Langkah kotak " + i + "\">" + i + "</button>";
+      var kc = document.getElementById("kcard");
+      kc.innerHTML = "<div class=\"card-head\"><span class=\"num\">" + kcur + "</span><div><h3>" + s.t + "</h3></div></div><p>" + s.cap + "</p><div class=\"dots\">" + dots + "</div>" +
+        "<div class=\"nav\"><button class=\"btn\" id=\"kprev\" type=\"button\"" + (kcur === 1 ? " disabled" : "") + ">← Sebelumnya</button><button class=\"btn primary\" id=\"knext\" type=\"button\"" + (kcur === KSTEPS.length ? " disabled" : "") + ">Berikutnya →</button></div>";
+      document.getElementById("kprev").onclick = function () { kgo(kcur - 1); };
+      document.getElementById("knext").onclick = function () { kgo(kcur + 1); };
+      Array.prototype.forEach.call(kc.querySelectorAll(".dot"), function (b) { b.onclick = function () { kgo(+b.getAttribute("data-k")); }; });
+    }
+    function kgo(i) {
+      kcur = Math.max(1, Math.min(KSTEPS.length, i));
+      try { localStorage.setItem("kotak-langkah", kcur); } catch (e) {}
+      kRender();
+    }
+    kRender();
   })();
 })();
 </script>
