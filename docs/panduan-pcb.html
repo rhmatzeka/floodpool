@@ -367,11 +367,11 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     { t: "Resistor 2 kΩ di bawah ESP32", sub: "Bagian bawah pembagi tegangan Echo.", view: "atas", show: ["r2k"], runs: ["k2kA", "k2kB"], fig: "res",
       body: "<ol><li>Tekuk kedua kaki resistor 2 kΩ ke bawah, berjarak 4 lubang.</li><li>Masukkan di <b class=\"hole\">J-U</b> dan <b class=\"hole\">J-Y</b>: 2 lubang di kanan soket kiri, sebaris tanda E (baris U) dan tanda G (baris Y). Badan resistor menempel papan.</li><li>Balik PCB. Tekuk kaki atas rata ke papan ke arah titik solder pin P26, dan kaki bawah ke arah titik solder pin GND. Lihat gambar \"dari bawah\".</li><li>Solder kaki ke lubangnya sendiri, lalu panaskan titik pin soket sambil menempelkan ujung kaki sampai menyatu. Potong sisa kaki dan <strong>simpan potongannya</strong> untuk kawat.</li></ol>",
       test: "Kaki resistor hanya menyentuh titik pin P26 dan pin GND. Tiga pin di antaranya (P27, P14, P12) tidak tersentuh." },
-    { t: "Resistor 1 kΩ dan soket Echo", sub: "Bagian atas pembagi tegangan, supaya 5 V dari sensor turun jadi aman untuk ESP32.", view: "atas", show: ["echo", "r1k"], runs: ["k1kA", "k1kB"],
-      body: "<ol><li>Potong 1 pin header female. Tancapkan di <b class=\"hole\">R-U</b>, selotip, lalu solder dari bawah.</li><li>Resistor 1 kΩ di <b class=\"hole\">M-U</b> dan <b class=\"hole\">Q-U</b>: sebaris tanda E (baris U), kaki kanan tepat di sebelah soket ESP32.</li><li>Di bawah: kaki kanan ditekuk ke titik pin P26 (yang sudah ada kaki 2 kΩ), kaki kiri ditekuk ke titik soket Echo. Solder, potong sisa kaki.</li></ol>",
+    { t: "Resistor 1 kΩ dan soket Echo", sub: "Bagian atas pembagi tegangan, supaya 5 V dari sensor turun jadi aman untuk ESP32.", view: "atas", show: ["echo", "r1k"], runs: ["k1kA", "k1kB"], fig: "echo",
+      body: "<ol><li>Potong 1 pin header female (soket Echo). Tancapkan di <b class=\"hole\">R-U</b> dari sisi atas, selotip.</li><li>Resistor 1 kΩ (coklat, hitam, hitam, coklat, coklat) ditekuk seperti langkah 3, jarak 4 lubang, lalu masukkan <strong>mendatar</strong> di <b class=\"hole\">M-U</b> dan <b class=\"hole\">Q-U</b>. Semuanya di baris U, di sisi <strong>luar</strong> soket ESP32 (bukan di bawah ESP32).</li><li>Balik papan. Kaki di M-U ditekuk 1 lubang ke <b class=\"hole\">L-U</b> (pin P26, yang sudah ada kaki 2 kΩ). Kaki di Q-U ditekuk 1 lubang ke <b class=\"hole\">R-U</b> (kaki soket Echo).</li><li>Solder L-U dan R-U sampai kaki menyatu, potong sisa kaki.</li></ol>",
       test: "Dari bawah, baris U berisi dua sambungan yang <strong>terpisah</strong>: R–Q (Echo) dan M sampai J (P26). Bantalan P, O, N di antaranya kosong." },
-    { t: "Resistor 220 Ω dan LED", sub: "Lampu status, kelihatan dari tutup kotak.", view: "atas", show: ["r220", "led"], runs: ["k220A", "k220B"],
-      body: "<ol><li>Resistor 220 Ω di <b class=\"hole\">M-R</b> dan <b class=\"hole\">Q-R</b>: sebaris pin P32.</li><li>LED berdiri di kolom S: <strong>kaki panjang di <b class=\"hole\">S-R</b></strong>, kaki pendek di <b class=\"hole\">S-Q</b> (sisi rata di pinggir badan LED ada di kaki pendek).</li><li>Di bawah: kaki kanan resistor ke titik pin P32. Kaki kiri resistor ditekuk ke S-R sampai menyentuh kaki panjang LED, lalu disolder bersama.</li><li>Kaki pendek LED disolder saja dulu. Sambungan ke GND dibuat di langkah 9.</li></ol>",
+    { t: "Resistor 220 Ω dan LED", sub: "Lampu status, kelihatan dari tutup kotak.", view: "atas", show: ["r220", "led"], runs: ["k220A", "k220B"], fig: "led",
+      body: "<ol><li>Resistor 220 Ω (merah, merah, hitam, hitam, coklat) mendatar di <b class=\"hole\">M-R</b> dan <b class=\"hole\">Q-R</b>: sebaris pin P32, di luar soket.</li><li>LED berdiri di kolom S: <strong>kaki panjang di <b class=\"hole\">S-R</b></strong>, kaki pendek di <b class=\"hole\">S-Q</b> (sisi rata di pinggir badan LED ada di kaki pendek).</li><li>Di bawah: kaki kanan resistor ke titik pin P32. Kaki kiri resistor ditekuk ke S-R sampai menyentuh kaki panjang LED, lalu disolder bersama.</li><li>Kaki pendek LED disolder saja dulu. Sambungan ke GND dibuat di langkah 9.</li></ol>",
       test: "Kaki panjang LED tersambung ke resistor, kaki pendek tidak menyentuh apa pun selain lubangnya sendiri." },
     { t: "Soket untuk kabel modul", sub: "Tempat kabel layar, sensor jarak, dan buzzer ditancapkan.", view: "atas", show: ["s3v3", "sbt", "sscl", "sgnd", "ssda", "s5v"],
       body: "<p><strong>Cara memotong header female:</strong> header tidak bisa dipatahkan di antara pin. Potong <em>tepat di pin sesudah</em> jumlah yang diperlukan dengan tang potong atau gunting kuat. Satu pin terbuang di setiap potongan, lalu rapikan bekas potongan dengan gunting.</p><ol><li>Siapkan potongan: 2 pin (2 buah), 3 pin (1 buah), 1 pin (3 buah).</li><li>2 pin mendatar di <b class=\"hole\">O-L</b>–<b class=\"hole\">N-L</b>, sebaris tanda +3.</li><li>2 pin tegak di <b class=\"hole\">N-S</b>–<b class=\"hole\">N-T</b>, sebaris pin P33 dan P25.</li><li>1 pin di <b class=\"hole\">N-W</b> (SCL), <b class=\"hole\">N-Z</b> (SDA), <b class=\"hole\">N-AD</b> (5V).</li><li>3 pin mendatar di <b class=\"hole\">P-Y</b>–<b class=\"hole\">N-Y</b>, sebaris tanda G.</li><li>Semua soket ini di kolom N, artinya <strong>2 lubang di kiri soket ESP32</strong>. Selotip semuanya, balik, solder satu per satu.</li></ol>",
@@ -473,6 +473,98 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     t(10, 196, "Potong kaki yang menjulur,", "start", "muted", 11); t(10, 211, "simpan untuk kawat.", "start", "muted", 11);
     o.push("</g>");
     return '<div class="figure"><svg viewBox="0 0 470 470" role="img" aria-label="Empat tahap memasang resistor 2 kΩ" style="min-width:0">' + o.join("") + "</svg></div>";
+  }
+
+  // Gambar 3 tahap untuk langkah 4 dan 5: pasang dari atas, balik dan tekuk, solder.
+  // cols ditulis urut dari sisi bawah (A di kiri); dari atas urutannya dibalik.
+  var FIGS = {
+    echo: { cols: ["K", "L", "M", "N", "O", "P", "Q", "R", "S"], rows: ["T", "U", "V"], sock: "L",
+      hdr: [["R", "U", "Echo"]], res: ["M", "Q", "U", ["b-coklat", "b-hitam", "b-hitam", "b-coklat", "b-coklat"]],
+      old: [["kiri", "U"]], bends: [["M", "L", "U"], ["Q", "R", "U"]], kosong: [["N", "U"], ["O", "U"], ["P", "U"]],
+      solder: [["L", "U"], ["R", "U"]],
+      t1: "Pasang dari sisi atas", c1: ["Soket Echo di R-U, resistor 1 kΩ di M-U dan Q-U.", "Semuanya di baris U, di luar soket ESP32."],
+      c2: ["M-U ditekuk ke L-U (pin P26),", "Q-U ditekuk ke R-U (Echo)."], c3: ["N, O, P tetap kosong:", "dua sambungan terpisah."] },
+    led: { cols: ["K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"], rows: ["P", "Q", "R", "S"], sock: "L",
+      res: ["M", "Q", "R", ["b-merah", "b-merah", "b-hitam", "b-hitam", "b-coklat"]], led: ["S", "R", "Q"],
+      bends: [["M", "L", "R"], ["Q", "S", "R"]], kosong: [["N", "R"], ["O", "R"], ["P", "R"]],
+      solder: [["L", "R"], ["S", "R"], ["S", "Q"]],
+      t1: "Pasang dari sisi atas", c1: ["Resistor 220 Ω di M-R dan Q-R. LED di kolom S:", "kaki panjang di S-R, kaki pendek di S-Q."],
+      c2: ["M-R ditekuk ke L-R (pin P32),", "Q-R ditekuk 2 lubang ke S-R (kaki panjang)."], c3: ["S-Q (kaki pendek) disolder", "sendiri dulu, GND di langkah 9."] }
+  };
+  function figPlan(f) {
+    var o = [], F = "IBM Plex Sans, sans-serif", M = "IBM Plex Mono, monospace";
+    function t(x, y, s, a, c, w, z) { o.push('<text x="' + x + '" y="' + y + '" text-anchor="' + (a || "start") + '" font-family="' + (z || F) + '" font-size="' + (w || 12) + '" font-weight="600" fill="' + tok(c || "ink") + '">' + s + "</text>"); }
+    function r(x, y, w, h, fl, ex) { o.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + tok(fl) + '" ' + (ex || "") + "/>"); }
+    function l(x1, y1, x2, y2, c, w, ex) { o.push('<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + tok(c) + '" stroke-width="' + w + '" stroke-linecap="round" ' + (ex || "") + "/>"); }
+    function ci(x, y, rr, fl, ex) { o.push('<circle cx="' + x + '" cy="' + y + '" r="' + rr + '" fill="' + tok(fl) + '" ' + (ex || "") + "/>"); }
+    function judul(x, y, n, s) { ci(x + 10, y - 4, 10, "accent"); t(x + 10, y, n, "middle", "surface", 12, M); t(x + 26, y, s, "start", "ink", 13); }
+    function pil(x, y, s) {
+      var w = s.length * 6.6 + 10;
+      r(x - w / 2, y - 11, w, 16, "surface", 'rx="8" stroke="' + tok("accent") + '" stroke-width="1.5"');
+      t(x, y + 1, s, "middle", "ink", 10.5);
+    }
+    function papan(ox, oy, P, mode) {
+      var atas = mode === "atas", cols = atas ? f.cols.slice().reverse() : f.cols;
+      function X(c) { return ox + 18 + cols.indexOf(c) * P; }
+      function Y(b) { return oy + 14 + f.rows.indexOf(b) * P; }
+      r(ox, oy - 4, cols.length * P + 18, f.rows.length * P + 8, "perf", 'rx="4"');
+      cols.forEach(function (c) { t(X(c), oy - 10, c, "middle", c === f.sock ? "accent" : "muted", 10, M); });
+      f.rows.forEach(function (b) { t(ox - 4, Y(b) + 4, b, "end", "muted", 10, M); });
+      f.rows.forEach(function (b) { cols.forEach(function (c) { ci(X(c), Y(b), P * 0.28, "pad"); ci(X(c), Y(b), P * 0.11, "pad-hole"); }); });
+      var res = f.res;
+      if (atas) {
+        r(X(f.sock) - P * 0.4, Y(f.rows[0]) - P * 0.45, P * 0.8, (f.rows.length - 1) * P + P * 0.9, "hdr", 'rx="2"');
+        t(X(f.sock), oy + f.rows.length * P + 18, "soket ESP32", "middle", "muted", 10);
+        (f.hdr || []).forEach(function (h) {
+          r(X(h[0]) - P * 0.4, Y(h[1]) - P * 0.4, P * 0.8, P * 0.8, "hdr", 'rx="2"');
+          pil(X(h[0]), Y(h[1]) + P * 0.5, h[2]);
+        });
+        var xa = X(res[0]), xb = X(res[1]), y = Y(res[2]), mx = (xa + xb) / 2;
+        l(xa, y, xb, y, "tin-edge", 2.5);
+        r(mx - P * 0.9, y - P * 0.3, P * 1.8, P * 0.6, "res", 'rx="' + P * 0.28 + '" stroke="' + tok("wire-edge") + '"');
+        res[3].forEach(function (b, i) { r(mx - P * 0.6 + i * P * 0.24 + (i === 4 ? P * 0.15 : 0), y - P * 0.3, P * 0.11, P * 0.6, b); });
+        if (f.led) {
+          var lx = X(f.led[0]), ly = (Y(f.led[1]) + Y(f.led[2])) / 2;
+          ci(lx, ly, P * 0.62, "led", 'stroke="' + tok("wire-edge") + '"');
+          pil(lx, Y(f.led[2]) - P * 0.75, "pendek");
+          pil(lx, Y(f.led[1]) + P * 0.85, "panjang");
+        }
+        [[res[0], res[2]], [res[1], res[2]]].concat(f.led ? [[f.led[0], f.led[1]], [f.led[0], f.led[2]]] : []).forEach(function (h) {
+          ci(X(h[0]), Y(h[1]), P * 0.42, "surface", 'fill-opacity="0" stroke="' + tok("accent") + '" stroke-width="2.5"');
+        });
+        return;
+      }
+      // dari bawah: titik pin soket ESP32 yang sudah disolder
+      f.rows.forEach(function (b) { ci(X(f.sock), Y(b), P * 0.34, "tin", 'stroke="' + tok("tin-edge") + '"'); });
+      (f.old || []).forEach(function (w) { var y = Y(w[1]); l(ox + 4, y, X(f.sock) - P * 0.3, y, "tin-edge", 4); l(ox + 4, y, X(f.sock) - P * 0.3, y, "tin", 2); });
+      (f.hdr || []).forEach(function (h) { r(X(h[0]) - 3, Y(h[1]) - 3, 6, 6, "hdr"); });
+      var kaki = [[res[0], res[2]], [res[1], res[2]]].concat(f.led ? [[f.led[0], f.led[1]], [f.led[0], f.led[2]]] : []);
+      kaki.forEach(function (h) { ci(X(h[0]), Y(h[1]), 3, "tin-edge"); });
+      f.bends.forEach(function (b) {
+        var x1 = X(b[0]), x2 = X(b[1]), y = Y(b[2]), d = x2 > x1 ? 1 : -1;
+        l(x1, y, x2 - d * P * 0.3, y, "tin-edge", 5); l(x1, y, x2 - d * P * 0.3, y, "tin", 2.5);
+        if (mode === "tekuk") o.push('<path d="M' + x1 + " " + (y - P * 0.45) + " Q " + (x1 + x2) / 2 + " " + (y - P * 0.95) + " " + x2 + " " + (y - P * 0.45) + '" fill="none" stroke="' + tok("accent") + '" stroke-width="2" marker-end="url(#panah)"/>');
+      });
+      if (mode === "solder") f.solder.forEach(function (h) { o.push('<ellipse cx="' + X(h[0]) + '" cy="' + Y(h[1]) + '" rx="' + P * 0.48 + '" ry="' + P * 0.4 + '" fill="' + tok("tin") + '" stroke="' + tok("tin-edge") + '"/>'); });
+      f.kosong.forEach(function (k) { var x = X(k[0]), y = Y(k[1]); ci(x, y, P * 0.34, "surface", 'fill-opacity="0" stroke="' + tok("warn") + '" stroke-width="1.8" stroke-dasharray="3 2"'); });
+    }
+    o.push('<defs><marker id="panah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="' + tok("accent") + '"/></marker></defs>');
+    var nr = f.rows.length;
+    judul(10, 22, "1", f.t1 + " (dilihat dari atas)");
+    var P1 = 30, w1 = f.cols.length * P1 + 18;
+    papan((470 - w1) / 2, 56, P1, "atas");
+    var y1 = 56 + nr * P1 + 40;
+    f.c1.forEach(function (c, i) { t(235, y1 + i * 15, c, "middle", "muted", 11); });
+    var top2 = y1 + 50, P2 = Math.min(21, Math.floor(218 / (f.cols.length + 1)));
+    judul(10, top2, "2", "Balik papan, tekuk kaki");
+    judul(245, top2, "3", "Solder, potong sisa");
+    papan(12, top2 + 34, P2, "tekuk");
+    papan(252, top2 + 34, P2, "solder");
+    var y2 = top2 + 34 + nr * P2 + 22;
+    f.c2.forEach(function (c, i) { t(10, y2 + i * 15, c, "start", "muted", 10.5); });
+    f.c3.forEach(function (c, i) { t(245, y2 + i * 15, c, "start", "muted", 10.5); });
+    t(10, y2 + 36, "Lingkaran merah putus-putus = harus tetap kosong, jangan kena timah.", "start", "warn", 10.5);
+    return '<div class="figure"><svg viewBox="0 0 474 ' + (y2 + 48) + '" role="img" aria-label="Tahap memasang komponen" style="min-width:0">' + o.join("") + "</svg></div>";
   }
 
   var JUMPERS = [
@@ -655,7 +747,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     }
     card.innerHTML =
       "<div class=\"card-head\"><span class=\"num\">" + (cur + 1) + "</span><div><h3>" + s.t + "</h3><span class=\"sub\">" + s.sub + "</span></div></div>" +
-      s.body + (s.fig === "res" ? figRes() : "") + pat +
+      s.body + (s.fig === "res" ? figRes() : s.fig ? figPlan(FIGS[s.fig]) : "") + pat +
       "<div class=\"test\"><b>Cek sebelum lanjut</b><p>" + s.test + "</p></div>" +
       "<div class=\"dots\">" + dots + "</div>" +
       "<div class=\"nav\"><button class=\"btn\" id=\"prev\" type=\"button\"" + (cur === 0 ? " disabled" : "") + ">← Sebelumnya</button>" +
