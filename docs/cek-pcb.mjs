@@ -55,14 +55,14 @@ for (const [k, net] of netDi) {
 for (const [net, gs] of kelompokNet) if (gs.size > 1) salah.push(`net ${net} terputus jadi ${gs.size} bagian`);
 for (const [k, net] of netDi) if (net.startsWith("-") && [...netDi].some(([k2]) => k2 !== k && cari(k2) === cari(k))) salah.push(`pin tak dipakai ${net} ikut tersambung`);
 
-// Rangkaian yang diharapkan (sama dengan breadboard yang sudah teruji).
+// Rangkaian yang diharapkan (sama dengan breadboard yang sudah teruji). Kolom 15 = huruf L di papan.
 const harus = {
-  "3V3": ["12,12", "10,12", "9,12"],
-  GND: ["12,25", "10,25", "9,25", "8,25", "14,25", "3,24", "5,17"],
-  P32: ["12,18", "11,18"], LEDA: ["7,18", "5,18"],
-  P33: ["12,19", "10,19"], P25: ["12,20", "10,20"],
-  P26: ["12,21", "11,21", "14,21"], ECHO: ["7,21", "6,21"],
-  P27: ["12,22", "3,22"], P14: ["12,23", "10,23"], P13: ["12,26", "10,26"], "5V": ["12,30", "10,30"],
+  "3V3": ["15,12", "13,12", "12,12"],
+  GND: ["15,25", "13,25", "12,25", "11,25", "17,25", "6,24", "8,17"],
+  P32: ["15,18", "14,18"], LEDA: ["10,18", "8,18"],
+  P33: ["15,19", "13,19"], P25: ["15,20", "13,20"],
+  P26: ["15,21", "14,21", "17,21"], ECHO: ["10,21", "9,21"],
+  P27: ["15,22", "6,22"], P14: ["15,23", "13,23"], P13: ["15,26", "13,26"], "5V": ["15,30", "13,30"],
 };
 for (const [net, lubang] of Object.entries(harus)) for (const k of lubang) {
   if (netDi.get(k) !== net) salah.push(`K${k.replace(",", " B")} harus ${net}, tertulis ${netDi.get(k)}`);
