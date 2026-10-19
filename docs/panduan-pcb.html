@@ -213,8 +213,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 
   <section class="section">
     <h2>Cara membaca kode lubang</h2>
-    <p>Pegang PCB dengan sisi panjang tegak dan beri tanda <strong>ATAS</strong> pakai spidol di pojok kiri atas sisi yang akan dipakai untuk menancapkan komponen. Lubang ditulis seperti <b class="hole">K5 B18</b>: <strong>kolom 5</strong> dihitung dari kiri, <strong>baris 18</strong> dihitung dari atas, selalu dilihat dari sisi ATAS.</p>
-    <p>Menghitung puluhan lubang gampang salah, jadi setiap lubang juga diberi <strong>patokan</strong> dari soket ESP32, misalnya "sebaris pin P32, 7 lubang di kiri soket". Patokan ini lebih bisa dipercaya setelah langkah 2.</p>
+    <p>Ukuran PCB lubang berbeda-beda (ada yang 24×30 lubang, ada yang lebih), jadi lubang <strong>tidak dihitung dari pojok papan</strong>. Semua dihitung dari <strong>soket kiri ESP32</strong> yang dipasang di langkah 1–2:</p><ul><li><strong>Baris</strong> = nomor lubang soket, dihitung dari ujung antena. Baris 1 = pin 3V3, baris 19 = pin 5V. Kalau header 20 pin dipasang utuh, lubang ke-20 di ujung USB dibiarkan nganggur.</li><li><strong>Kiri / kanan</strong> = berapa lubang dari soket kiri, dilihat dari sisi atas. Contoh: <b class="hole">baris 10 · kiri 5</b> artinya sebaris lubang soket ke-10, lalu 5 lubang ke kiri.</li></ul><p>Setelah soket tersolder, <strong>tandai pakai spidol</strong> di sisi atas, di kiri soket: <strong>+3</strong> di baris 1, <strong>E</strong> di baris 10 (Echo), <strong>G</strong> di baris 14 (GND), <strong>+5</strong> di baris 19. Tanda yang sama muncul di gambar. Di kiri soket minimal harus ada 11 kolom kosong.</p>
     <p class="note warn"><strong>Waktu membalik PCB untuk menyolder, balik ke samping seperti membalik halaman buku.</strong> Tepi bawah (tempat colokan USB) tetap di bawah, tapi kiri dan kanan jadi tertukar. Gambar "dari bawah" di setiap langkah sudah dibalik dengan cara yang sama.</p>
   </section>
 </div>
@@ -232,7 +231,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
             <button type="button" id="v-bawah" aria-pressed="false">Dari bawah</button>
           </div>
         </div>
-        <svg id="board" viewBox="0 0 494 640" role="img" aria-label="Gambar PCB untuk langkah yang dipilih"></svg>
+        <svg id="board" viewBox="-26 0 520 640" role="img" aria-label="Gambar PCB untuk langkah yang dipilih"></svg>
       </div>
       <div class="card" id="card" aria-live="polite"></div>
     </div>
@@ -264,11 +263,11 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     <div class="scroll"><table>
       <thead><tr><th>Gejala</th><th>Coba ini</th></tr></thead>
       <tbody>
-        <tr><td>Lampu merah ESP32 mati atau redup saat USB dicolok</td><td>Cabut USB segera. Ada jembatan timah antara jalur 3V3/5V dan GND. Cek dengan senter di langkah 10, terutama baris B12, B25, dan B30.</td></tr>
+        <tr><td>Lampu merah ESP32 mati atau redup saat USB dicolok</td><td>Cabut USB segera. Ada jembatan timah antara jalur 3V3/5V dan GND. Cek dengan senter di langkah 10, terutama baris 1, 14, dan 19.</td></tr>
         <tr><td>Serial menulis <code>Brownout detector was triggered</code></td><td>Sama seperti di atas: ada korsleting atau sambungan yang hampir menyentuh.</td></tr>
-        <tr><td>Layar gelap, <code>"layar":false</code></td><td>Cek soket dan kabel merah, hitam, ungu, biru. Upload sketsa <code>indikator</code>: <code>lepas</code> berarti kawat jalur B23/B26 belum tersolder, <code>ke-GND</code> berarti VCC layar tidak dapat listrik.</td></tr>
-        <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek kawat jalur B20 (Trig), B30 (5V), resistor 1 kΩ dan soket Echo di B21.</td></tr>
-        <tr><td>Pelampung selalu 0 atau selalu 1</td><td>Kencangkan sekrup terminal. Pastikan kawat jalur B22 tersolder di kedua ujungnya.</td></tr>
+        <tr><td>Layar gelap, <code>"layar":false</code></td><td>Cek soket dan kabel merah, hitam, ungu, biru. Upload sketsa <code>indikator</code>: <code>lepas</code> berarti kawat jalur baris 12/15 belum tersolder, <code>ke-GND</code> berarti VCC layar tidak dapat listrik.</td></tr>
+        <tr><td>Tinggi air selalu <code>--</code> atau SENSOR ERROR</td><td>Cek kawat jalur baris 9 (Trig), baris 19 (5V), resistor 1 kΩ dan soket Echo di baris 10.</td></tr>
+        <tr><td>Pelampung selalu 0 atau selalu 1</td><td>Kencangkan sekrup terminal. Pastikan kawat jalur baris 11 tersolder di kedua ujungnya.</td></tr>
         <tr><td>Satu titik solder bergoyang atau kusam</td><td>Panaskan lagi 3 detik sambil menambah sedikit timah.</td></tr>
       </tbody>
     </table></div>
@@ -278,11 +277,11 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
 
 <script type="application/json" id="pcb-data">
 {
-  "cols": 24, "rows": 30, "espCol": 12, "espRow1": 12,
-  "pins": ["3V3","EN","VP","VN","P34","P35","P32","P33","P25","P26","P27","P14","P12","GND","P13","SD2","SD3","CMD","5V"],
+  "cols": 24, "rows": 31, "espCol": 12, "espRow1": 12,
+  "pins": ["3V3","EN","VP","VN","P34","P35","P32","P33","P25","P26","P27","P14","P12","GND","P13","SD2","SD3","CMD","5V","NC"],
   "parts": [
-    {"id":"hdrL","step":2,"type":"hdr","label":"Soket ESP32 kiri","holes":[[12,12,"3V3"],[12,13,"-EN"],[12,14,"-VP"],[12,15,"-VN"],[12,16,"-P34"],[12,17,"-P35"],[12,18,"P32"],[12,19,"P33"],[12,20,"P25"],[12,21,"P26"],[12,22,"P27"],[12,23,"P14"],[12,24,"-P12"],[12,25,"GND"],[12,26,"P13"],[12,27,"-SD2"],[12,28,"-SD3"],[12,29,"-CMD"],[12,30,"5V"]]},
-    {"id":"hdrR","step":2,"type":"hdr","label":"Soket ESP32 kanan","free":true,"holes":[[22,12,"-R1"],[22,13,"-R2"],[22,14,"-R3"],[22,15,"-R4"],[22,16,"-R5"],[22,17,"-R6"],[22,18,"-R7"],[22,19,"-R8"],[22,20,"-R9"],[22,21,"-R10"],[22,22,"-R11"],[22,23,"-R12"],[22,24,"-R13"],[22,25,"-R14"],[22,26,"-R15"],[22,27,"-R16"],[22,28,"-R17"],[22,29,"-R18"],[22,30,"-R19"]]},
+    {"id":"hdrL","step":2,"type":"hdr","label":"Soket ESP32 kiri","holes":[[12,12,"3V3"],[12,13,"-EN"],[12,14,"-VP"],[12,15,"-VN"],[12,16,"-P34"],[12,17,"-P35"],[12,18,"P32"],[12,19,"P33"],[12,20,"P25"],[12,21,"P26"],[12,22,"P27"],[12,23,"P14"],[12,24,"-P12"],[12,25,"GND"],[12,26,"P13"],[12,27,"-SD2"],[12,28,"-SD3"],[12,29,"-CMD"],[12,30,"5V"],[12,31,"-NC"]]},
+    {"id":"hdrR","step":2,"type":"hdr","label":"Soket ESP32 kanan","free":true,"holes":[[22,12,"-R1"],[22,13,"-R2"],[22,14,"-R3"],[22,15,"-R4"],[22,16,"-R5"],[22,17,"-R6"],[22,18,"-R7"],[22,19,"-R8"],[22,20,"-R9"],[22,21,"-R10"],[22,22,"-R11"],[22,23,"-R12"],[22,24,"-R13"],[22,25,"-R14"],[22,26,"-R15"],[22,27,"-R16"],[22,28,"-R17"],[22,29,"-R18"],[22,30,"-R19"],[22,31,"-R20"]]},
     {"id":"r2k","step":3,"type":"res","label":"Resistor 2 kΩ","bands":["b-merah","b-hitam","b-hitam","b-coklat","b-coklat"],"holes":[[14,21,"P26"],[14,25,"GND"]]},
     {"id":"echo","step":4,"type":"hdr","label":"Soket Echo","tag":"Echo","color":"w-hijau","holes":[[6,21,"ECHO"]]},
     {"id":"r1k","step":4,"type":"res","label":"Resistor 1 kΩ","bands":["b-coklat","b-hitam","b-hitam","b-coklat","b-coklat"],"holes":[[11,21,"P26"],[7,21,"ECHO"]]},
@@ -333,55 +332,59 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   var view = "atas";
   function X(c) { return view === "atas" ? X0 + (c - 1) * P : X0 + (D.cols - c) * P; }
   function Y(r) { return Y0 + (r - 1) * P; }
-  function code(c, r) { return "K" + c + " B" + r; }
+  // Kode lubang dihitung dari soket kiri ESP32, jadi cocok untuk papan ukuran berapa pun:
+  // baris = nomor lubang soket (1 = 3V3 di ujung antena), kiri/kanan = jumlah lubang dari soket.
+  function code(c, r) {
+    var n = c - D.espCol;
+    return "baris " + (r - D.espRow1 + 1) + " · " + (n === 0 ? "soket" : n < 0 ? "kiri " + (-n) : "kanan " + n);
+  }
 
   function patokan(c, r) {
     var i = r - D.espRow1;
     if (i < 0 || i >= D.pins.length) return "";
     var pin = D.pins[i];
-    var base = "sebaris pin " + pin + " (pin ke-" + (i + 1) + " dari antena)";
+    if (pin === "NC") return "sebaris lubang nganggur";
     if (c === D.espCol) return "lubang pin " + pin + " di soket kiri ESP32";
-    var n = Math.abs(c - D.espCol);
-    if (c < D.espCol) return base + ", " + n + " lubang di kiri soket";
-    return base + ", " + n + " lubang di kanan soket (di bawah badan ESP32)";
+    if (c < D.espCol) return "sebaris pin " + pin;
+    return "sebaris pin " + pin + ", di bawah badan ESP32";
   }
 
   var STEPS = [
     { t: "Tandai posisi soket ESP32", sub: "Belum menyolder. Pastikan posisinya dulu.", view: "atas", show: ["hdrL", "hdrR"], esp: true,
-      body: "<ol><li>Potong dua header female jadi <strong>19 pin</strong> masing-masing (cara memotong ada di langkah 6).</li><li>Tancapkan kedua soket ke kaki ESP32 sampai rapat.</li><li>Di sisi ATAS PCB, hitung <b class=\"hole\">K12 B12</b>: 12 lubang dari kiri, 12 lubang dari atas. Beri titik spidol.</li><li>Taruh ESP32 bersama soketnya: <strong>pin 3V3</strong> (pojok kiri, dekat antena) masuk ke titik tadi. Soket kiri mengisi K12 dari B12 sampai B30, baris paling bawah. Soket kanan masuk di mana pun ia jatuh, biasanya sekitar K21–K22.</li><li>Selotip ESP32 ke PCB supaya tidak bergeser.</li></ol>",
-      test: "Antena ESP32 menghadap ke atas, colokan USB berada di tepi bawah PCB, dan di kiri soket kiri masih ada 11 kolom kosong." },
+      body: "<ol><li>Potong dua header female jadi <strong>19 pin</strong> masing-masing (cara memotong ada di langkah 6). Boleh juga dipakai utuh 20 pin: lubang ke-20 di ujung USB dibiarkan nganggur.</li><li>Tancapkan kedua soket ke kaki ESP32 sampai rapat.</li><li>Taruh ESP32 bersama soketnya di sisi ATAS PCB: antena ke atas, colokan USB di dekat tepi bawah. Geser sampai di kiri soket kiri ada <strong>minimal 11 kolom kosong</strong>.</li><li><strong>Pin 3V3</strong> (pojok kiri, dekat antena) jadi baris 1. Soket kanan masuk di mana pun ia jatuh, biasanya 10 lubang di kanan soket kiri.</li><li>Selotip ESP32 ke PCB supaya tidak bergeser.</li></ol>",
+      test: "Antena ESP32 menghadap ke atas, colokan USB berada di tepi bawah PCB, dan di kiri soket kiri masih ada minimal 11 kolom kosong." },
     { t: "Solder soket ESP32", sub: "Satu-satunya langkah dengan ESP32 terpasang.", view: "bawah", show: ["hdrL", "hdrR"], esp: true,
-      body: "<ol><li>Balik PCB ke samping seperti halaman buku, dengan ESP32 tetap terselotip.</li><li>Soket kiri: solder pin paling atas dan paling bawah dulu. Cek ESP32 masih tegak, lalu solder 17 pin sisanya. Beri jeda 10 detik tiap 5 pin supaya tidak terlalu panas.</li><li>Soket kanan: cukup <strong>4 pin</strong> (paling atas, paling bawah, dan 2 di tengah). Pin kanan tidak dipakai, hanya penahan.</li><li>Setelah dingin, <strong>cabut ESP32</strong> dan simpan. Soket tetap di PCB.</li></ol>",
-      test: "Semua 19 titik soket kiri berbentuk gunung kecil mengkilap dan tidak ada yang menempel ke titik sebelahnya. Posisi soket sekarang jadi patokan untuk semua langkah berikutnya." },
+      body: "<ol><li>Balik PCB ke samping seperti halaman buku, dengan ESP32 tetap terselotip.</li><li>Soket kiri: solder pin paling atas dan paling bawah dulu. Cek ESP32 masih tegak, lalu solder pin lainnya. Yang <strong>wajib</strong>: baris 1, 7, 8, 9, 10, 11, 12, 14, 15, 19. Sisanya boleh dilewati. Beri jeda 10 detik tiap 5 pin supaya tidak terlalu panas.</li><li>Soket kanan: cukup <strong>4 pin</strong> (paling atas, paling bawah, dan 2 di tengah). Pin kanan tidak dipakai, hanya penahan.</li><li>Setelah dingin, <strong>cabut ESP32</strong> dan simpan. Soket tetap di PCB.</li><li>Tulis tanda spidol di kiri soket: <strong>+3</strong> baris 1, <strong>E</strong> baris 10, <strong>G</strong> baris 14, <strong>+5</strong> baris 19.</li></ol>",
+      test: "Semua titik wajib di soket kiri berbentuk gunung kecil mengkilap dan tidak ada yang menempel ke titik sebelahnya. Posisi soket sekarang jadi patokan untuk semua langkah berikutnya." },
     { t: "Resistor 2 kΩ di bawah ESP32", sub: "Bagian bawah pembagi tegangan Echo.", view: "atas", show: ["r2k"], runs: ["k2kA", "k2kB"],
-      body: "<ol><li>Tekuk kedua kaki resistor 2 kΩ ke bawah, berjarak 4 lubang.</li><li>Masukkan di <b class=\"hole\">K14 B21</b> dan <b class=\"hole\">K14 B25</b>: 2 lubang di kanan soket kiri, sebaris pin P26 dan sebaris pin GND. Badan resistor menempel papan.</li><li>Balik PCB. Tekuk kaki atas rata ke papan ke arah titik solder pin P26, dan kaki bawah ke arah titik solder pin GND. Lihat gambar \"dari bawah\".</li><li>Solder kaki ke lubangnya sendiri, lalu panaskan titik pin soket sambil menempelkan ujung kaki sampai menyatu. Potong sisa kaki dan <strong>simpan potongannya</strong> untuk kawat.</li></ol>",
+      body: "<ol><li>Tekuk kedua kaki resistor 2 kΩ ke bawah, berjarak 4 lubang.</li><li>Masukkan di <b class=\"hole\">baris 10 · kanan 2</b> dan <b class=\"hole\">baris 14 · kanan 2</b>: 2 lubang di kanan soket kiri, sebaris tanda E dan tanda G. Badan resistor menempel papan.</li><li>Balik PCB. Tekuk kaki atas rata ke papan ke arah titik solder pin P26, dan kaki bawah ke arah titik solder pin GND. Lihat gambar \"dari bawah\".</li><li>Solder kaki ke lubangnya sendiri, lalu panaskan titik pin soket sambil menempelkan ujung kaki sampai menyatu. Potong sisa kaki dan <strong>simpan potongannya</strong> untuk kawat.</li></ol>",
       test: "Kaki resistor hanya menyentuh titik pin P26 dan pin GND. Tiga pin di antaranya (P27, P14, P12) tidak tersentuh." },
     { t: "Resistor 1 kΩ dan soket Echo", sub: "Bagian atas pembagi tegangan, supaya 5 V dari sensor turun jadi aman untuk ESP32.", view: "atas", show: ["echo", "r1k"], runs: ["k1kA", "k1kB"],
-      body: "<ol><li>Potong 1 pin header female. Tancapkan di <b class=\"hole\">K6 B21</b>, selotip, lalu solder dari bawah.</li><li>Resistor 1 kΩ di <b class=\"hole\">K11 B21</b> dan <b class=\"hole\">K7 B21</b>: sebaris pin P26, kaki kanan tepat di sebelah soket ESP32.</li><li>Di bawah: kaki kanan ditekuk ke titik pin P26 (yang sudah ada kaki 2 kΩ), kaki kiri ditekuk ke titik soket Echo. Solder, potong sisa kaki.</li></ol>",
-      test: "Dari bawah, baris B21 berisi dua sambungan yang <strong>terpisah</strong>: K6–K7 (Echo) dan K11–K14 (P26). Bantalan K8, K9, K10 di antaranya kosong." },
+      body: "<ol><li>Potong 1 pin header female. Tancapkan di <b class=\"hole\">baris 10 · kiri 6</b>, selotip, lalu solder dari bawah.</li><li>Resistor 1 kΩ di <b class=\"hole\">baris 10 · kiri 1</b> dan <b class=\"hole\">baris 10 · kiri 5</b>: sebaris tanda E, kaki kanan tepat di sebelah soket ESP32.</li><li>Di bawah: kaki kanan ditekuk ke titik pin P26 (yang sudah ada kaki 2 kΩ), kaki kiri ditekuk ke titik soket Echo. Solder, potong sisa kaki.</li></ol>",
+      test: "Dari bawah, baris 10 berisi dua sambungan yang <strong>terpisah</strong>: kiri 6–kiri 5 (Echo) dan kiri 1–kanan 2 (P26). Bantalan kiri 4, kiri 3, kiri 2 di antaranya kosong." },
     { t: "Resistor 220 Ω dan LED", sub: "Lampu status, kelihatan dari tutup kotak.", view: "atas", show: ["r220", "led"], runs: ["k220A", "k220B"],
-      body: "<ol><li>Resistor 220 Ω di <b class=\"hole\">K11 B18</b> dan <b class=\"hole\">K7 B18</b>: sebaris pin P32.</li><li>LED berdiri di kolom K5: <strong>kaki panjang di <b class=\"hole\">K5 B18</b></strong>, kaki pendek di <b class=\"hole\">K5 B17</b> (sisi rata di pinggir badan LED ada di kaki pendek).</li><li>Di bawah: kaki kanan resistor ke titik pin P32. Kaki kiri resistor ditekuk ke K5 B18 sampai menyentuh kaki panjang LED, lalu disolder bersama.</li><li>Kaki pendek LED disolder saja dulu. Sambungan ke GND dibuat di langkah 9.</li></ol>",
+      body: "<ol><li>Resistor 220 Ω di <b class=\"hole\">baris 7 · kiri 1</b> dan <b class=\"hole\">baris 7 · kiri 5</b>: sebaris pin P32.</li><li>LED berdiri di kolom kiri 7: <strong>kaki panjang di <b class=\"hole\">baris 7 · kiri 7</b></strong>, kaki pendek di <b class=\"hole\">baris 6 · kiri 7</b> (sisi rata di pinggir badan LED ada di kaki pendek).</li><li>Di bawah: kaki kanan resistor ke titik pin P32. Kaki kiri resistor ditekuk ke baris 7 · kiri 7 sampai menyentuh kaki panjang LED, lalu disolder bersama.</li><li>Kaki pendek LED disolder saja dulu. Sambungan ke GND dibuat di langkah 9.</li></ol>",
       test: "Kaki panjang LED tersambung ke resistor, kaki pendek tidak menyentuh apa pun selain lubangnya sendiri." },
     { t: "Soket untuk kabel modul", sub: "Tempat kabel layar, sensor jarak, dan buzzer ditancapkan.", view: "atas", show: ["s3v3", "sbt", "sscl", "sgnd", "ssda", "s5v"],
-      body: "<p><strong>Cara memotong header female:</strong> header tidak bisa dipatahkan di antara pin. Potong <em>tepat di pin sesudah</em> jumlah yang diperlukan dengan tang potong atau gunting kuat. Satu pin terbuang di setiap potongan, lalu rapikan bekas potongan dengan gunting.</p><ol><li>Siapkan potongan: 2 pin (2 buah), 3 pin (1 buah), 1 pin (3 buah).</li><li>2 pin mendatar di <b class=\"hole\">K9 B12</b>–<b class=\"hole\">K10 B12</b>, sebaris pin 3V3.</li><li>2 pin tegak di <b class=\"hole\">K10 B19</b>–<b class=\"hole\">K10 B20</b>, sebaris pin P33 dan P25.</li><li>1 pin di <b class=\"hole\">K10 B23</b> (SCL), <b class=\"hole\">K10 B26</b> (SDA), <b class=\"hole\">K10 B30</b> (5V).</li><li>3 pin mendatar di <b class=\"hole\">K8 B25</b>–<b class=\"hole\">K10 B25</b>, sebaris pin GND.</li><li>Semua soket ini di kolom K10, artinya <strong>2 lubang di kiri soket ESP32</strong>. Selotip semuanya, balik, solder satu per satu.</li></ol>",
+      body: "<p><strong>Cara memotong header female:</strong> header tidak bisa dipatahkan di antara pin. Potong <em>tepat di pin sesudah</em> jumlah yang diperlukan dengan tang potong atau gunting kuat. Satu pin terbuang di setiap potongan, lalu rapikan bekas potongan dengan gunting.</p><ol><li>Siapkan potongan: 2 pin (2 buah), 3 pin (1 buah), 1 pin (3 buah).</li><li>2 pin mendatar di <b class=\"hole\">baris 1 · kiri 3</b>–<b class=\"hole\">baris 1 · kiri 2</b>, sebaris tanda +3.</li><li>2 pin tegak di <b class=\"hole\">baris 8 · kiri 2</b>–<b class=\"hole\">baris 9 · kiri 2</b>, sebaris pin P33 dan P25.</li><li>1 pin di <b class=\"hole\">baris 12 · kiri 2</b> (SCL), <b class=\"hole\">baris 15 · kiri 2</b> (SDA), <b class=\"hole\">baris 19 · kiri 2</b> (5V).</li><li>3 pin mendatar di <b class=\"hole\">baris 14 · kiri 4</b>–<b class=\"hole\">baris 14 · kiri 2</b>, sebaris tanda G.</li><li>Semua soket ini di kolom kiri 2, artinya <strong>2 lubang di kiri soket ESP32</strong>. Selotip semuanya, balik, solder satu per satu.</li></ol>",
       test: "Semua soket tegak, sejajar, dan setiap titik solder terpisah dari titik di sebelahnya." },
     { t: "Kawat pendek ke soket ESP32", sub: "Enam kawat 3 lubang, semuanya mendatar di sisi bawah.", view: "bawah", runs: ["w12", "w19", "w20", "w23", "w26", "w30"],
-      body: "<p><strong>Membuat kawat dari kabel jumper:</strong> potong kabel jumper, kupas isolasinya sepanjang 3 cm pakai gunting (gigit pelan, putar, tarik). Pilin serabut tembaganya, lalu lapisi timah sampai jadi satu batang kaku. Bisa juga pakai potongan kaki resistor yang disimpan.</p><ol><li>Di sisi bawah, taruh kawat sepanjang 3 bantalan dari soket modul ke titik pin ESP32, di baris: <strong>B12, B19, B20, B23, B26, B30</strong>.</li><li>Solder ujung kiri ke titik soket modul dan ujung kanan ke titik pin ESP32. Bantalan tengah (K11) ikut disolder supaya kawat tidak bergerak.</li><li>Potong sisa kawat yang menjulur.</li></ol>",
+      body: "<p><strong>Membuat kawat dari kabel jumper:</strong> potong kabel jumper, kupas isolasinya sepanjang 3 cm pakai gunting (gigit pelan, putar, tarik). Pilin serabut tembaganya, lalu lapisi timah sampai jadi satu batang kaku. Bisa juga pakai potongan kaki resistor yang disimpan.</p><ol><li>Di sisi bawah, taruh kawat sepanjang 3 bantalan dari soket modul ke titik pin ESP32, di baris: <strong>1, 8, 9, 12, 15, 19</strong>.</li><li>Solder ujung kiri ke titik soket modul dan ujung kanan ke titik pin ESP32. Bantalan tengah (kiri 1) ikut disolder supaya kawat tidak bergerak.</li><li>Potong sisa kawat yang menjulur.</li></ol>",
       test: "Enam kawat lurus mendatar, masing-masing hanya di barisnya sendiri. Tidak ada kawat yang menyentuh baris di atas atau di bawahnya." },
     { t: "Terminal pelampung", sub: "Kabel pelampung cukup disekrup, tidak perlu disolder.", view: "atas", show: ["term"], runs: ["w22", "w24"],
-      body: "<ol><li>Terminal sekrup biru dipasang dengan lubang kabelnya menghadap <strong>tepi kiri PCB</strong>. Kakinya masuk di <b class=\"hole\">K3 B22</b> dan <b class=\"hole\">K3 B24</b>.</li><li>Solder kedua kakinya. Kaki terminal lebih tebal, jadi tahan solder 4 detik.</li><li>Kawat panjang di baris <strong>B22</strong>: dari kaki terminal atas (K3) sampai titik pin P27 (K12). Solder di kedua ujung dan di 2 titik di tengah.</li><li>Kawat pendek di baris <strong>B24</strong>: dari kaki terminal bawah (K3) ke K1, tepi kiri.</li></ol>",
-      test: "Kawat B22 lurus dan tidak menyentuh bantalan B21 atau B23 di atas dan bawahnya." },
+      body: "<ol><li>Terminal sekrup biru dipasang dengan lubang kabelnya menghadap <strong>tepi kiri PCB</strong>. Kakinya masuk di <b class=\"hole\">baris 11 · kiri 9</b> dan <b class=\"hole\">baris 13 · kiri 9</b>.</li><li>Solder kedua kakinya. Kaki terminal lebih tebal, jadi tahan solder 4 detik.</li><li>Kawat panjang di baris <strong>11</strong>: dari kaki terminal atas (kiri 9) sampai titik pin P27 di soket. Solder di kedua ujung dan di 2 titik di tengah.</li><li>Kawat pendek di baris <strong>13</strong>: dari kaki terminal bawah (kiri 9) ke kiri 11.</li></ol>",
+      test: "Kawat baris 11 lurus dan tidak menyentuh bantalan baris 10 atau baris 12 di atas dan bawahnya." },
     { t: "Kawat GND berbentuk huruf U", sub: "Menyatukan semua GND: LED, terminal, soket GND, resistor 2 kΩ, dan pin GND.", view: "bawah", runs: ["g17", "g1", "g25"],
-      body: "<ol><li>Siapkan satu kawat sepanjang kira-kira 7 cm (kabel jumper yang dikupas dan dilapisi timah).</li><li>Mulai dari kaki pendek LED di <b class=\"hole\">K5 B17</b>, mendatar ke kolom paling kiri <b class=\"hole\">K1 B17</b>.</li><li>Tekuk turun sepanjang kolom K1 sampai <b class=\"hole\">K1 B25</b>, melewati ujung kawat B24 dari langkah 8.</li><li>Tekuk lagi mendatar sepanjang baris B25 sampai titik pin GND di K12, melewati ketiga soket GND.</li><li>Solder di setiap titik yang dilalui: K5 B17, K1 B17, K1 B24, K1 B25, ketiga soket GND, dan pin GND.</li></ol>",
-      test: "Kawat U tidak menyentuh kawat B22 (P27), kawat B18 (LED), atau soket Echo di B21. Antara kawat U dan ujung kiri kawat B22 harus ada satu bantalan kosong (K2 B22)." },
+      body: "<ol><li>Siapkan satu kawat sepanjang kira-kira 7 cm (kabel jumper yang dikupas dan dilapisi timah).</li><li>Mulai dari kaki pendek LED di <b class=\"hole\">baris 6 · kiri 7</b>, mendatar ke <b class=\"hole\">baris 6 · kiri 11</b>.</li><li>Tekuk turun sepanjang kolom kiri 11 sampai <b class=\"hole\">baris 14 · kiri 11</b>, melewati ujung kawat baris 13 dari langkah 8.</li><li>Tekuk lagi mendatar sepanjang baris 14 (tanda G) sampai titik pin GND di soket, melewati ketiga soket GND.</li><li>Solder di setiap titik yang dilalui: baris 6 · kiri 7, baris 6 · kiri 11, baris 13 · kiri 11, baris 14 · kiri 11, ketiga soket GND, dan pin GND.</li></ol>",
+      test: "Kawat U tidak menyentuh kawat baris 11 (P27), kawat baris 7 (LED), atau soket Echo di baris 10. Antara kawat U dan ujung kiri kawat baris 11 harus ada satu bantalan kosong (baris 11 · kiri 10)." },
     { t: "Cek ulang tanpa listrik", sub: "Sepuluh menit di sini menyelamatkan ESP32.", view: "bawah", all: true,
-      body: "<ol><li>Nyalakan senter HP, sorot sisi bawah dari samping. Cocokkan dengan gambar \"dari bawah\" ini, baris demi baris.</li><li>Cari <strong>jembatan timah</strong> terutama di: B12 (3V3), B25 (GND), dan B30 (5V). Ketiganya tidak boleh menempel ke baris sebelahnya.</li><li>Goyang pelan setiap soket dan resistor. Tidak boleh ada yang goyang.</li><li>Sikat sisa flux dan potongan kaki yang tercecer. Potongan kaki di bawah papan bisa membuat korsleting.</li></ol>",
+      body: "<ol><li>Nyalakan senter HP, sorot sisi bawah dari samping. Cocokkan dengan gambar \"dari bawah\" ini, baris demi baris.</li><li>Cari <strong>jembatan timah</strong> terutama di: baris 1 (3V3), baris 14 (GND), dan baris 19 (5V). Ketiganya tidak boleh menempel ke baris sebelahnya.</li><li>Goyang pelan setiap soket dan resistor. Tidak boleh ada yang goyang.</li><li>Sikat sisa flux dan potongan kaki yang tercecer. Potongan kaki di bawah papan bisa membuat korsleting.</li></ol>",
       test: "Setiap baris di gambar sama persis dengan papanmu, dan tidak ada kawat atau timah di lubang yang di gambar kosong." },
     { t: "Pasang ESP32 dan tes listrik", sub: "Tes pertama dengan USB, belum ada modul.", view: "atas", all: true, esp: true,
-      body: "<ol><li>Tancapkan ESP32 ke soketnya: antena ke atas, pin 3V3 di B12.</li><li>Colok USB ke laptop sambil melihat <strong>lampu merah ESP32</strong>. Kalau mati, redup, atau ESP32 terasa panas: cabut USB dalam 3 detik dan ulangi langkah 10.</li><li>Kalau lampu menyala normal, kabari di chat. Saya upload sketsa <code>cekpin</code>: <strong>P26 harus <code>ke GND</code></strong> (lewat resistor 2 kΩ), dan P27 <code>lepas</code>.</li><li>Sambungkan dua sekrup terminal dengan sepotong kawat. P27 harus berubah jadi <code>ke GND</code>.</li></ol>",
+      body: "<ol><li>Tancapkan ESP32 ke soketnya: antena ke atas, pin 3V3 di baris 1 (tanda +3).</li><li>Colok USB ke laptop sambil melihat <strong>lampu merah ESP32</strong>. Kalau mati, redup, atau ESP32 terasa panas: cabut USB dalam 3 detik dan ulangi langkah 10.</li><li>Kalau lampu menyala normal, kabari di chat. Saya upload sketsa <code>cekpin</code>: <strong>P26 harus <code>ke GND</code></strong> (lewat resistor 2 kΩ), dan P27 <code>lepas</code>.</li><li>Sambungkan dua sekrup terminal dengan sepotong kawat. P27 harus berubah jadi <code>ke GND</code>.</li></ol>",
       test: "Lampu merah menyala normal, tidak ada <code>Brownout</code> di serial, P26 <code>ke GND</code>, P27 berubah saat terminal dihubungkan." },
     { t: "Sambung modul dan tes program", sub: "Langkah terakhir sebelum masuk kotak.", view: "atas", all: true, esp: true,
-      body: "<ol><li>Cabut USB. Sambungkan modul sesuai tabel <strong>Sambungan kabel ke modul</strong> di bawah. Ujung jarum ke soket PCB, ujung lubang ke pin modul.</li><li>Pelampung: kabel <strong>coklat</strong> ke sekrup atas (B22), kabel <strong>hitam</strong> ke sekrup bawah (B24). Kencangkan sekrup lalu tarik pelan, kabel tidak boleh lepas. Kabel biru dibungkus isolasi.</li><li>Colok USB. Kabari di chat, saya upload ulang program utama dan cek datanya.</li><li>Goyang PCB dan kabelnya selama 1 menit. Layar harus tetap menyala.</li></ol>",
+      body: "<ol><li>Cabut USB. Sambungkan modul sesuai tabel <strong>Sambungan kabel ke modul</strong> di bawah. Ujung jarum ke soket PCB, ujung lubang ke pin modul.</li><li>Pelampung: kabel <strong>coklat</strong> ke sekrup atas (baris 11), kabel <strong>hitam</strong> ke sekrup bawah (baris 13). Kencangkan sekrup lalu tarik pelan, kabel tidak boleh lepas. Kabel biru dibungkus isolasi.</li><li>Colok USB. Kabari di chat, saya upload ulang program utama dan cek datanya.</li><li>Goyang PCB dan kabelnya selama 1 menit. Layar harus tetap menyala.</li></ol>",
       test: "Serial menunjukkan <code>\"layar\":true</code> terus selama digoyang 1 menit, jarak sekitar 50 cm saat tidak ada halangan, dan pelampung berubah 0/1 saat dibalik." }
   ];
 
@@ -423,11 +426,18 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
     var W = X0 * 2 + (D.cols - 1) * P;
     svg.appendChild(el("rect", { x: X0 - 16, y: Y0 - 16, width: W - 2 * X0 + 32, height: (D.rows - 1) * P + 32, rx: 6, fill: tok("perf"), stroke: tok("perf-edge"), "stroke-width": 3 }));
     // nomor kolom dan baris
-    for (var c = 1; c <= D.cols; c++) {
-      if (c === 1 || c % 5 === 0 || c === D.espCol) svg.appendChild(el("text", { x: X(c), y: Y0 - 24, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("muted") }, "K" + c));
+    // nomor kolom dihitung dari soket kiri, nomor baris = nomor lubang soket
+    var mono = "IBM Plex Mono, monospace";
+    for (var c = 1; c < 23; c++) {
+      var n = c - D.espCol;
+      svg.appendChild(el("text", { x: X(c), y: Y0 - 24, "text-anchor": "middle", "font-family": mono, "font-size": n === 0 ? 9 : 10, "font-weight": n === 0 ? 700 : 400, fill: n === 0 ? tok("ink") : tok("muted") }, n === 0 ? "S" : String(Math.abs(n))));
     }
-    for (var r = 1; r <= D.rows; r++) {
-      if (r === 1 || r % 5 === 0 || r === D.espRow1) svg.appendChild(el("text", { x: X0 - 22, y: Y(r) + 3.5, "text-anchor": "end", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("muted") }, "B" + r));
+    svg.appendChild(el("text", { x: (X(1) + X(D.espCol - 1)) / 2, y: Y0 - 38, "text-anchor": "middle", "font-family": mono, "font-size": 10, fill: tok("muted") }, "kiri soket"));
+    svg.appendChild(el("text", { x: (X(D.espCol + 1) + X(22)) / 2, y: Y0 - 38, "text-anchor": "middle", "font-family": mono, "font-size": 10, fill: tok("muted") }, "kanan soket"));
+    var tanda = { 1: "+3", 10: "E", 14: "G", 19: "+5" };
+    for (var r = D.espRow1; r <= D.rows; r++) {
+      var b = r - D.espRow1 + 1;
+      svg.appendChild(el("text", { x: X0 - 22, y: Y(r) + 3.5, "text-anchor": "end", "font-family": mono, "font-size": 10, "font-weight": tanda[b] ? 700 : 400, fill: tanda[b] ? tok("accent") : tok("muted") }, tanda[b] ? tanda[b] + " " + b : String(b)));
     }
     svg.appendChild(el("text", { x: W / 2, y: Y(D.rows) + 40, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 11, fill: tok("muted") }, "▼ tepi USB ▼   ·   dilihat dari " + view.toUpperCase()));
     // bantalan
@@ -521,7 +531,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
       var ex1 = X(D.espCol) + (view === "atas" ? -12 : 12), ex2 = X(22) + (view === "atas" ? 12 : -12);
       var exl = Math.min(ex1, ex2), exr = Math.max(ex1, ex2);
       var eg = el("g", { opacity: view === "atas" ? 0.92 : 0.35 });
-      eg.appendChild(el("rect", { x: exl, y: Y(D.espRow1) - 46, width: exr - exl, height: (D.pins.length - 1) * P + 60, rx: 5, fill: tok("esp"), stroke: tok("pcb-ink"), "stroke-width": 1.5 }));
+      eg.appendChild(el("rect", { x: exl, y: Y(D.espRow1) - 46, width: exr - exl, height: (D.pins.indexOf("5V")) * P + 60, rx: 5, fill: tok("esp"), stroke: tok("pcb-ink"), "stroke-width": 1.5 }));
       eg.appendChild(el("rect", { x: exl + 14, y: Y(D.espRow1) - 40, width: exr - exl - 28, height: 26, rx: 2, fill: "none", stroke: tok("pcb-ink"), "stroke-dasharray": "4 3" }));
       eg.appendChild(el("text", { x: (exl + exr) / 2, y: Y(D.espRow1) - 23, "text-anchor": "middle", "font-family": "IBM Plex Mono, monospace", "font-size": 10, fill: tok("pcb-ink") }, "antena"));
       eg.appendChild(el("text", { x: (exl + exr) / 2, y: Y(20), "text-anchor": "middle", "font-family": "Archivo, sans-serif", "font-size": 15, "font-weight": 800, fill: tok("pcb-ink") }, "ESP32"));
@@ -586,7 +596,7 @@ th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; tex
   JUMPERS.forEach(function (j) {
     tb += "<tr><td>" + j[0] + "</td><td><code>" + j[1] + "</code></td><td><span class=\"wire\"><i style=\"background:var(--" + j[2] + ")\"></i>" + j[3] + "</span></td><td><b class=\"hole\">" + code(j[4][0], j[4][1]) + "</b></td></tr>";
   });
-  tb += "<tr><td>Pelampung</td><td>coklat / hitam</td><td>kabel pelampung sendiri</td><td>terminal sekrup atas <b class=\"hole\">K3 B22</b> / bawah <b class=\"hole\">K3 B24</b></td></tr></tbody>";
+  tb += "<tr><td>Pelampung</td><td>coklat / hitam</td><td>kabel pelampung sendiri</td><td>terminal sekrup atas <b class=\"hole\">baris 11 · kiri 9</b> / bawah <b class=\"hole\">baris 13 · kiri 9</b></td></tr></tbody>";
   document.getElementById("jumpers").innerHTML = tb;
 
   // Gambar contoh solder
